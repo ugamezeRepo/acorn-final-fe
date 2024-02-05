@@ -1,3 +1,4 @@
+import Profile from './snbProfile'
 
 const SideNavBar = () => {
 
@@ -7,6 +8,9 @@ const SideNavBar = () => {
                 <ul>
                     <li>블라블라</li>
                 </ul>
+                <div>
+                    <Profile/>
+                </div>
             </div>
         );
 }
