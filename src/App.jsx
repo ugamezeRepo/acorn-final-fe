@@ -1,10 +1,9 @@
 import './App.css'
-import Header from './component/GlobalNavBar'
-
+import AppRouter from './routes'
 function App() {
   return (
     <>
-      <Header></Header>
+      <AppRouter/>
     </>
   )
 }
