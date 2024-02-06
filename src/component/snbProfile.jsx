@@ -1,9 +1,8 @@
-import './snbProfile.css'
+import './SNBProfile.css'
 
-const Profile=()=>{
+const SNBProfile=()=>{
     return(
-        <div>
-             <div id="profile">
+        <div className='SnbProfile'>
                  <div className="avatarWrapper">
                      <img src="https://cdn-icons-png.flaticon.com/128/1281/1281188.png" alt="profileImage" id="profileImage"/>
                      <div className="profileName">
@@ -22,8 +21,7 @@ const Profile=()=>{
                          <img src="https://cdn-icons-png.flaticon.com/128/148/148913.png" alt="" />
                      </button>
                  </div>
-             </div>
         </div>
     )
 }
-export default Profile;
+export default SNBProfile;
