@@ -1,16 +1,14 @@
-import Profile from './snbProfile'
+import SnbProfile from './SNBProfile'
+import SNBServerName from './SNBServerName'
+import SNBChannelGroup from './SNBChannelGroup'
 
 const SideNavBar = () => {
 
         return (
             <div className="SnbContainer">
-                2번째 메뉴
-                <ul>
-                    <li>블라블라</li>
-                </ul>
-                <div>
-                    <Profile/>
-                </div>
+                <SNBServerName></SNBServerName>
+                <SNBChannelGroup></SNBChannelGroup>
+                <SnbProfile></SnbProfile>
             </div>
         );
 }
