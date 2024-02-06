@@ -1,14 +1,14 @@
+import ChatBar from "../component/ChatBar";
 import GlobalNavBar from "../component/GlobalNavBar";
 import SideNavBar from "../component/SideNavBar";
+import ChannelMain from "../component/ChannelMain";
 
 const WorkspacePage = () =>{
     return (
         <>
             <GlobalNavBar/>
             <SideNavBar/>
-            <main>
-                여기에 메인
-            </main>
+            <ChannelMain/>
         </>
     )
 }
