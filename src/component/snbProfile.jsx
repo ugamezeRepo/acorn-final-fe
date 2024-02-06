@@ -1,6 +1,6 @@
-import './SnbProfile.css'
+import './SNBProfile.css'
 
-const SnbProfile=()=>{
+const SNBProfile=()=>{
     return(
         <div className='SnbProfile'>
                  <div className="avatarWrapper">
@@ -24,4 +24,4 @@ const SnbProfile=()=>{
         </div>
     )
 }
-export default SnbProfile;
+export default SNBProfile;
