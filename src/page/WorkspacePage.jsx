@@ -9,19 +9,14 @@ const WorkspacePage = () =>{
     return (
         <>
             <GlobalNavBar/>
-<<<<<<< HEAD
             <div className="container">
                 <SideNavBar/>
                 <main className="main">
                     <Section></Section>
-
+                    <ChannelMain/>
                 </main>
             </div>
             
-=======
-            <SideNavBar/>
-            <ChannelMain/>
->>>>>>> 76a6f1fa6cf5862b34c601a8d5a94c36ea9f2107
         </>
     )
 }
