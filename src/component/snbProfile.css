@@ -1,10 +1,12 @@
-#profile{
+.SnbProfile{
     width: 200px;
     height: 52px;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+    position:fixed;
+    bottom:0;
 }
 #profileImage{
     width: 32px;
