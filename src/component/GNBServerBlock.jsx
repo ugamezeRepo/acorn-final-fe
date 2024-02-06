@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 const GNBServerBlock = (props) => {
     return (<>
-        {props.url}
+        <img src={props.thumbnail} alt="Thumbnail" />
+        
     </>)
 }
 
