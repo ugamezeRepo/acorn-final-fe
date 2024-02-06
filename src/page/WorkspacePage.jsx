@@ -12,7 +12,6 @@ const WorkspacePage = () =>{
             <div className="container">
                 <SideNavBar/>
                 <main className="main">
-                    <Section></Section>
                     <ChannelMain/>
                 </main>
             </div>

@@ -5,12 +5,12 @@ const ChatBar = ({onSend}) =>  {
   const [message, setMessage] = useState('');
 
   return(
-    <div style={{ position: 'fixed', bottom: '0'}}>
-      <input style= {{ width: "800px", height:"30px" }} type="text" 
+    <div className="chatBar" style={{ position: 'fixed', bottom: '0'}}>
+      <input type="text" 
         value={message}
         onChange={(e)=> setMessage(e.target.value)}
         placeholder="#채널에 메시지 보내기" />
-      <button style= {{ width: "50px", height:"30px" }} onClick={() => {
+      <button onClick={() => {
         onSend({message, author: '더미유저',  sendDate: '오늘' });
         setMessage('');
       }}>Add</button>

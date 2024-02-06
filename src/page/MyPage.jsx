@@ -1,7 +1,14 @@
 const MyPage = () => {
     return (
         <>
-            This is MyPage
+            <GlobalNavBar/>
+            <div className="container">
+                <SideNavBar/>
+                <main className="main">
+                    <Section></Section>
+                    <ChannelMain/>
+                </main>
+            </div>
         </>
     )
 }

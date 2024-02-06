@@ -12,8 +12,8 @@ const ChannelMain = () => {
   ]);
 
   return (
-    <div>
-      <div>
+    <div className="chatContainer">
+      <div className="chatLog">
         {messages.map((msg, idx) => (
           <div key={idx}>
             <ChatMessage author={msg.author} message={msg.message} sendDate={msg.sendDate}/>

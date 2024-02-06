@@ -57,7 +57,11 @@
   display: flex;
   overflow: hidden;
   position: relative;
-  flex-grow: 1;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
 }
 
 .SnbContainer{
@@ -65,13 +69,13 @@
   flex-direction: column;
   background-color: #2b2d31;
   width:240px;
+  min-height: 0;
   overflow: hidden;
 }
  .main {
   width: 100%;
   overflow: hidden;
   display: flex;
-  
  }
 
  .mainUpSection {
@@ -100,3 +104,42 @@
   margin-right:30px;
   cursor: pointer;
  }
+
+.chatContainer {
+  width: 100%;
+  overflow: hidden;
+
+}
+
+.chatLog {
+
+}
+
+.chatBar {
+  width: 100%;
+  padding:10px;
+}
+
+.chatBar input {
+  width: 1000px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  text-indent: 16px;
+  background-color: #383a40;
+  color:white;
+  outline: none;
+}
+.chatBar button{
+  width: 70px;
+  height: 36px;
+  margin: 0 0 0 10px;
+  padding:10px;
+  text-align: center;
+  align-items: center;
+  vertical-align: middle;
+  border: 0;
+  border-radius: 10px;
+  background-color: cadetblue;
+  color:white;
+}
