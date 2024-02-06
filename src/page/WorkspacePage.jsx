@@ -1,14 +1,20 @@
 import GlobalNavBar from "../component/GlobalNavBar";
+import Section from "../component/Section";
 import SideNavBar from "../component/SideNavBar";
+
 
 const WorkspacePage = () =>{
     return (
         <>
             <GlobalNavBar/>
-            <SideNavBar/>
-            <main>
-                여기에 메인
-            </main>
+            <div className="container">
+                <SideNavBar/>
+                <main className="main">
+                    <Section></Section>
+
+                </main>
+            </div>
+            
         </>
     )
 }
