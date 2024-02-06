@@ -1,0 +1,54 @@
+#profile{
+    width: 200px;
+    height: 52px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+#profileImage{
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+}
+.settingWrapper img{
+    width: 20px;
+    height: 20px;
+}
+.settingWrapper{
+    display: flex;
+    flex-direction: row;
+}
+.settingWrapper button{
+    line-height: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+}
+.avatarWrapper{
+    align-items: center;
+    display: flex;
+    margin-left: -2px;
+    min-width: 100px;
+    padding-left: 2px;
+}
+#nickname{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2857142857142858;
+    margin: 0;
+}
+#accountName{
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3333333333333333;
+    margin: 0;
+}
+
+

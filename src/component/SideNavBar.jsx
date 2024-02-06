@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import SideChannelBlock from "./SideChannelBlock";
+=======
+import Profile from './snbProfile'
+>>>>>>> 76a6f1fa6cf5862b34c601a8d5a94c36ea9f2107
 
 const SideNavBar = () => {
     const [chList, setChList]  = useState([
@@ -29,6 +33,9 @@ const SideNavBar = () => {
                         </li>
                     ))}
                 </ul>
+                <div>
+                    <Profile/>
+                </div>
             </div>
         );
 }
