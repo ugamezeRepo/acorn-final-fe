@@ -1,6 +1,6 @@
 
-const Section = () => {
-    
+const MyPageSection = () => {
+
     return (
         <div className="mainUpSection">
             <ul>
@@ -12,8 +12,8 @@ const Section = () => {
                 <li><button>친구 추가하기</button></li>
             </ul>
         </div>
-        
+
     );
 };
 
-export default Section;
+export default MyPageSection;

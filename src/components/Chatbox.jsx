@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const Chatbox = () => {
     return (
         <div>
-            
+
         </div>
     );
 };
