@@ -18,6 +18,7 @@ module.exports = {
 
     ],
     "quotes": ['error', 'double', { 'allowTemplateLiterals': true }],
-    "semi": ['error', 'always']
+    "semi": ['error', 'always'],
+    "no-unused-vars": "error",
   },
 }
