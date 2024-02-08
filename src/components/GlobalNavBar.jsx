@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const GlobalNavBar = () => {
 
-    const [servers, setServers] = useState([
+    const [servers,] = useState([
         {
             url: "hello",
             thumbnail: "https://via.placeholder.com/60",

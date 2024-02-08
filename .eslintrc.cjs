@@ -15,10 +15,13 @@ module.exports = {
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
-
     ],
     "quotes": ['error', 'double', { 'allowTemplateLiterals': true }],
     "semi": ['error', 'always'],
-    "no-unused-vars": "error",
+    "no-unused-vars": ["error", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_",
+    }],
   },
 }

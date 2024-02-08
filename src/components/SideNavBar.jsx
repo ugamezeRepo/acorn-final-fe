@@ -4,7 +4,7 @@ import Profile from "@components/SNBProfile";
 import SNBServerName from "@components/SNBServerName";
 
 const SideNavBar = () => {
-    const [chList, setChList] = useState([
+    const [chList, _setChList] = useState([
         {
             name: "첫번째 채널"
         },
