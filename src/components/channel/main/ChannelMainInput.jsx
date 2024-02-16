@@ -36,19 +36,23 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
      * @param {React.KeyboardEvent} e 
      */
     const keyDownHandler = (e) => {
-        if (!e.shiftKey && message && e.key === "Enter") {
+        if (!e.shiftKey && e.key === "Enter") {
             e.preventDefault();
 
-            setMessages((msg) => {
-                return [...msg, {
-                    content: message,
-                    author: nickname,
-                    date: new Date().getTime(),
-                }];
-            });
-            setMessage("");
+            if (message) {
+                setMessages((msg) => {
+                    return [...msg, {
+                        content: message,
+                        author: nickname,
+                        date: new Date().getTime(),
+                    }];
+                });
+                setMessage("");
+            }
             return;
         }
+
+
     };
     return (
         <ChannelMainMessageInputContainer>
