@@ -1,10 +1,10 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
+import { ChannelMainContentItem } from "@components/channel/main/ChannelMainContentItem";
 import styled from "@emotion/styled";
 import { List } from "@mui/material";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-import { ChannelMainContentItem } from "./ChannelMainContentItem";
 
 const ChannelMainContentContainer = styled(BaseContainer)`
     overflow: auto;
