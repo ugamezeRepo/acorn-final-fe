@@ -1,7 +1,7 @@
-import { BaseContainer } from "@components/BaseContainer";
+import { BaseContainer } from "@components/basis/BaseContainer";
 import { GeneralChannelView } from "@components/GeneralChannelView";
-import { GlobalChannelNav } from "@components/GlobalChannelNav";
-import { ChannelContextProvider } from "@contexts/ChannelContext";
+import { GlobalChannelNav } from "@components/global-navigation/GlobalChannelNav";
+import { AppContextProvider } from "@contexts/AppContextProvider";
 import styled from "@emotion/styled";
 
 const ChannelPageContainer = styled(BaseContainer)`
@@ -10,12 +10,12 @@ const ChannelPageContainer = styled(BaseContainer)`
 
 const ChannelPage = () => {
     return (
-        <ChannelContextProvider>
+        <AppContextProvider>
             <ChannelPageContainer>
                 <GlobalChannelNav />
                 <GeneralChannelView />
             </ChannelPageContainer>
-        </ChannelContextProvider>
+        </AppContextProvider>
     );
 };
 

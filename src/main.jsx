@@ -1,15 +1,16 @@
+import { ChannelPage } from "@pages/ChannelPage";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ThemeProvider } from "@emotion/react";
-import { App } from "./App";
-import { theme } from "./theme";
-import { CssBaseline } from "@mui/material";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <App />
-        </ThemeProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/channel/:channelId/topic/:topicId" element={<ChannelPage />} />
+                <Route path="*" element={<Navigate to="/channel/1/topic/1" />} />
+            </Routes>
+        </BrowserRouter>
     </React.StrictMode>,
 );

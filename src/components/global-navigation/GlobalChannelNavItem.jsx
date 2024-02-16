@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useContext } from "react";
 
 const GlobalChannelNavItem = ({
-    channelDescription,
+    channelName,
     channelThumbnail,
     channelId,
 }) => {
@@ -13,16 +13,16 @@ const GlobalChannelNavItem = ({
     return (
         <ListItem onClick={() => setChannelId(channelId)}>
             <ListItemAvatar>
-                <Avatar alt={channelDescription} src={channelThumbnail} ></Avatar>
+                <Avatar alt={channelName} src={channelThumbnail}></Avatar>
             </ListItemAvatar>
         </ListItem >
     );
 };
 
 GlobalChannelNavItem.propTypes = {
-    channelDescription: PropTypes.string,
+    channelName: PropTypes.string,
     channelThumbnail: PropTypes.string,
-    channelId: PropTypes.number,
+    channelId: PropTypes.number.isRequired,
 };
 
 export { GlobalChannelNavItem };

@@ -15,7 +15,10 @@
             ],
             "@contexts/*": [
                 "contexts/*"
-            ]
+            ],
+            "@configs/*": [
+                "configs/*"
+            ],
         }
     }
 }

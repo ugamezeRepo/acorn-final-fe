@@ -1,5 +1,7 @@
+import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
+import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
-import { BaseHeaderContainer } from "./BaseHeaderContainer";
+import { useContext } from "react";
 
 const ChannelNavHeaderContainer = styled(BaseHeaderContainer)`
     flex-grow: 0; 
@@ -15,10 +17,10 @@ const ChannelLabel = styled.h3`
 `;
 
 const ChannelNavHeader = () => {
+    const { channelName } = useContext(ChannelContext);
     return (
         <ChannelNavHeaderContainer>
-            {/* todo: handle channel name with props */}
-            <ChannelLabel>Channel Name Here</ChannelLabel>
+            <ChannelLabel>{channelName}</ChannelLabel>
         </ChannelNavHeaderContainer>
     );
 };

@@ -1,6 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
 import path from "path";
+
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
             { find: "@pages", replacement: path.resolve(__dirname, "src", "pages") },
             { find: "@routes", replacement: path.resolve(__dirname, "src", "routes") },
             { find: "@contexts", replacement: path.resolve(__dirname, "src", "contexts") },
+            { find: "@configs", replacement: path.resolve(__dirname, "src", "configs") },
         ]
     }
 });

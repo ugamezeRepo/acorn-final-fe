@@ -1,7 +1,7 @@
+import { BaseContainer } from "@components/basis/BaseContainer";
+import { ChannelMain } from "@components/channel/main/ChannelMain";
+import { ChannelNav } from "@components/channel/nav/ChannelNav";
 import styled from "@emotion/styled";
-import { BaseContainer } from "./BaseContainer";
-import { ChannelNav } from "./ChannelNav";
-import { ChannelMain } from "./ChannelMain";
 
 const GeneralChannelViewContainer = styled(BaseContainer)`
     display:flex;

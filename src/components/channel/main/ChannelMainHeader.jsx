@@ -1,5 +1,7 @@
+import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
+import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
-import { BaseHeaderContainer } from "./BaseHeaderContainer";
+import { useContext } from "react";
 
 const ChannelMainHeaderContainer = styled(BaseHeaderContainer)`
     flex-grow: 0; 
@@ -9,9 +11,10 @@ const ChannelMainHeaderContainer = styled(BaseHeaderContainer)`
 
 
 const ChannelMainHeader = () => {
+    const { topicName } = useContext(ChannelContext);
     return (
         <ChannelMainHeaderContainer>
-
+            <h3>{topicName}</h3>
         </ChannelMainHeaderContainer>
     );
 };
