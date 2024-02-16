@@ -1,11 +1,21 @@
 {
     "compilerOptions": {
-        "target": "ES6", 
-        "baseUrl": "src", 
+        "target": "ES6",
+        "baseUrl": "src",
+        "moduleResolution": "node",
         "paths": {
-            "@components/*": ["components/*"], 
-            "@pages/*": ["pages/*"], 
-            "@routes/*": ["routes/*"],
+            "@components/*": [
+                "components/*"
+            ],
+            "@pages/*": [
+                "pages/*"
+            ],
+            "@routes/*": [
+                "routes/*"
+            ],
+            "@contexts/*": [
+                "contexts/*"
+            ]
         }
     }
 }

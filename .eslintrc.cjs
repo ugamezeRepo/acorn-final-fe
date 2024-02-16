@@ -23,5 +23,6 @@ module.exports = {
       "varsIgnorePattern": "^_",
       "caughtErrorsIgnorePattern": "^_",
     }],
+    "indent": ['error', 4],
   },
 }

@@ -1,11 +1,8 @@
-import "./App.css";
-import AppRouter from "./routes";
-function App() {
-  return (
-    <>
-      <AppRouter />
-    </>
-  );
-}
+import AppRouter from "./AppRouter";
 
-export default App;
+const App = () => {
+    return (
+        <AppRouter />
+    );
+};
+export { App };
