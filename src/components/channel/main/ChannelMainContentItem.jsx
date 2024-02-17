@@ -23,7 +23,7 @@ ChannelMainContentItem.propTypes = {
     msg: PropTypes.shape({
         author: PropTypes.string,
         content: PropTypes.string,
-        date: PropTypes.object,
+        date: PropTypes.number,
     }).isRequired,
     showProfile: PropTypes.bool,
 };

@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ChannelContext = createContext({
@@ -12,11 +13,9 @@ const ChannelContext = createContext({
     setTopicName: () => { },
 });
 
-
 const ChannelContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const { channelId: pathChannelId, topicId: pathTopicId } = useParams();
-
     const [channelId, setChannelId] = useState(pathChannelId);
     const [channelName, setChannelName] = useState("테스트 채널");
     const [topicId, setTopicId] = useState(pathTopicId);
@@ -56,7 +55,7 @@ const ChannelContextProvider = ({ children }) => {
 };
 
 ChannelContextProvider.propTypes = {
-    children: React.Component,
+    children: PropTypes.element,
 };
 
 export { ChannelContext, ChannelContextProvider };

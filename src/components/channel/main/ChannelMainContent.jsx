@@ -51,7 +51,7 @@ ChannelMainContent.propTypes = {
     messages: PropTypes.arrayOf(PropTypes.shape({
         author: PropTypes.string,
         content: PropTypes.string,
-        date: PropTypes.object,
+        date: PropTypes.number,
     })).isRequired
 };
 
