@@ -3,6 +3,7 @@ import { ChannelContextProvider } from "@contexts/ChannelContext";
 import { MemberContextProvider } from "@contexts/MemberContext";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
+import PropTypes from "prop-types";
 import React from "react";
 
 const AppContextProvider = ({ children }) => {
@@ -19,7 +20,7 @@ const AppContextProvider = ({ children }) => {
 };
 
 AppContextProvider.propTypes = {
-    children: React.Component,
+    children: PropTypes.element,
 };
 
 export { AppContextProvider };

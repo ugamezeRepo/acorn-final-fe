@@ -1,7 +1,6 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
-import { ChannelMainContent } from "@components/channel/main/ChannelMainContent";
-import { ChannelMainHeader } from "@components/channel/main/ChannelMainHeader";
-import { ChannelMainInput } from "@components/channel/main/ChannelMainInput";
+import { ChannelMainContent } from "@components/channel/main/content/ChannelMainContent";
+import { ChannelMainHeader } from "@components/channel/main/header/ChannelMainHeader";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
@@ -10,6 +9,7 @@ const ChannelMainContainer = styled(BaseContainer)`
     display: flex;
     flex-direction: column;
 `;
+
 const ChannelMain = () => {
     const [messages, setMessages] = useState([
         {
@@ -33,11 +33,12 @@ const ChannelMain = () => {
             date: new Date().getTime()
         },
     ]);
+
+    const [memeberSidebarOpen, setMemberSidebarOpen] = useState(false);
     return (
         <ChannelMainContainer>
-            <ChannelMainHeader />
-            <ChannelMainContent messages={messages} />
-            <ChannelMainInput setMessages={setMessages} />
+            <ChannelMainHeader setMemberSidebarOpen={setMemberSidebarOpen} />
+            <ChannelMainContent messages={messages} setMessages={setMessages} memberSidebarOpen={memeberSidebarOpen} />
         </ChannelMainContainer>
     );
 };

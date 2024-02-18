@@ -9,6 +9,8 @@ const ChannelNavHeaderContainer = styled(BaseHeaderContainer)`
     border-bottom: 1.5px solid #e3e3e3;
 
     display: flex;
+    align-items: center;
+    padding: 16px;
 `;
 
 const ChannelLabel = styled.h3`

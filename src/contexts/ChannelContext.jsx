@@ -1,6 +1,6 @@
-import React, { createContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 const ChannelContext = createContext({
     channelId: null,
     channelName: null,
@@ -56,7 +56,7 @@ const ChannelContextProvider = ({ children }) => {
 };
 
 ChannelContextProvider.propTypes = {
-    children: React.Component,
+    children: PropTypes.element,
 };
 
 export { ChannelContext, ChannelContextProvider };

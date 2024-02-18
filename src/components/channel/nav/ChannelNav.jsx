@@ -15,7 +15,10 @@ const ChannelNavContainer = styled(BaseContainer)`
 
 const ChannelNavList = styled(List)`
     width: 100%; 
-    height: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-height: 100%;
+    overflow: auto;
 `;
 
 const ChannelNav = () => {
@@ -26,6 +29,15 @@ const ChannelNav = () => {
                 <ChannelNavItem topicId={1} topicName={"General"} />
                 <ChannelNavItem topicId={2} topicName={"Hello"} />
                 <ChannelNavItem topicId={3} topicName={"World"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                <ChannelNavItem topicId={4} topicName={"zzz"} />
                 <ChannelNavItem topicId={4} topicName={"zzz"} />
             </ChannelNavList>
             <ChannelNavMyStatus />

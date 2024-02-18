@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { createContext, useState } from "react";
 
 const MemberContext = createContext({
@@ -45,7 +46,7 @@ const MemberContextProvider = ({ children }) => {
 };
 
 MemberContextProvider.propTypes = {
-    children: React.Component,
+    children: PropTypes.element,
 };
 
 export { MemberContext, MemberContextProvider };
