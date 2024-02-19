@@ -76,30 +76,28 @@ ChannelMainMessageInput.propTypes = {
     setMessages: PropTypes.func.isRequired,
 };
 
-const ChannelMainInputContainer = styled.div`
-    width: 100%;
+const ChannelMainContentChatInputContainer = styled.div`
     min-height: 68px;
 
     flex-grow: 0;
     flex-shrink: 0; 
-
     display: flex;
 `;
 
 
-const ChannelMainInput = ({
+const ChannelMainContentChatInput = ({
     setMessages
 }) => {
     return (
-        <ChannelMainInputContainer>
+        <ChannelMainContentChatInputContainer>
             <ChannelMainMessageInput placeholder="#채널에 메시지 보내기" setMessages={setMessages} />
-        </ChannelMainInputContainer>
+        </ChannelMainContentChatInputContainer>
     );
 };
 
 
-ChannelMainInput.propTypes = {
+ChannelMainContentChatInput.propTypes = {
     // TODO: remove setmessage, make it connect to websocket
     setMessages: PropTypes.func.isRequired,
 };
-export { ChannelMainInput };
+export { ChannelMainContentChatInput };

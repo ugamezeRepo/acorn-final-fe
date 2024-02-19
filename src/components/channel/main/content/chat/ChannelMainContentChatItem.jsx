@@ -1,7 +1,7 @@
 import { ListItem } from "@mui/material";
 import PropTypes from "prop-types";
 
-const ChannelMainContentItem = ({
+const ChannelMainContentChatItem = ({
     msg,
     showProfile
 }) => {
@@ -19,12 +19,13 @@ const ChannelMainContentItem = ({
     );
 };
 
-ChannelMainContentItem.propTypes = {
+ChannelMainContentChatItem.propTypes = {
     msg: PropTypes.shape({
         author: PropTypes.string,
         content: PropTypes.string,
-        date: PropTypes.object,
+        date: PropTypes.number,
     }).isRequired,
     showProfile: PropTypes.bool,
 };
-export { ChannelMainContentItem };
+
+export { ChannelMainContentChatItem };

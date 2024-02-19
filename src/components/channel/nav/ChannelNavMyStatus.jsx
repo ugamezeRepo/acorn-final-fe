@@ -59,8 +59,6 @@ const StatusContainer = styled.div`
 `;
 
 
-
-
 const ChannelNavMyStatus = () => {
     const { nickname, status, micEnabled, soundEnabled, setMicEnabled, setSoundEnabled } = useContext(MemberContext);
     const [open, setOpen] = useState(false);
