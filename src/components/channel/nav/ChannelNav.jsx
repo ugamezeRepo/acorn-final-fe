@@ -6,10 +6,7 @@ import styled from "@emotion/styled";
 import { List } from "@mui/material";
 
 const ChannelNavContainer = styled(BaseContainer)`
-
-
-max-width: 240px;
-
+    max-width: 240px;
     display: flex;
     flex-direction: column;
     background-color: #f2f3f5;
