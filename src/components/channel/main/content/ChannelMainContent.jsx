@@ -28,9 +28,9 @@ const ChannelMainContent = ({
 
 ChannelMainContent.propTypes = {
     messages: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.string,
+        author: PropTypes.object,
         content: PropTypes.string,
-        date: PropTypes.number,
+        createdAt: PropTypes.array,
     })).isRequired,
     setMessages: PropTypes.func.isRequired,
     memberSidebarOpen: PropTypes.bool.isRequired,
