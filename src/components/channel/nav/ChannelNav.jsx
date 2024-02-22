@@ -15,12 +15,35 @@ max-width: 240px;
     background-color: #f2f3f5;
 `;
 
+
 const ChannelNavList = styled(List)`
     width: 100%; 
     flex-grow: 1;
     flex-shrink: 1;
     max-height: 100%;
     overflow: auto;
+
+    &::-webkit-scrollbar{
+        width:10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #747474;
+        border-radius: 6px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        min-height: 50px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #222222;
+    }
+    &::-webkit-scrollbar-track {
+        background-color:transparent;
+    }
+    &::-webkit-scrollbar-button{
+    }
+    &::-webkit-scrollbar-corner{
+        background: transparent;
+    }
 `;
 
 const ChannelNav = () => {

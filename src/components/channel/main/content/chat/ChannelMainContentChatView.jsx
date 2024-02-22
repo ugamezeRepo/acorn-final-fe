@@ -11,6 +11,27 @@ const ChannelMainContentList = styled(List)`
     overflow: auto;
     flex-grow: 1; 
     flex-shrink: 1;
+    &::-webkit-scrollbar{
+        width:10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #747474;
+        border-radius: 6px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        min-height: 50px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #222222;
+    }
+    &::-webkit-scrollbar-track {
+        background-color:transparent;
+    }
+    &::-webkit-scrollbar-button{
+    }
+    &::-webkit-scrollbar-corner{
+        background: transparent;
+    }
 `;
 
 const ChannelMainContentChatViewContainer = styled.div`
@@ -36,6 +57,7 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
 
     return (
         <ChannelMainContentChatViewContainer>
+
             <ChannelMainContentList>
                 {messages.map((msg, idx) => {
                     return (
