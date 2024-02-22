@@ -27,21 +27,7 @@ const MemberContextProvider = ({ children }) => {
     const [status, setStatus] = useState("온라인");
     const [pingWebSocket] = useState(new WebSocket(getWsBaseUrl() + "/connection/ping"));
 
-    useEffect(() => {
-        const pingHandler = () => {
-            pingWebSocket.send(JSON.stringify({
-                email,
-                nickname,
-                hashtag
-            }));
-        };
 
-        pingWebSocket.addEventListener("open", pingHandler);
-
-        return () => {
-            pingWebSocket.removeEventListener(pingHandler);
-        };
-    }, [email, nickname, hashtag, pingWebSocket]);
 
 
 

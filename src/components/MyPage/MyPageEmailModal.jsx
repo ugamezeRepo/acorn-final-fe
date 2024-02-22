@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Button, FormControl, Input, InputLabel } from "@mui/material";
+import PropTypes from "prop-types";
 
 const EmailModalContainer = styled.div`
     position: absolute;
@@ -7,10 +8,10 @@ const EmailModalContainer = styled.div`
     left: 50%;
     position: relative;
     transform: translate(-50%, -50%);
-    width: 500px;
+    width: 450px;
     height: 350px;
     background-color: #ffffff;
-    border: 2px solid #cecece;
+    box-shadow: 0 3px 3px rgba(0,0,0,0.2);
     box-shadow: 24px;
     padding: 4px; 
     display: flex;
@@ -28,7 +29,7 @@ const MyPageEmailModal = ({ onClose }) => {
                     minWidth: "30px",
                     height: "30px",
                     padding: 0,
-                    margin: "10px 15px 10px 455px",
+                    margin: "10px 15px 10px 400px",
                     color: "gray",
                     right: "20px"
                 }}
@@ -39,13 +40,19 @@ const MyPageEmailModal = ({ onClose }) => {
             <h3 style={{
                 marginLeft: "10px",
                 marginRight: "10px"
-            }}>이메일 주소 변경</h3>
+            }}
+            >
+                이메일 주소 변경
+            </h3>
             <p style={{
                 marginLeft: "10px",
                 marginRight: "10px"
-            }}>새로운 이메일 주소를 입력하세요</p>
+            }}
+            >
+                새로운 이메일 주소를 입력하세요
+            </p>
             <FormControl sx={{
-                width: "400px",
+                width: "350px",
                 marginBottom: "20px"
             }}
             >
@@ -60,12 +67,16 @@ const MyPageEmailModal = ({ onClose }) => {
                     minWidth: "80px",
                     maxWidth: "80px",
                     height: "40px",
-                    marginLeft: "400px"
+                    marginLeft: "350px"
                 }}
             >
                 완료
             </Button>
         </EmailModalContainer>
     );
+};
+
+MyPageEmailModal.propTypes = {
+    onClose: PropTypes.func.isRequired,
 };
 export { MyPageEmailModal };

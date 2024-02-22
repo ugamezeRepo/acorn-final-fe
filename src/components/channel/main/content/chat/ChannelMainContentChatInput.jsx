@@ -72,17 +72,15 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
             e.preventDefault();
 
             if (message) {
-                mesasgeWebSocket?.send(JSON.stringify({
-                    authorId: 
-                }));
-                // setMessages((msg) => {
-                //     return [...msg, {
-                //         content: message,
-                //         author: nickname,
-                //         createdAt: new Date().getTime(),
-                //     }];
-                // });
-                // setMessage("");
+
+                setMessages((msg) => {
+                    return [...msg, {
+                        content: message,
+                        author: nickname,
+                        createdAt: new Date().getTime(),
+                    }];
+                });
+                setMessage("");
             }
             return;
         }

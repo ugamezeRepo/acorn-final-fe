@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-
+import PropTypes from "prop-types";
 
 const MyPageNav = ({ showProfile, showChannelProfile }) => {
     return (
@@ -21,5 +21,10 @@ const MyPageNav = ({ showProfile, showChannelProfile }) => {
             </ListItem>
         </List>
     );
+};
+
+MyPageNav.propTypes = {
+    showProfile: PropTypes.func.isRequired,
+    showChannelProfile: PropTypes.func.isRequired,
 };
 export { MyPageNav };
