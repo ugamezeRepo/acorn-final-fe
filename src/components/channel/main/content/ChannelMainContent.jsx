@@ -21,7 +21,7 @@ const ChannelMainContent = ({
     return (
         <ChannelMainContentContainer>
             <ChannelMainContentChatView messages={messages} setMessages={setMessages} />
-            {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} />}
+            {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} messages={messages} />}
         </ChannelMainContentContainer >
     );
 };
