@@ -1,8 +1,8 @@
 import axios from "axios";
 
 
-const client = axios.create({
-    baseURL: "",
+const axiosClient = axios.create({
+    baseURL: "https://diverse-mule-possible.ngrok-free.app/api",
 });
 
-export default client; 
+export { axiosClient }; 
