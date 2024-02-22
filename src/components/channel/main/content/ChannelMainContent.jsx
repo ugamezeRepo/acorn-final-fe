@@ -13,26 +13,18 @@ const ChannelMainContentContainer = styled.div`
 `;
 
 const ChannelMainContent = ({
-    messages,
-    setMessages,
     memberSidebarOpen,
 }) => {
 
     return (
         <ChannelMainContentContainer>
-            <ChannelMainContentChatView messages={messages} setMessages={setMessages} />
-            {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} messages={messages} />}
+            <ChannelMainContentChatView />
+            {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} />}
         </ChannelMainContentContainer >
     );
 };
 
 ChannelMainContent.propTypes = {
-    messages: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.object,
-        content: PropTypes.string,
-        createdAt: PropTypes.array,
-    })).isRequired,
-    setMessages: PropTypes.func.isRequired,
     memberSidebarOpen: PropTypes.bool.isRequired,
 };
 

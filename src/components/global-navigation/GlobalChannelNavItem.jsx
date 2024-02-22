@@ -4,25 +4,27 @@ import PropTypes from "prop-types";
 import { useContext } from "react";
 
 const GlobalChannelNavItem = ({
-    channelName,
-    channelThumbnail,
-    channelId,
+    channel
 }) => {
-    const { setChannelId } = useContext(ChannelContext);
+    const { setCurrentChannel } = useContext(ChannelContext);
 
     return (
-        <ListItem onClick={() => setChannelId(channelId)}>
+        <ListItem onClick={() => setCurrentChannel(channel)} >
             <ListItemAvatar>
-                <Avatar alt={channelName} src={channelThumbnail}></Avatar>
+                <Avatar alt={channel.name} src={channel.thumbnail} sx={{ cursor: "pointer" }}>
+                    {channel.name && channel.name[0]}
+                </Avatar>
             </ListItemAvatar>
         </ListItem >
     );
 };
 
 GlobalChannelNavItem.propTypes = {
-    channelName: PropTypes.string,
-    channelThumbnail: PropTypes.string,
-    channelId: PropTypes.number.isRequired,
+    channel: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        thumbnail: PropTypes.string,
+    }).isRequired
 };
 
 export { GlobalChannelNavItem };

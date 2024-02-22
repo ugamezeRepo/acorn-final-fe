@@ -1,18 +1,21 @@
+import { axiosClient } from "@components/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
+import { MemberContext } from "@contexts/MemberContext";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useWebSocket from "react-use-websocket";
+
 const ChannelContext = createContext({
-    channelId: null,
-    channelName: null,
-    topicId: null,
-    topicName: null,
+    topics: [],
+    currentChannel: { id: null, name: null, thumbnail: null },
+    currentTopic: { id: null, title: null },
     messageWebSocket: null,
-    setChannelId: () => { },
-    setChannelName: () => { },
-    setTopicId: () => { },
-    setTopicName: () => { },
-    setMessgaeWebSocket: () => { },
+    messages: [],
+    setTopics: () => { },
+    setCurrentChannel: () => { },
+    setCurrentTopic: () => { },
+    setMessages: () => { },
 });
 
 
@@ -20,51 +23,67 @@ const ChannelContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const { channelId: pathChannelId, topicId: pathTopicId } = useParams();
 
-    const [channelId, setChannelId] = useState(pathChannelId);
-    const [channelName, setChannelName] = useState("테스트 채널");
-    const [topicId, setTopicId] = useState(pathTopicId);
-    const [topicName, setTopicName] = useState(null);
-    const [messageWebSocket, setMessgaeWebSocket] = useState(null);
+    const { channels } = useContext(MemberContext);
+    const [topics, setTopics] = useState([]);
 
-    useEffect(() => {
-        setMessgaeWebSocket(new WebSocket(getWsBaseUrl() + `/chat/${channelId}/topic/${topicId}`));
-    }, [channelId, topicId, messageWebSocket, setMessgaeWebSocket]);
+    const [currentChannel, setCurrentChannel] = useState({ id: null, name: null, thumbnail: null });
+    const [currentTopic, setCurrentTopic] = useState({ id: null, title: null });
 
+    const [messages, setMessages] = useState([]);
+    const messageWebSocket = useWebSocket(
+        (currentChannel.id && currentTopic.id)
+            ? getWsBaseUrl() + `/chat/channel/${currentChannel.id}/topic/${currentTopic.id}`
+            : null
+    );
+
+    // update channel by path params
     useEffect(() => {
-        if (channelId !== null && topicId !== null) {
-            navigate(`/channel/${channelId}/topic/${topicId}`);
+        if (!channels?.length) {
+            return;
         }
-    }, [channelId, topicId, navigate]);
+        console.log(`channels : ${JSON.stringify(channels)}`);
 
-    const updateChannelId = (channelId) => {
-        setChannelId(channelId);
-        setTopicId(1);
-    };
+        const filtered = channels.filter(c => c.id == pathChannelId);
+        if (!filtered?.length) {
+            console.log(`channel arr with ${pathChannelId} is empty redirect to 404`);
+            navigate("/404");
+            return;
+        }
+        setCurrentChannel(filtered[0]);
 
-    const updateTopicId = (topicId) => {
-        setTopicId(topicId);
-    };
+        axiosClient
+            .get(`/channel/${pathChannelId}/topic`)
+            .then(({ data }) => {
+                if (data.length) {
+                    setTopics(data);
+                    setCurrentTopic(data[0]);
+                }
+            });
+    }, [channels, pathChannelId, setCurrentChannel, setTopics, navigate]);
+
+    // update path param by context variable
+    useEffect(() => {
+        if (currentChannel.id && currentTopic.id) {
+            navigate(`/channel/${currentChannel.id}/topic/${currentTopic.id}`);
+        }
+    }, [currentChannel, currentTopic, navigate]);
 
     return (
         <ChannelContext.Provider value={{
-            channelId,
-            channelName,
-            topicId,
-            topicName,
+            topics,
+            currentChannel,
+            currentTopic,
             messageWebSocket,
-            setChannelId: updateChannelId,
-            setChannelName,
-            setTopicId: updateTopicId,
-            setTopicName,
-            setMessgaeWebSocket,
+            messages,
+            setTopics,
+            setCurrentChannel,
+            setCurrentTopic,
+            setMessages,
         }}>
             {children}
         </ChannelContext.Provider>
     );
 };
 
-ChannelContextProvider.propTypes = {
-    children: PropTypes.element,
-};
 
 export { ChannelContext, ChannelContextProvider };

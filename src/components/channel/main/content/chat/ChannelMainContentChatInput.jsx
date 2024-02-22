@@ -52,9 +52,9 @@ const EmojiPopOver = styled(Popover)`
     height:600px;
 `;
 
-const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
-    const { nickname } = useContext(MemberContext);
-    const { mesasgeWebSocket } = useContext(ChannelContext);
+const ChannelMainMessageInput = ({ placeholder }) => {
+    const { nickname, hashtag } = useContext(MemberContext);
+    const { messageWebSocket } = useContext(ChannelContext);
     const [message, setMessage] = useState("");
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [uploadFile, setUploadFile] = useState(false);
@@ -72,17 +72,14 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
             e.preventDefault();
 
             if (message) {
-                mesasgeWebSocket?.send(JSON.stringify({
-                    authorId: 
-                }));
-                // setMessages((msg) => {
-                //     return [...msg, {
-                //         content: message,
-                //         author: nickname,
-                //         createdAt: new Date().getTime(),
-                //     }];
-                // });
-                // setMessage("");
+                messageWebSocket.sendJsonMessage({
+                    author: {
+                        nickname,
+                        hashtag
+                    },
+                    content: message,
+                });
+                setMessage("");
             }
             return;
         }
@@ -124,7 +121,6 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
 
 ChannelMainMessageInput.propTypes = {
     placeholder: PropTypes.string,
-    setMessages: PropTypes.func.isRequired,
 };
 
 
@@ -137,12 +133,10 @@ const ChannelMainContentChatInputContainer = styled.div`
 `;
 
 
-const ChannelMainContentChatInput = ({
-    setMessages
-}) => {
+const ChannelMainContentChatInput = () => {
     return (
         <ChannelMainContentChatInputContainer>
-            <ChannelMainMessageInput placeholder="#채널에 메시지 보내기" setMessages={setMessages} />
+            <ChannelMainMessageInput placeholder="#채널에 메시지 보내기" />
         </ChannelMainContentChatInputContainer>
     );
 };
@@ -150,6 +144,6 @@ const ChannelMainContentChatInput = ({
 
 ChannelMainContentChatInput.propTypes = {
     // TODO: remove setmessage, make it connect to websocket
-    setMessages: PropTypes.func.isRequired,
+
 };
 export { ChannelMainContentChatInput };

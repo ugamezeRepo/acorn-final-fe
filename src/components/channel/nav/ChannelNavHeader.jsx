@@ -31,11 +31,11 @@ const ChannelLabel = styled.h3`
 const ChannelSettingPopOver = styled(Popover)``;
 
 const ChannelNavHeader = () => {
-    const { channelName } = useContext(ChannelContext);
+    const { currentChannel } = useContext(ChannelContext);
     const [channelSettingOpened, setChannelSettingOpened] = useState(false);
     return (
         <ChannelNavHeaderContainer onClick={() => setChannelSettingOpened(status => !status)}>
-            <ChannelLabel>{channelName}</ChannelLabel>
+            <ChannelLabel>{currentChannel.name}</ChannelLabel>
             <ChannelSettingPopOver
                 open={channelSettingOpened}
                 anchorReference="anchorPosition"
