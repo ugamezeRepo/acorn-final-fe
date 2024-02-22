@@ -1,9 +1,10 @@
+import { MyPageEmailModal } from "@components/MyPage/MyPageEmailModal";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Avatar, Box, Button, Container, Modal } from "@mui/material";
 import { useContext, useState } from "react";
 
-import { MyPageEmailModal } from "./MyPageEmailModal";
+
 
 
 const MyPageProfileContainer = styled.div`
@@ -81,7 +82,6 @@ const MyPageProfile = ({ showChannelProfile }) => {
                             border: "3px solid rgba(0, 0, 0, 0.54)"
                         }}
                         >
-                            T
                         </Avatar>
                         <div style={{ width: 300, fontSize: 20 }}>{nickname}</div>
                         <Button variant="contained" size="medium" sx={{ height: 35 }} onClick={showChannelProfile}>
@@ -101,7 +101,7 @@ const MyPageProfile = ({ showChannelProfile }) => {
                                 <LabelContainer>별명</LabelContainer>
                                 <ContentContainer>{nickname}</ContentContainer>
                             </div>
-                            <Button variant="contained" size="small" sx={{ height: 35 }}>
+                            <Button variant="contained" size="small" sx={{ height: 35 }} onClick={showChannelProfile}>
                                 수정
                             </Button>
                         </ProfileContainer>

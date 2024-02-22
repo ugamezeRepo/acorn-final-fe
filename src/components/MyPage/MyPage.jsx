@@ -13,10 +13,20 @@ const MyPageMainContainer = styled(BaseContainer)`
 `;
 
 const MyPageNavContainer = styled.div`
-    width:192px;
+    min-width:192px;
     height: 100vh;
     padding:60px 20px 60px 6px;
     background-color: #f2f3f5;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+`;
+
+const MyPageProfileContainer = styled.div`
+    min-width: 700px;
+    flex: 3;
+    display: flex;
+    justify-content: center;
 `;
 
 
@@ -37,11 +47,13 @@ const MyPage = () => {
             <MyPageNavContainer>
                 <MyPageNav showProfile={showProfile} showChannelProfile={showChannelProfile} />
             </MyPageNavContainer>
-            {showComponent ? (
-                <MyPageProfile showChannelProfile={showChannelProfile} />
-            ) : (
-                <MyPageChannelProfile />
-            )}
+            <MyPageProfileContainer>
+                {showComponent ? (
+                    <MyPageProfile showChannelProfile={showChannelProfile} />
+                ) : (
+                    <MyPageChannelProfile />
+                )}
+            </MyPageProfileContainer>
         </MyPageMainContainer>
     );
 };
