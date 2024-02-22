@@ -1,5 +1,7 @@
 import { UserInfo } from "@components/channel/main/content/sidebar/UserInfo";
 import styled from "@emotion/styled";
+import { Avatar, ListItem } from "@mui/material";
+import { PropTypes } from "prop-types";
 
 const ChannelMainContentMemberSidebarContainer = styled.div`
     background-color: #f2f3f5;
@@ -11,12 +13,43 @@ const ChannelMainContentMemberSidebarContainer = styled.div`
     }
 `;
 
-const ChannelMainContentMemberSidebar = () => {
+const ContentView = styled.div`
+    
+`;
+
+const AuthorInfo = styled.div`
+    display: flex;
+`;
+
+const ChannelMainContentMemberSidebar = ({
+    msg,
+    showProfile
+}) => {
     return (
         <ChannelMainContentMemberSidebarContainer>
-            <UserInfo />
+            <ListItem>
+                <Avatar>
+                    {showProfile && <Avatar />}
+                </Avatar>
+                <ContentView>
+                    {showProfile && <AuthorInfo>
+                        {msg.author}
+                    </AuthorInfo>}
+                </ContentView>
+            </ListItem>
+
+            <div>오프라인</div>
         </ChannelMainContentMemberSidebarContainer>
     );
+};
+
+ChannelMainContentMemberSidebar.propTypes = {
+    msg: PropTypes.shape({
+        author: PropTypes.string,
+        content: PropTypes.string,
+        date: PropTypes.number,
+    }).isRequired,
+    showProfile: PropTypes.bool,
 };
 
 export { ChannelMainContentMemberSidebar };

@@ -11,6 +11,27 @@ const ChannelMainContentList = styled(List)`
     overflow: auto;
     flex-grow: 1; 
     flex-shrink: 1;
+    &::-webkit-scrollbar{
+        width:10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #747474;
+        border-radius: 6px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+        min-height: 50px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #222222;
+    }
+    &::-webkit-scrollbar-track {
+        background-color:transparent;
+    }
+    &::-webkit-scrollbar-button{
+    }
+    &::-webkit-scrollbar-corner{
+        background: transparent;
+    }
 `;
 
 const ChannelMainContentChatViewContainer = styled.div`
@@ -29,6 +50,7 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
     const endOfMessage = useRef(null);
 
 
+
     useEffect(() => {
         console.log("end of message use effect called ");
         endOfMessage.current?.scrollIntoView();
@@ -36,6 +58,7 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
 
     return (
         <ChannelMainContentChatViewContainer>
+
             <ChannelMainContentList>
                 {messages.map((msg, idx) => {
                     return (
@@ -56,9 +79,9 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
 
 ChannelMainContentChatView.propTypes = {
     messages: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.string,
+        author: PropTypes.object,
         content: PropTypes.string,
-        date: PropTypes.number,
+        createdAt: PropTypes.array,
     })).isRequired,
     setMessages: PropTypes.func.isRequired,
 };

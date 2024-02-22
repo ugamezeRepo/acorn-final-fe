@@ -21,16 +21,16 @@ const ChannelMainContent = ({
     return (
         <ChannelMainContentContainer>
             <ChannelMainContentChatView messages={messages} setMessages={setMessages} />
-            {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} />}
+            {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} messages={messages} />}
         </ChannelMainContentContainer >
     );
 };
 
 ChannelMainContent.propTypes = {
     messages: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.string,
+        author: PropTypes.object,
         content: PropTypes.string,
-        date: PropTypes.number,
+        createdAt: PropTypes.array,
     })).isRequired,
     setMessages: PropTypes.func.isRequired,
     memberSidebarOpen: PropTypes.bool.isRequired,
