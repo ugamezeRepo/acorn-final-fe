@@ -1,4 +1,5 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
+import { ChannelContext } from "@contexts/ChannelContext";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { AddCircle, EmojiEmotions } from "@mui/icons-material";
@@ -53,6 +54,7 @@ const EmojiPopOver = styled(Popover)`
 
 const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
     const { nickname } = useContext(MemberContext);
+    const { mesasgeWebSocket } = useContext(ChannelContext);
     const [message, setMessage] = useState("");
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [uploadFile, setUploadFile] = useState(false);
@@ -60,6 +62,7 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
     const emojiClick = ({ emoji }) => {
         setMessage((msg) => msg + emoji);
     };
+
     /**
      * 
      * @param {React.KeyboardEvent} e 
@@ -69,18 +72,18 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
             e.preventDefault();
 
             if (message) {
+
                 setMessages((msg) => {
                     return [...msg, {
                         content: message,
                         author: nickname,
-                        date: new Date().getTime(),
+                        createdAt: new Date().getTime(),
                     }];
                 });
                 setMessage("");
             }
             return;
         }
-
     };
 
     return (

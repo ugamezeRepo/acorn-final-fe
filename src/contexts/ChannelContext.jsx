@@ -1,3 +1,4 @@
+import { getWsBaseUrl } from "@configs/env";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,10 +7,12 @@ const ChannelContext = createContext({
     channelName: null,
     topicId: null,
     topicName: null,
+    messageWebSocket: null,
     setChannelId: () => { },
     setChannelName: () => { },
     setTopicId: () => { },
     setTopicName: () => { },
+    setMessgaeWebSocket: () => { },
 });
 
 
@@ -21,8 +24,9 @@ const ChannelContextProvider = ({ children }) => {
     const [channelName, setChannelName] = useState("테스트 채널");
     const [topicId, setTopicId] = useState(pathTopicId);
     const [topicName, setTopicName] = useState(null);
+    const [messageWebSocket, setMessgaeWebSocket] = useState(null);
 
-    console.log(channelId);
+
 
     useEffect(() => {
         if (channelId !== null && topicId !== null) {
@@ -45,10 +49,12 @@ const ChannelContextProvider = ({ children }) => {
             channelName,
             topicId,
             topicName,
+            messageWebSocket,
             setChannelId: updateChannelId,
             setChannelName,
             setTopicId: updateTopicId,
             setTopicName,
+            setMessgaeWebSocket,
         }}>
             {children}
         </ChannelContext.Provider>

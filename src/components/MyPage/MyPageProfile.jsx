@@ -2,8 +2,8 @@ import { MyPageEmailModal } from "@components/MyPage/MyPageEmailModal";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Avatar, Box, Button, Container, Modal } from "@mui/material";
+import PropTypes from "prop-types";
 import { useContext, useState } from "react";
-
 
 
 
@@ -21,7 +21,7 @@ const UserInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 12px 16px 12px;
+  padding: 16px 35px 16px 12px;
 `;
 
 const ProfileContainer = styled.div`
@@ -84,7 +84,12 @@ const MyPageProfile = ({ showChannelProfile }) => {
                         >
                         </Avatar>
                         <div style={{ width: 300, fontSize: 20 }}>{nickname}</div>
-                        <Button variant="contained" size="medium" sx={{ height: 35 }} onClick={showChannelProfile}>
+                        <Button
+                            variant="contained"
+                            size="medium"
+                            sx={{ height: 35 }}
+                            onClick={showChannelProfile}
+                        >
                             프로필 편집
                         </Button>
                     </UserInfo>
@@ -101,7 +106,12 @@ const MyPageProfile = ({ showChannelProfile }) => {
                                 <LabelContainer>별명</LabelContainer>
                                 <ContentContainer>{nickname}</ContentContainer>
                             </div>
-                            <Button variant="contained" size="small" sx={{ height: 35 }} onClick={showChannelProfile}>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                sx={{ height: 35 }}
+                                onClick={showChannelProfile}
+                            >
                                 수정
                             </Button>
                         </ProfileContainer>
@@ -110,7 +120,12 @@ const MyPageProfile = ({ showChannelProfile }) => {
                                 <LabelContainer>이메일</LabelContainer>
                                 <ContentContainer>{email}</ContentContainer>
                             </div>
-                            <Button variant="contained" size="small" sx={{ height: 35 }} onClick={handleModalOpen}>
+                            <Button
+                                variant="contained"
+                                size="small"
+                                sx={{ height: 35 }}
+                                onClick={handleModalOpen}
+                            >
                                 수정
                             </Button>
                         </ProfileContainer>
@@ -118,7 +133,17 @@ const MyPageProfile = ({ showChannelProfile }) => {
                 </Container>
                 <DeleteAccountContainer>
                     <h3>계정제거</h3>
-                    <Button variant="contained" color="error" size="small" sx={{ width: 120, height: 35 }}>계정  삭제하기</Button>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        size="small"
+                        sx={{
+                            width: 120,
+                            height: 35
+                        }}
+                    >
+                        계정  삭제하기
+                    </Button>
                 </DeleteAccountContainer>
             </MyPageProfileContainer>
             <Modal
@@ -129,5 +154,9 @@ const MyPageProfile = ({ showChannelProfile }) => {
             </Modal>
         </>
     );
+};
+
+MyPageProfile.propTypes = {
+    showChannelProfile: PropTypes.func.isRequired,
 };
 export { MyPageProfile };
