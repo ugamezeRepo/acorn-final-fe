@@ -3,7 +3,6 @@ import { ChannelMainContentChatItem } from "@components/channel/main/content/cha
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { List } from "@mui/material";
-import PropTypes from "prop-types";
 import { useContext, useEffect, useRef } from "react";
 
 

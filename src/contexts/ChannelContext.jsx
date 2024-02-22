@@ -3,15 +3,16 @@ import { getWsBaseUrl } from "@configs/env";
 import { MemberContext } from "@contexts/MemberContext";
 import PropTypes from "prop-types";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
 const ChannelContext = createContext({
     topics: [],
     currentChannel: { id: null, name: null, thumbnail: null },
     currentTopic: { id: null, title: null },
-    messageWebSocket: null,
     messages: [],
+    lastJsonMessageOnWebSocket: null,
+    sendJsonMessageOnWebSocket: () => { },
     setTopics: () => { },
     setCurrentChannel: () => { },
     setCurrentTopic: () => { },
@@ -21,59 +22,54 @@ const ChannelContext = createContext({
 
 const ChannelContextProvider = ({ children }) => {
     const navigate = useNavigate();
-    const { channelId: pathChannelId, topicId: pathTopicId } = useParams();
-
-    const { channels } = useContext(MemberContext);
     const [topics, setTopics] = useState([]);
 
+    const { channels } = useContext(MemberContext);
     const [currentChannel, setCurrentChannel] = useState({ id: null, name: null, thumbnail: null });
     const [currentTopic, setCurrentTopic] = useState({ id: null, title: null });
-
     const [messages, setMessages] = useState([]);
-    const messageWebSocket = useWebSocket(
-        (currentChannel.id && currentTopic.id)
+
+    const { sendJsonMessage: sendJsonMessageOnWebSocket, lastJsonMessage: lastJsonMessageOnWebSocket } = useWebSocket(
+        (currentChannel?.id && currentTopic?.id)
             ? getWsBaseUrl() + `/chat/channel/${currentChannel.id}/topic/${currentTopic.id}`
             : null
     );
 
-    // update channel by path params
     useEffect(() => {
-        if (!channels?.length) {
-            return;
+        if (channels?.length) {
+            setCurrentChannel(channels[0]);
         }
-        console.log(`channels : ${JSON.stringify(channels)}`);
+    }, [channels, setCurrentChannel]);
 
-        const filtered = channels.filter(c => c.id == pathChannelId);
-        if (!filtered?.length) {
-            console.log(`channel arr with ${pathChannelId} is empty redirect to 404`);
-            navigate("/404");
-            return;
-        }
-        setCurrentChannel(filtered[0]);
-
-        axiosClient
-            .get(`/channel/${pathChannelId}/topic`)
-            .then(({ data }) => {
-                if (data.length) {
-                    setTopics(data);
-                    setCurrentTopic(data[0]);
-                }
-            });
-    }, [channels, pathChannelId, setCurrentChannel, setTopics, navigate]);
-
-    // update path param by context variable
     useEffect(() => {
-        if (currentChannel.id && currentTopic.id) {
+        (async () => {
+            if (!currentChannel.id) return;
+            const { data: topics } = await axiosClient.get(`/channel/${currentChannel.id}/topic`);
+            setTopics(topics);
+            setCurrentTopic(topics[0]);
+        })();
+    }, [currentChannel, setTopics, setCurrentTopic]);
+
+    useEffect(() => {
+        (async () => {
+            if (!currentChannel?.id || !currentTopic?.id) return;
+            const { data: messages } = await axiosClient.get(`/channel/${currentChannel.id}/topic/${currentTopic.id}/message`);
+            setMessages(messages);
+        })();
+    }, [currentTopic, currentChannel, setMessages]);
+    useEffect(() => {
+        if (currentTopic.id && currentChannel.id) {
             navigate(`/channel/${currentChannel.id}/topic/${currentTopic.id}`);
         }
-    }, [currentChannel, currentTopic, navigate]);
+    }, [currentTopic, currentChannel, navigate]);
 
     return (
         <ChannelContext.Provider value={{
             topics,
             currentChannel,
             currentTopic,
-            messageWebSocket,
+            sendJsonMessageOnWebSocket,
+            lastJsonMessageOnWebSocket,
             messages,
             setTopics,
             setCurrentChannel,
@@ -85,5 +81,8 @@ const ChannelContextProvider = ({ children }) => {
     );
 };
 
+ChannelContextProvider.propTypes = {
+    children: PropTypes.element,
+};
 
 export { ChannelContext, ChannelContextProvider };

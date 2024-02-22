@@ -1,7 +1,7 @@
 import { axiosClient } from "@components/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState, useSyncExternalStore } from "react";
+import { createContext, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 
 const MemberContext = createContext({
@@ -32,6 +32,7 @@ const MemberContextProvider = ({ children }) => {
     const [status, setStatus] = useState("온라인");
     const pingWebSocket = useWebSocket(getWsBaseUrl() + "/connection/ping");
 
+    // initialize ping - pong websocket connection 
     useEffect(() => {
         pingWebSocket.sendJsonMessage({
             email,
@@ -39,12 +40,17 @@ const MemberContextProvider = ({ children }) => {
             hashtag,
         });
     }, [email, nickname, hashtag, pingWebSocket]);
+
+
+    // initialize user channels 
     useEffect(() => {
         (async () => {
             const { data } = await axiosClient.get("/member/@me/channel");
             setChannels(data);
         })();
     }, [setChannels]);
+
+
     return (
         <MemberContext.Provider value={{
             channels,
