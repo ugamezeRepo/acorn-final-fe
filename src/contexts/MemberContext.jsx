@@ -1,5 +1,6 @@
+import { getWsBaseUrl } from "@configs/env";
 import PropTypes from "prop-types";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState, useSyncExternalStore } from "react";
 
 const MemberContext = createContext({
     nickname: null,
@@ -8,6 +9,7 @@ const MemberContext = createContext({
     micEnabled: true,
     soundEnabled: true,
     status: null,
+    pingWebSocket: null,
     setNickname: () => { },
     setHashtag: () => { },
     setEmail: () => { },
@@ -23,6 +25,25 @@ const MemberContextProvider = ({ children }) => {
     const [micEnabled, setMicEnabled] = useState(true);
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [status, setStatus] = useState("온라인");
+    const [pingWebSocket] = useState(new WebSocket(getWsBaseUrl() + "/connection/ping"));
+
+    useEffect(() => {
+        const pingHandler = () => {
+            pingWebSocket.send(JSON.stringify({
+                email,
+                nickname,
+                hashtag
+            }));
+        };
+
+        pingWebSocket.addEventListener("open", pingHandler);
+
+        return () => {
+            pingWebSocket.removeEventListener(pingHandler);
+        };
+    }, [email, nickname, hashtag, pingWebSocket]);
+
+
 
     return (
         <MemberContext.Provider value={{
@@ -38,6 +59,7 @@ const MemberContextProvider = ({ children }) => {
             setMicEnabled,
             setSoundEnabled,
             setStatus,
+            pingWebSocket,
         }}>
             {children}
         </MemberContext.Provider>
