@@ -1,12 +1,12 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import { AddCircle, EmojiEmotions, Margin } from "@mui/icons-material";
+import { AddCircle, EmojiEmotions } from "@mui/icons-material";
 import { IconButton, Input } from "@mui/material";
 import { Popover } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 
 
 const ChannelMainMessageInputContainer = styled(BaseContainer)`
@@ -117,7 +117,10 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
 };
 
 
-
+ChannelMainMessageInput.propTypes = {
+    placeholder: PropTypes.string,
+    setMessages: PropTypes.func.isRequired,
+};
 
 
 const ChannelMainContentChatInputContainer = styled.div`

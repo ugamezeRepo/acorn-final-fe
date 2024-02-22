@@ -35,17 +35,17 @@ const ChannelMainContentChatItem = ({
     const { channelId, topicId } = useParams();
 
     useEffect(() => {
+        const getContent = async () => {
+            // const data = await axiosClient.get("https://diverse-mule-possible.ngrok-free.app/api/channel/" + channelId + "/topic/" + topicId + "/message");
+            // setContent(data);
+            // console.log(content);
+            const chatList = await axiosClient.get("https://diverse-mule-possible.ngrok-free.app/api/channel/" + channelId + "/topic/" + topicId + "/message");
+            setContent(chatList.data);
+            console.log(content);
+        };
         getContent();
-    }, []);
+    }, [channelId, topicId, content, setContent]);
 
-    const getContent = async () => {
-        // const data = await axiosClient.get("https://diverse-mule-possible.ngrok-free.app/api/channel/" + channelId + "/topic/" + topicId + "/message");
-        // setContent(data);
-        // console.log(content);
-        const chatList = await axiosClient.get("https://diverse-mule-possible.ngrok-free.app/api/channel/" + channelId + "/topic/" + topicId + "/message");
-        setContent(chatList.data);
-        console.log(content);
-    };
 
     const listStyle = showProfile
         ? { alignItems: "normal", display: "flex", padding: "20px 16px 0" }
