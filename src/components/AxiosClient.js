@@ -1,8 +1,9 @@
+import { getHttpBaseUrl } from "@configs/env";
 import axios from "axios";
 
 
-const client = axios.create({
-    baseURL: "",
+const axiosClient = axios.create({
+    baseURL: getHttpBaseUrl(),
 });
 
-export default client; 
+export { axiosClient }; 

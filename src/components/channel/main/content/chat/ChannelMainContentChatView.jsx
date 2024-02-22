@@ -50,6 +50,7 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
     const endOfMessage = useRef(null);
 
 
+
     useEffect(() => {
         console.log("end of message use effect called ");
         endOfMessage.current?.scrollIntoView();
@@ -78,9 +79,9 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
 
 ChannelMainContentChatView.propTypes = {
     messages: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.string,
+        author: PropTypes.object,
         content: PropTypes.string,
-        date: PropTypes.number,
+        createdAt: PropTypes.array,
     })).isRequired,
     setMessages: PropTypes.func.isRequired,
 };

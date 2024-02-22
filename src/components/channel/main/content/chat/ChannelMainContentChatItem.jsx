@@ -1,11 +1,7 @@
-import axiosClient from "@components/AxiosClient";
 import styled from "@emotion/styled";
 import { Avatar, ListItem } from "@mui/material";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
-import { useParams } from "react-router-dom";
 import remarkGfm from "remark-gfm";
 
 const AvatarView = styled.div`
@@ -26,26 +22,10 @@ const ContentMarkdown = styled(Markdown)`
     }
 `;
 
-
 const ChannelMainContentChatItem = ({
     msg,
     showProfile
 }) => {
-    const [content, setContent] = useState([]);
-    const { channelId, topicId } = useParams();
-
-    useEffect(() => {
-        const getContent = async () => {
-            // const data = await axiosClient.get("https://diverse-mule-possible.ngrok-free.app/api/channel/" + channelId + "/topic/" + topicId + "/message");
-            // setContent(data);
-            // console.log(content);
-            const chatList = await axiosClient.get("https://diverse-mule-possible.ngrok-free.app/api/channel/" + channelId + "/topic/" + topicId + "/message");
-            setContent(chatList.data);
-            console.log(content);
-        };
-        getContent();
-    }, [channelId, topicId, content, setContent]);
-
 
     const listStyle = showProfile
         ? { alignItems: "normal", display: "flex", padding: "20px 16px 0" }
@@ -59,15 +39,11 @@ const ChannelMainContentChatItem = ({
 
             <ContentView>
                 {showProfile && <AuthorInfo>
-                    <div style={{ fontWeight: 700, paddingRight: "8px" }}>{msg.author}</div>
-                    <div>{dayjs(msg.date).format("YYYY-MM-DD HH:mm:ss")}</div>
+                    <div style={{ fontWeight: 700, paddingRight: "8px" }}>{msg.author.nickname}</div>
+                    <div>{msg.createdAt[0]}년 {msg.createdAt[1]}월 {msg.createdAt[2]}일 {msg.createdAt[3]}시 {msg.createdAt[4]}분 {msg.createdAt[5]}초</div>
                 </AuthorInfo>}
                 <ContentMarkdown remarkPlugins={[remarkGfm]}>
-                    {/* {content.map((item, idx) =>
-                        <div key={idx}>
-                            <div>{item}</div>
-                        </div>
-                    )} */}
+                    {msg.content}
                 </ContentMarkdown>
             </ContentView>
         </ListItem>
@@ -76,9 +52,9 @@ const ChannelMainContentChatItem = ({
 
 ChannelMainContentChatItem.propTypes = {
     msg: PropTypes.shape({
-        author: PropTypes.string,
+        author: PropTypes.object,
         content: PropTypes.string,
-        date: PropTypes.number,
+        createdAt: PropTypes.array,
     }).isRequired,
     showProfile: PropTypes.bool,
 };
