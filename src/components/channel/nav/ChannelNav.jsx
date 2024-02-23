@@ -8,10 +8,7 @@ import { List } from "@mui/material";
 import { useContext } from "react";
 
 const ChannelNavContainer = styled(BaseContainer)`
-
-
-max-width: 240px;
-
+    max-width: 240px;
     display: flex;
     flex-direction: column;
     background-color: #f2f3f5;
