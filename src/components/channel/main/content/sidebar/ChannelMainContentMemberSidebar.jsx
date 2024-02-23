@@ -4,7 +4,7 @@ import { PropTypes } from "prop-types";
 
 const ChannelMainContentMemberSidebarContainer = styled.div`
     background-color: #f2f3f5;
-    min-width: 200px;
+    min-width: 240px;
     overflow-y: scroll;
     overflow-x:hidden;
     &::-webkit-scrollbar{
