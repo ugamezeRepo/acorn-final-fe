@@ -19,7 +19,9 @@ const AuthorInfo = styled.div`
 const ContentMarkdown = styled(Markdown)`
     & p {
         line-height: 1;
-        width:100%
+    }
+    & p img {
+        width:60%;
     }
 `;
 
