@@ -23,6 +23,10 @@ const GlobalChannelNavContainer = styled(BaseContainer)`
 
 const GlobalChannelNavList = styled(List)`
     width: 100%; 
+    & li > div > div:hover {
+        border-radius: 10px;
+        transition: border-radius 0.3s ease-in-out;
+    }
 `;
 
 const GlobalChannelNav = () => {
