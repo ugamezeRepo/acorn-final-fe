@@ -27,10 +27,10 @@ const ChannelMainTopicTools = styled.div`
 `;
 
 const ChannelMainHeader = ({ setMemberSidebarOpen }) => {
-    const { topicName } = useContext(ChannelContext);
+    const { currentTopic } = useContext(ChannelContext);
     return (
         <ChannelMainHeaderContainer>
-            <ChannelMainTopicLabel>{topicName}</ChannelMainTopicLabel>
+            <ChannelMainTopicLabel>{currentTopic.title}</ChannelMainTopicLabel>
             <ChannelMainTopicTools>
                 <Group sx={{ cursor: "pointer" }} onClick={() => setMemberSidebarOpen(open => !open)} />
             </ChannelMainTopicTools>

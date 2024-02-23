@@ -1,28 +1,38 @@
+import { axiosClient } from "@components/AxiosClient";
 import { ChannelContext } from "@contexts/ChannelContext";
 import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
 import PropTypes from "prop-types";
 import { useContext } from "react";
 
 const GlobalChannelNavItem = ({
-    channelName,
-    channelThumbnail,
-    channelId,
+    channel
 }) => {
-    const { setChannelId } = useContext(ChannelContext);
+    const { setTopics, setCurrentTopic, setCurrentChannel } = useContext(ChannelContext);
 
     return (
-        <ListItem onClick={() => setChannelId(channelId)}>
+        <ListItem onClick={() => {
+            (async () => {
+                const { data: topics } = await axiosClient.get(`/channel/${channel.id}/topic`);
+                setTopics(topics);
+                setCurrentTopic(topics[0]);
+                setCurrentChannel(channel);
+            })();
+        }} >
             <ListItemAvatar>
-                <Avatar alt={channelName} src={channelThumbnail}></Avatar>
+                <Avatar alt={channel.name} src={channel.thumbnail} sx={{ cursor: "pointer" }}>
+                    {channel.name && channel.name[0]}
+                </Avatar>
             </ListItemAvatar>
         </ListItem >
     );
 };
 
 GlobalChannelNavItem.propTypes = {
-    channelName: PropTypes.string,
-    channelThumbnail: PropTypes.string,
-    channelId: PropTypes.number.isRequired,
+    channel: PropTypes.shape({
+        id: PropTypes.any,
+        name: PropTypes.string,
+        thumbnail: PropTypes.string,
+    }).isRequired
 };
 
 export { GlobalChannelNavItem };

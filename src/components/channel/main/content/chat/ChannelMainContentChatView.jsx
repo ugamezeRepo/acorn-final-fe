@@ -1,9 +1,9 @@
 import { ChannelMainContentChatInput } from "@components/channel/main/content/chat/ChannelMainContentChatInput";
 import { ChannelMainContentChatItem } from "@components/channel/main/content/chat/ChannelMainContentChatItem";
+import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { List } from "@mui/material";
-import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 
 const ChannelMainContentList = styled(List)`
@@ -43,16 +43,15 @@ const ChannelMainContentChatViewContainer = styled.div`
 
 `;
 
-const ChannelMainContentChatView = ({ messages, setMessages }) => {
+const ChannelMainContentChatView = () => {
     /**
      * @type {React.RefObject<HTMLDivElement>}
      */
     const endOfMessage = useRef(null);
-
+    const { messages } = useContext(ChannelContext);
 
 
     useEffect(() => {
-        console.log("end of message use effect called ");
         endOfMessage.current?.scrollIntoView();
     }, [endOfMessage, messages]);
 
@@ -72,18 +71,9 @@ const ChannelMainContentChatView = ({ messages, setMessages }) => {
                 })}
                 <div ref={endOfMessage}></div>
             </ChannelMainContentList>
-            <ChannelMainContentChatInput setMessages={setMessages} />
+            <ChannelMainContentChatInput />
         </ChannelMainContentChatViewContainer >
     );
-};
-
-ChannelMainContentChatView.propTypes = {
-    messages: PropTypes.arrayOf(PropTypes.shape({
-        author: PropTypes.object,
-        content: PropTypes.string,
-        createdAt: PropTypes.array,
-    })).isRequired,
-    setMessages: PropTypes.func.isRequired,
 };
 
 export { ChannelMainContentChatView };
