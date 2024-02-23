@@ -75,6 +75,14 @@ const ChannelMainMessageInput = ({ placeholder }) => {
         setMessage((msg) => msg + emoji);
     };
 
+    const handleClickInside = (e) => {
+        e.stopPropagation();
+    };
+
+    const handlePopoverClose = () => {
+        setEmojiOpen(false);
+    };
+
     /**
      * 
      * @param {React.KeyboardEvent} e 
@@ -118,11 +126,11 @@ const ChannelMainMessageInput = ({ placeholder }) => {
 
                 <IconButton disableRipple onClick={() => setEmojiOpen(status => !status)}>
                     <EmojiEmotions fontSize="large" />
-
                     <EmojiPopOver open={emojiOpen} anchorReference="anchorPosition"
-                        anchorPosition={{ top: 380, left: 1454 }}>
-                        <EmojiPicker onEmojiClick={emojiClick} />
+                        anchorPosition={{ top: 380, left: 1454 }} onClick={handleClickInside} onClose={handlePopoverClose}>
+                        <EmojiPicker open={true} onEmojiClick={emojiClick} />
                     </EmojiPopOver>
+
                 </IconButton>
             </ChannelMainMessageInputContent>
         </ChannelMainMessageInputContainer >
