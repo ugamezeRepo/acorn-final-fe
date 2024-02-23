@@ -29,6 +29,7 @@ const ChannelContextProvider = ({ children }) => {
     const [currentTopic, setCurrentTopic] = useState({ id: null, title: null });
     const [messages, setMessages] = useState([]);
 
+
     const { sendJsonMessage: sendJsonMessageOnWebSocket, lastJsonMessage: lastJsonMessageOnWebSocket } = useWebSocket(
         (currentChannel?.id && currentTopic?.id)
             ? getWsBaseUrl() + `/chat/channel/${currentChannel.id}/topic/${currentTopic.id}`

@@ -32,6 +32,7 @@ const MemberContextProvider = ({ children }) => {
     const [status, setStatus] = useState("온라인");
     const pingWebSocket = useWebSocket(getWsBaseUrl() + "/connection/ping");
 
+
     // initialize ping - pong websocket connection 
     useEffect(() => {
         pingWebSocket.sendJsonMessage({
@@ -40,7 +41,6 @@ const MemberContextProvider = ({ children }) => {
             hashtag,
         });
     }, [email, nickname, hashtag, pingWebSocket]);
-
 
     // initialize user channels 
     useEffect(() => {
