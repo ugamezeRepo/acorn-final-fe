@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Avatar, Badge, List, ListSubheader } from "@mui/material";
 
 const UserInfoContainer = styled.div`
+background-color: #f2f3f5;
     display: flex;
     flex-direction: column;
     background-color: #f2f3f5;
@@ -87,17 +88,19 @@ const UserInfo = () => {
                             <ListSubheader>{`${isOnline} - ${dummyUser.filter((e) => index ? e.state === "오프라인" : e.state !== "오프라인").length}`}</ListSubheader>
                             {dummyUser.map((user, idx) => {
                                 if ((isOnline === "온라인" && user.state !== "오프라인") || (isOnline === "오프라인" && user.state === "오프라인"))
-                                    return <UserBox key={`user-${idx}`} state={user.state}>
-                                        <AvatarBadge
-                                            overlap="circular"
-                                            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                                            variant="dot"
-                                            color={handleStatusColor(user.state)}
-                                        >
-                                            <Avatar sx={{ width: "32px", height: "32px" }} />
-                                        </AvatarBadge>
-                                        <NicknameContainer>{user.nickname}</NicknameContainer>
-                                    </UserBox>;
+                                    return (
+                                        <UserBox key={`user-${idx}`} state={user.state}>
+                                            <AvatarBadge
+                                                overlap="circular"
+                                                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                                variant="dot"
+                                                color={handleStatusColor(user.state)}
+                                            >
+                                                <Avatar sx={{ width: "32px", height: "32px" }} />
+                                            </AvatarBadge>
+                                            <NicknameContainer>{user.nickname}</NicknameContainer>
+                                        </UserBox>
+                                    );
                             })}
                         </ul>
                     </li>

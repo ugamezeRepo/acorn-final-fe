@@ -1,6 +1,5 @@
 import { UserInfo } from "@components/channel/main/content/sidebar/UserInfo";
 import styled from "@emotion/styled";
-import { Avatar, ListItem } from "@mui/material";
 import { PropTypes } from "prop-types";
 
 const ChannelMainContentMemberSidebarContainer = styled.div`
@@ -8,36 +7,15 @@ const ChannelMainContentMemberSidebarContainer = styled.div`
     width: 240px;
     overflow-y: scroll;
     overflow-x:hidden;
-     &::-webkit-scrollbar{
+    &::-webkit-scrollbar{
         width:0px;
     }
 `;
 
-const ContentView = styled.div`
-    
-`;
-
-const AuthorInfo = styled.div`
-    display: flex;
-`;
-
-const ChannelMainContentMemberSidebar = ({ showProfile }) => {
+const ChannelMainContentMemberSidebar = () => {
     return (
         <ChannelMainContentMemberSidebarContainer>
-            <ListItem>
-                <Avatar>
-                    {showProfile && <Avatar />}
-                </Avatar>
-                <ContentView>
-                    {showProfile &&
-                        <AuthorInfo>
-                            blah blah
-                        </AuthorInfo>
-                    }
-                </ContentView>
-            </ListItem>
-
-            <div>오프라인</div>
+            <UserInfo />
         </ChannelMainContentMemberSidebarContainer>
     );
 };
