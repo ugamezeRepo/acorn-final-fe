@@ -17,7 +17,6 @@ const NicknameContainer = styled.div`
     width: 75px;
     padding-left: 12px;
     font-size: 1.1rem;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -8,11 +8,13 @@ import { useContext, useEffect, useRef } from "react";
 
 const ChannelMainContentList = styled(List)`
     max-height: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     flex-grow: 1; 
     flex-shrink: 1;
     &::-webkit-scrollbar{
         width:10px;
+        height:10px;
     }
     &::-webkit-scrollbar-thumb {
         background-color: #747474;

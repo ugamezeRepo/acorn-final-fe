@@ -9,7 +9,6 @@ const ChannelMainHeaderContainer = styled(BaseHeaderContainer)`
     flex-grow: 0; 
     flex-shrink: 0; 
     border-bottom: 1.5px solid #e3e3e3;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
