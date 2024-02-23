@@ -9,7 +9,7 @@ const AvatarView = styled.div`
 `;
 
 const ContentView = styled.div`
-    
+    width: 60%;
 `;
 
 const AuthorInfo = styled.div`
@@ -19,9 +19,14 @@ const AuthorInfo = styled.div`
 const ContentMarkdown = styled(Markdown)`
     & p {
         line-height: 1;
+        word-wrap: break-word;
     }
     & p img {
         width:60%;
+    }
+    & pre code {
+        white-space: pre-wrap;
+        word-wrap: break-word;
     }
 `;
 
