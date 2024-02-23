@@ -1,17 +1,11 @@
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import PropTypes from "prop-types";
 
-const MyPageNav = ({ showProfile, showChannelProfile }) => {
+const MyPageNav = () => {
     return (
         <List>
             <ListItem>
-                <ListItemButton onClick={showProfile}>
+                <ListItemButton>
                     <ListItemText primary="내계정" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem>
-                <ListItemButton onClick={showChannelProfile}>
-                    <ListItemText primary="프로필" />
                 </ListItemButton>
             </ListItem>
             <ListItem>
@@ -21,10 +15,5 @@ const MyPageNav = ({ showProfile, showChannelProfile }) => {
             </ListItem>
         </List>
     );
-};
-
-MyPageNav.propTypes = {
-    showProfile: PropTypes.func.isRequired,
-    showChannelProfile: PropTypes.func.isRequired,
 };
 export { MyPageNav };

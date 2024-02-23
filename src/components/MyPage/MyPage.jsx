@@ -1,9 +1,7 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
-import { MyPageChannelProfile } from "@components/MyPage/MyPageChannelProfile";
 import { MyPageNav } from "@components/MyPage/MyPageNav";
 import { MyPageProfile } from "@components/MyPage/MyPageProfile";
 import styled from "@emotion/styled";
-import { useState } from "react";
 
 
 const MyPageMainContainer = styled(BaseContainer)`
@@ -31,28 +29,14 @@ const MyPageProfileContainer = styled.div`
 
 
 const MyPage = () => {
-    const [showComponent, setShowComponent] = useState(true);
-
-    const showProfile = () => {
-        setShowComponent(true);
-    };
-
-    const showChannelProfile = () => {
-        setShowComponent(false);
-    };
-
 
     return (
         <MyPageMainContainer>
             <MyPageNavContainer>
-                <MyPageNav showProfile={showProfile} showChannelProfile={showChannelProfile} />
+                <MyPageNav />
             </MyPageNavContainer>
             <MyPageProfileContainer>
-                {showComponent ? (
-                    <MyPageProfile showChannelProfile={showChannelProfile} />
-                ) : (
-                    <MyPageChannelProfile />
-                )}
+                <MyPageProfile />
             </MyPageProfileContainer>
         </MyPageMainContainer>
     );
