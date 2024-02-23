@@ -19,7 +19,7 @@ const ChannelSelectContainer = styled.div`
 
 const MyPageChannelProfile = () => {
 
-    const { nickname, hashtag } = useContext(MemberContext);
+    const { nickname } = useContext(MemberContext);
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
