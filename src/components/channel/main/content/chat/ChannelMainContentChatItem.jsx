@@ -20,6 +20,9 @@ const ContentMarkdown = styled(Markdown)`
     & p {
         line-height: 1;
     }
+    & p img {
+        width:60%;
+    }
 `;
 
 const ChannelMainContentChatItem = ({

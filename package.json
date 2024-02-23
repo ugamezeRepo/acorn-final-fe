@@ -21,7 +21,7 @@
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
-    "emoji-picker-react": "^4.7.18",
+    "emoji-picker-react": "^4.8.0",
     "micromark": "^4.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
