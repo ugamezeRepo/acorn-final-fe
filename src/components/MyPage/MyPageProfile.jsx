@@ -1,3 +1,4 @@
+import { axiosClient } from "@components/AxiosClient";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Avatar, Box, Button, Container, Snackbar, TextField } from "@mui/material";
@@ -61,12 +62,17 @@ const MyPageProfile = () => {
     const handleSnackBarOpen = () => {
         setSnackbarOpen(true);
     };
-    // const nicknameSubmit = () => {
-    //     setSnackbarOpen(false);
-    //     let newNickname = newNicknameRef.current.value;
-    //     axios.put()
+    const nicknameSubmit = () => {
+        setSnackbarOpen(false);
+        setNicknameUpdate(false);
+        let newNickname = "newnickname";
 
-    // };
+        axiosClient.put(`/member/changeNick`, {
+            email: email,
+            nickname: newNickname
+        });
+
+    };
 
     const handleTextfieldClose = () => {
         setNicknameUpdate(false);
@@ -166,7 +172,7 @@ const MyPageProfile = () => {
                         <Button size="small" onClick={handleTextfieldClose}>
                             재설정
                         </Button>
-                        <Button size="small" >
+                        <Button size="small" onClick={nicknameSubmit} >
                             변경사항 저장하기
                         </Button>
                     </>
