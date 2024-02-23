@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 
 const GlobalChannelNavContainer = styled(BaseContainer)`
+    min-width: 72px;
     max-width: 72px;
     background-color: #e2e4e7;
     overflow: auto;

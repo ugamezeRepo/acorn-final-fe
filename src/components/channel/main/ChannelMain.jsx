@@ -11,6 +11,7 @@ const ChannelMainContainer = styled(BaseContainer)`
     background-color: #fff;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 `;
 
 const ChannelMain = () => {
