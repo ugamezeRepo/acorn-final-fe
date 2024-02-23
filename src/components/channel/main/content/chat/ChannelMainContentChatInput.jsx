@@ -7,7 +7,7 @@ import { IconButton, Input } from "@mui/material";
 import { Popover } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 
 const ChannelMainMessageInputContainer = styled(BaseContainer)`
@@ -52,12 +52,24 @@ const EmojiPopOver = styled(Popover)`
     height:600px;
 `;
 
-const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
-    const { nickname } = useContext(MemberContext);
-    const { mesasgeWebSocket } = useContext(ChannelContext);
+const ChannelMainMessageInput = ({ placeholder }) => {
+    const { nickname, hashtag } = useContext(MemberContext);
+    const { sendJsonMessageOnWebSocket, lastJsonMessageOnWebSocket, setMessages } = useContext(ChannelContext);
     const [message, setMessage] = useState("");
     const [emojiOpen, setEmojiOpen] = useState(false);
     const [uploadFile, setUploadFile] = useState(false);
+
+    useEffect(() => {
+        if (lastJsonMessageOnWebSocket) {
+            const { author, content, createdAt } = lastJsonMessageOnWebSocket;
+            setMessages(msgs => [...msgs, {
+                author,
+                content,
+                createdAt,
+            }]);
+
+        }
+    }, [lastJsonMessageOnWebSocket, setMessages]);
 
     const emojiClick = ({ emoji }) => {
         setMessage((msg) => msg + emoji);
@@ -70,15 +82,13 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
     const keyDownHandler = (e) => {
         if (!e.shiftKey && e.key === "Enter") {
             e.preventDefault();
-
             if (message) {
-
-                setMessages((msg) => {
-                    return [...msg, {
-                        content: message,
-                        author: nickname,
-                        createdAt: new Date().getTime(),
-                    }];
+                sendJsonMessageOnWebSocket({
+                    author: {
+                        nickname,
+                        hashtag
+                    },
+                    content: message,
                 });
                 setMessage("");
             }
@@ -121,10 +131,8 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
 
 
 ChannelMainMessageInput.propTypes = {
-    placeholder: PropTypes.string,
-    setMessages: PropTypes.func.isRequired,
+    placeholder: PropTypes.string
 };
-
 
 const ChannelMainContentChatInputContainer = styled.div`
     min-height: 68px;
@@ -135,12 +143,10 @@ const ChannelMainContentChatInputContainer = styled.div`
 `;
 
 
-const ChannelMainContentChatInput = ({
-    setMessages
-}) => {
+const ChannelMainContentChatInput = () => {
     return (
         <ChannelMainContentChatInputContainer>
-            <ChannelMainMessageInput placeholder="#채널에 메시지 보내기" setMessages={setMessages} />
+            <ChannelMainMessageInput placeholder="#채널에 메시지 보내기" />
         </ChannelMainContentChatInputContainer>
     );
 };
@@ -148,6 +154,6 @@ const ChannelMainContentChatInput = ({
 
 ChannelMainContentChatInput.propTypes = {
     // TODO: remove setmessage, make it connect to websocket
-    setMessages: PropTypes.func.isRequired,
+
 };
 export { ChannelMainContentChatInput };
