@@ -19,7 +19,7 @@ const ChannelMain = () => {
 
     useEffect(() => {
         (async () => {
-            const { data: chatList } = await axiosClient.get("/channel/" + channelId + "/topic/" + topicId + "/message");
+            const { data: chatList } = await axiosClient.get(`/channel/${channelId}/topic/${topicId}/message`);
             setMessages(chatList);
         })();
 

@@ -27,7 +27,7 @@ const ChannelContextProvider = ({ children }) => {
     const [messageWebSocket, setMessgaeWebSocket] = useState(null);
 
     useEffect(() => {
-        setMessgaeWebSocket(new WebSocket(getWsBaseUrl() + `/chat/${channelId}/topic/${topicId}`));
+        setMessgaeWebSocket(new WebSocket(getWsBaseUrl() + `/chat/channel/${channelId}/topic/${topicId}`));
     }, [channelId, topicId, messageWebSocket, setMessgaeWebSocket]);
 
     useEffect(() => {

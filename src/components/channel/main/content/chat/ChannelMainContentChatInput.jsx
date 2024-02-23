@@ -73,7 +73,7 @@ const ChannelMainMessageInput = ({ placeholder, setMessages }) => {
 
             if (message) {
                 mesasgeWebSocket?.send(JSON.stringify({
-                    authorId: 
+                    authorId: "",
                 }));
                 // setMessages((msg) => {
                 //     return [...msg, {
