@@ -1,9 +1,8 @@
-import { MyPageEmailModal } from "@components/MyPage/MyPageEmailModal";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import { Avatar, Box, Button, Container, Modal } from "@mui/material";
+import { Avatar, Box, Button, Container } from "@mui/material";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 
 
@@ -54,17 +53,6 @@ const DeleteAccountContainer = styled.div`
 const MyPageProfile = ({ showChannelProfile }) => {
 
     const { nickname, email } = useContext(MemberContext);
-
-    const [showEmailModal, setShowEmailModal] = useState(false);
-
-    const handleModalOpen = () => {
-        setShowEmailModal(true);
-    };
-
-    const handleModalClose = () => {
-        setShowEmailModal(false);
-    };
-
 
     return (
         <>
@@ -120,14 +108,6 @@ const MyPageProfile = ({ showChannelProfile }) => {
                                 <LabelContainer>이메일</LabelContainer>
                                 <ContentContainer>{email}</ContentContainer>
                             </div>
-                            <Button
-                                variant="contained"
-                                size="small"
-                                sx={{ height: 35 }}
-                                onClick={handleModalOpen}
-                            >
-                                수정
-                            </Button>
                         </ProfileContainer>
                     </Box>
                 </Container>
@@ -146,12 +126,6 @@ const MyPageProfile = ({ showChannelProfile }) => {
                     </Button>
                 </DeleteAccountContainer>
             </MyPageProfileContainer>
-            <Modal
-                open={showEmailModal}
-                onClose={handleModalClose}
-            >
-                <MyPageEmailModal onClose={handleModalClose} />
-            </Modal>
         </>
     );
 };
