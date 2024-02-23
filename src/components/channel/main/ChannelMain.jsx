@@ -14,24 +14,22 @@ const ChannelMainContainer = styled(BaseContainer)`
 `;
 
 const ChannelMain = () => {
-    const [messages, setMessages] = useState([]);
     const { channelId, topicId } = useParams();
 
     useEffect(() => {
         (async () => {
             const { data: chatList } = await axiosClient.get(`/channel/${channelId}/topic/${topicId}/message`);
-            setMessages(chatList);
+            console.log(chatList);
         })();
 
-    }, [channelId, topicId, setMessages]);
-    console.log(messages);
-    // todo axios request 
+    }, [channelId, topicId]);
+
     const [memeberSidebarOpen, setMemberSidebarOpen] = useState(false);
 
     return (
         <ChannelMainContainer>
             <ChannelMainHeader setMemberSidebarOpen={setMemberSidebarOpen} />
-            <ChannelMainContent messages={messages} setMessages={setMessages} memberSidebarOpen={memeberSidebarOpen} />
+            <ChannelMainContent memberSidebarOpen={memeberSidebarOpen} />
         </ChannelMainContainer>
     );
 };
