@@ -1,8 +1,10 @@
 // DiscordServerNav.js
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { GlobalChannelNavItem } from "@components/global-navigation/GlobalChannelNavItem";
+import { MemberContext } from "@contexts/MemberContext";
 import { Divider, List } from "@mui/material";
 import { styled } from "@mui/system";
+import { useContext } from "react";
 
 
 const GlobalChannelNavContainer = styled(BaseContainer)`
@@ -24,26 +26,20 @@ const GlobalChannelNavList = styled(List)`
 `;
 
 const GlobalChannelNav = () => {
+    const { channels } = useContext(MemberContext);
     return (
         <GlobalChannelNavContainer>
             <GlobalChannelNavList>
-                <GlobalChannelNavItem channelId={1} />
+                <GlobalChannelNavItem channel={
+                    {
+                        id: "@me",
+                        name: "mypage"
+                    }
+                } />
                 <Divider sx={{ margin: "0 16px", borderWidth: "1px" }} />
-                <GlobalChannelNavItem channelId={2} channelName="너" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
-                <GlobalChannelNavItem channelId={3} channelName="abc" />
+                {
+                    channels.map((c, idx) => <GlobalChannelNavItem key={idx} channel={c} />)
+                }
             </GlobalChannelNavList>
         </GlobalChannelNavContainer>
     );

@@ -21,10 +21,7 @@ const AuthorInfo = styled.div`
     display: flex;
 `;
 
-const ChannelMainContentMemberSidebar = ({
-    msg,
-    showProfile
-}) => {
+const ChannelMainContentMemberSidebar = ({ showProfile }) => {
     return (
         <ChannelMainContentMemberSidebarContainer>
             <ListItem>
@@ -32,9 +29,11 @@ const ChannelMainContentMemberSidebar = ({
                     {showProfile && <Avatar />}
                 </Avatar>
                 <ContentView>
-                    {showProfile && <AuthorInfo>
-                        {msg.author}
-                    </AuthorInfo>}
+                    {showProfile &&
+                        <AuthorInfo>
+                            blah blah
+                        </AuthorInfo>
+                    }
                 </ContentView>
             </ListItem>
 
@@ -44,11 +43,6 @@ const ChannelMainContentMemberSidebar = ({
 };
 
 ChannelMainContentMemberSidebar.propTypes = {
-    msg: PropTypes.shape({
-        author: PropTypes.string,
-        content: PropTypes.string,
-        date: PropTypes.number,
-    }).isRequired,
     showProfile: PropTypes.bool,
 };
 

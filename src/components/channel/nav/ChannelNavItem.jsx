@@ -10,12 +10,14 @@ const ChannelNavItem = ({
     topicName,
     topicId,
 }) => {
-    const { setTopicId, setTopicName } = useContext(ChannelContext);
+    const { setCurrentTopic } = useContext(ChannelContext);
     return (
         <ListItemButton onClick={() => {
             console.log("clicked topic with id " + topicId);
-            setTopicId(topicId);
-            setTopicName(topicName);
+            setCurrentTopic({
+                id: topicId,
+                title: topicName
+            });
         }} sx={{ display: "flex", margin: "6px", borderRadius: "8px" }}>
             <Tag fontSize="small" sx={{ color: "gray", marginRight: "6px" }} />
             <span style={{ fontSize: "0.9em" }}>{topicName}</span>

@@ -2,8 +2,10 @@ import { BaseContainer } from "@components/basis/BaseContainer";
 import { ChannelNavHeader } from "@components/channel/nav/ChannelNavHeader";
 import { ChannelNavItem } from "@components/channel/nav/ChannelNavItem";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
+import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { List } from "@mui/material";
+import { useContext } from "react";
 
 const ChannelNavContainer = styled(BaseContainer)`
     max-width: 240px;
@@ -44,23 +46,14 @@ const ChannelNavList = styled(List)`
 `;
 
 const ChannelNav = () => {
+    const { topics } = useContext(ChannelContext);
     return (
         <ChannelNavContainer>
             <ChannelNavHeader />
             <ChannelNavList>
-                <ChannelNavItem topicId={1} topicName={"General"} />
-                <ChannelNavItem topicId={2} topicName={"Hello"} />
-                <ChannelNavItem topicId={3} topicName={"World"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
-                <ChannelNavItem topicId={4} topicName={"zzz"} />
+                {
+                    topics.map((t, idx) => (<ChannelNavItem key={idx} topicId={t.id} topicName={t.title} />))
+                }
             </ChannelNavList>
             <ChannelNavMyStatus />
         </ChannelNavContainer>

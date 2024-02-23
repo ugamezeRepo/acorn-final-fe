@@ -1,8 +1,11 @@
+import { axiosClient } from "@components/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState, useSyncExternalStore } from "react";
+import { createContext, useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
 
 const MemberContext = createContext({
+    channels: [],
     nickname: null,
     hashtag: null,
     email: null,
@@ -10,6 +13,7 @@ const MemberContext = createContext({
     soundEnabled: true,
     status: null,
     pingWebSocket: null,
+    setChannels: () => { },
     setNickname: () => { },
     setHashtag: () => { },
     setEmail: () => { },
@@ -19,40 +23,44 @@ const MemberContext = createContext({
 });
 
 const MemberContextProvider = ({ children }) => {
+    const [channels, setChannels] = useState([]);
     const [nickname, setNickname] = useState("admin");
-    const [hashtag, setHashtag] = useState(9999);
-    const [email, setEmail] = useState("test@gmail.com");
+    const [hashtag, setHashtag] = useState(7777);
+    const [email, setEmail] = useState("admin@gmail.com");
     const [micEnabled, setMicEnabled] = useState(true);
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [status, setStatus] = useState("온라인");
-    const [pingWebSocket] = useState(new WebSocket(getWsBaseUrl() + "/connection/ping"));
+    const pingWebSocket = useWebSocket(getWsBaseUrl() + "/connection/ping");
 
+    // initialize ping - pong websocket connection 
     useEffect(() => {
-        const pingHandler = () => {
-            pingWebSocket.send(JSON.stringify({
-                email,
-                nickname,
-                hashtag
-            }));
-        };
-
-        pingWebSocket.addEventListener("open", pingHandler);
-
-        return () => {
-            pingWebSocket.removeEventListener(pingHandler);
-        };
+        pingWebSocket.sendJsonMessage({
+            email,
+            nickname,
+            hashtag,
+        });
     }, [email, nickname, hashtag, pingWebSocket]);
 
+
+    // initialize user channels 
+    useEffect(() => {
+        (async () => {
+            const { data } = await axiosClient.get("/member/@me/channel");
+            setChannels(data);
+        })();
+    }, [setChannels]);
 
 
     return (
         <MemberContext.Provider value={{
+            channels,
             nickname,
             hashtag,
             email,
             micEnabled,
             soundEnabled,
             status,
+            setChannels,
             setNickname,
             setHashtag,
             setEmail,
