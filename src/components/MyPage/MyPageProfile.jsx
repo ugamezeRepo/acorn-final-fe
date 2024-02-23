@@ -1,8 +1,8 @@
+import { axiosClient } from "@components/AxiosClient";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import { Avatar, Box, Button, Container } from "@mui/material";
-import PropTypes from "prop-types";
-import { useContext } from "react";
+import { Avatar, Box, Button, Container, Snackbar, TextField } from "@mui/material";
+import { useContext, useRef, useState } from "react";
 
 
 
@@ -50,9 +50,38 @@ const DeleteAccountContainer = styled.div`
 `;
 
 
-const MyPageProfile = ({ showChannelProfile }) => {
+const MyPageProfile = () => {
 
     const { nickname, email } = useContext(MemberContext);
+
+    const [nicknameUpdate, setNicknameUpdate] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+    const newNicknameRef = useRef();
+
+    const handleSnackBarOpen = () => {
+        setSnackbarOpen(true);
+    };
+    const nicknameSubmit = () => {
+        setSnackbarOpen(false);
+        setNicknameUpdate(false);
+        let newNickname = "newnickname";
+
+        axiosClient.put(`/member/changeNick`, {
+            email: email,
+            nickname: newNickname
+        });
+
+    };
+
+    const handleTextfieldClose = () => {
+        setNicknameUpdate(false);
+        setSnackbarOpen(false);
+    };
+
+    const handleTextfieldOpen = () => {
+        setNicknameUpdate(true);
+    };
 
     return (
         <>
@@ -76,7 +105,7 @@ const MyPageProfile = ({ showChannelProfile }) => {
                             variant="contained"
                             size="medium"
                             sx={{ height: 35 }}
-                            onClick={showChannelProfile}
+                            onClick={handleTextfieldOpen}
                         >
                             프로필 편집
                         </Button>
@@ -91,21 +120,30 @@ const MyPageProfile = ({ showChannelProfile }) => {
                     }}>
                         <ProfileContainer>
                             <div>
-                                <LabelContainer>별명</LabelContainer>
-                                <ContentContainer>{nickname}</ContentContainer>
+                                <LabelContainer>nickname</LabelContainer>
+                                {nicknameUpdate ? <TextField
+                                    defaultValue={nickname}
+                                    size="small"
+                                    onChange={handleSnackBarOpen}
+                                    onBlur={handleTextfieldClose}
+                                    ref={newNicknameRef}
+                                />
+                                    :
+                                    <ContentContainer>{nickname}</ContentContainer>
+                                }
                             </div>
                             <Button
                                 variant="contained"
                                 size="small"
                                 sx={{ height: 35 }}
-                                onClick={showChannelProfile}
+                                onClick={handleTextfieldOpen}
                             >
                                 수정
                             </Button>
                         </ProfileContainer>
                         <ProfileContainer>
                             <div>
-                                <LabelContainer>이메일</LabelContainer>
+                                <LabelContainer>Email</LabelContainer>
                                 <ContentContainer>{email}</ContentContainer>
                             </div>
                         </ProfileContainer>
@@ -126,11 +164,25 @@ const MyPageProfile = ({ showChannelProfile }) => {
                     </Button>
                 </DeleteAccountContainer>
             </MyPageProfileContainer>
+            <Snackbar
+                open={snackbarOpen}
+                message="저장하지 않은 변경사항이 있어요"
+                action={
+                    <>
+                        <Button size="small" onClick={handleTextfieldClose}>
+                            재설정
+                        </Button>
+                        <Button size="small" onClick={nicknameSubmit} >
+                            변경사항 저장하기
+                        </Button>
+                    </>
+                }
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+
+            </Snackbar>
         </>
     );
 };
 
-MyPageProfile.propTypes = {
-    showChannelProfile: PropTypes.func.isRequired,
-};
 export { MyPageProfile };

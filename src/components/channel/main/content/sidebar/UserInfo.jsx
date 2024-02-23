@@ -29,6 +29,11 @@ const UserBox = styled.div`
 `;
 
 const RList = styled(List)`
+    height:94vh;
+    &::-webkit-scrollbar{
+        width:0px;
+    }
+
 `;
 
 const handleStatusColor = (state) => {
