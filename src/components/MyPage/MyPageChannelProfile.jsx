@@ -2,7 +2,6 @@ import { MyPageChannelSelect } from "@components/MyPage/MyPageChannelSelect";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Button, Snackbar, TextField } from "@mui/material";
-import axios from "axios";
 import { useContext, useRef, useState } from "react";
 
 const ChannelProfileContainer = styled.div`
