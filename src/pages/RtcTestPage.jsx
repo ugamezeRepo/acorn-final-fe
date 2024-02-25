@@ -10,7 +10,7 @@ const RtcTestPage = () => {
     const localVideoRef = useRef(null);
     /** @type React.MutableRefObject<HTMLVideoElement> */
     const remoteVideoRef = useRef(null);
-    const [makingOffer, setMakingOffer] = useState(false);
+    const [_makingOffer, setMakingOffer] = useState(false);
 
     useEffect(() => {
         (async () => {

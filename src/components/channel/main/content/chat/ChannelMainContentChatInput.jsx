@@ -7,7 +7,7 @@ import { IconButton, Input } from "@mui/material";
 import { Popover } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 
 const ChannelMainMessageInputContainer = styled(BaseContainer)`
