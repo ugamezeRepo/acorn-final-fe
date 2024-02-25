@@ -1,4 +1,4 @@
-import { axiosClient } from "@components/AxiosClient";
+import { axiosClient } from "@configs/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import { MemberContext } from "@contexts/MemberContext";
 import PropTypes from "prop-types";

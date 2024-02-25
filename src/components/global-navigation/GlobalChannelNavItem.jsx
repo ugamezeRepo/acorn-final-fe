@@ -1,4 +1,4 @@
-import { axiosClient } from "@components/AxiosClient";
+import { axiosClient } from "@configs/AxiosClient";
 import { ChannelContext } from "@contexts/ChannelContext";
 import { Avatar, ListItem, ListItemAvatar } from "@mui/material";
 import PropTypes from "prop-types";

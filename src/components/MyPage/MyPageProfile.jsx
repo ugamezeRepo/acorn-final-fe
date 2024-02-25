@@ -1,4 +1,4 @@
-import { axiosClient } from "@components/AxiosClient";
+import { axiosClient } from "@configs/AxiosClient";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Avatar, Box, Button, Container, Snackbar, TextField } from "@mui/material";
