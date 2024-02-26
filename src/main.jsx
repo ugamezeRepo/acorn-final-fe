@@ -1,4 +1,5 @@
 import { ChannelPage } from "@pages/ChannelPage";
+import { InvitePage } from "@pages/InvitePage";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { RtcTestPage } from "@pages/RtcTestPage";
 import React from "react";
@@ -10,6 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
+                <Route path="/invite/:inviteId" element={<InvitePage />} />
                 <Route path="/channel/:channelId/topic/:topicId" element={<ChannelPage />} />
                 <Route path="/rtc" element={<RtcTestPage />} />
                 <Route path="/404" element={<NotFoundPage />} />
