@@ -63,6 +63,7 @@ const ChannelNavMyStatus = () => {
     const { nickname, status, micEnabled, soundEnabled, setMicEnabled, setSoundEnabled } = useContext(MemberContext);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
+
     useEffect(() => {
         const close = (e) => {
             if (e.keyCode === 27) {
@@ -74,36 +75,34 @@ const ChannelNavMyStatus = () => {
     });
 
     return (
-        <>
-            <ChannelNavMyStatusContainer>
-                <MyInfoGroup>
-                    <AvatarBadge overlap="circular" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} variant="dot">
-                        <Avatar sx={{ width: "32px", height: "32px" }} />
-                    </AvatarBadge>
-                    <NickStatusBox>
-                        <NicknameContainer>{nickname}</NicknameContainer>
-                        <StatusContainer>{status}</StatusContainer>
-                    </NickStatusBox>
-                </MyInfoGroup>
-                <MySettingGroup>
-                    <IconButton size="small" sx={{ borderRadius: "2px" }} onClick={() => setMicEnabled(!micEnabled)}>
-                        {micEnabled ? <Mic /> : <MicOff />}
-                    </IconButton>
-                    <IconButton size="small" sx={{ borderRadius: "2px" }} onClick={() => setSoundEnabled(!soundEnabled)}>
-                        {soundEnabled ? <HeadsetMic /> : <HeadsetOff />}
-                    </IconButton>
-                    <IconButton size="small" sx={{ borderRadius: "2px" }} onClick={() => setOpen(true)}>
-                        <Settings />
-                    </IconButton>
-                </MySettingGroup>
-            </ChannelNavMyStatusContainer>
-            <Modal
-                open={open}
-                onClose={handleClose}
-            >
-                <MyPage />
+        <ChannelNavMyStatusContainer>
+            <MyInfoGroup>
+                <AvatarBadge overlap="circular" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} variant="dot">
+                    <Avatar sx={{ width: "32px", height: "32px" }} />
+                </AvatarBadge>
+                <NickStatusBox>
+                    <NicknameContainer>{nickname}</NicknameContainer>
+                    <StatusContainer>{status}</StatusContainer>
+                </NickStatusBox>
+            </MyInfoGroup>
+            <MySettingGroup>
+                <IconButton size="small" sx={{ borderRadius: "2px" }} onClick={() => setMicEnabled(!micEnabled)}>
+                    {micEnabled ? <Mic /> : <MicOff />}
+                </IconButton>
+                <IconButton size="small" sx={{ borderRadius: "2px" }} onClick={() => setSoundEnabled(!soundEnabled)}>
+                    {soundEnabled ? <HeadsetMic /> : <HeadsetOff />}
+                </IconButton>
+                <IconButton size="small" sx={{ borderRadius: "2px" }} onClick={() => setOpen(true)}>
+                    <Settings />
+                </IconButton>
+            </MySettingGroup>
+            <Modal open={open} onClose={handleClose}>
+                <>
+                    {/** TODO: MyPage가 아닌 다른 이름으로 변경 필요 */}
+                    <MyPage />
+                </>
             </Modal>
-        </>
+        </ChannelNavMyStatusContainer>
     );
 };
 

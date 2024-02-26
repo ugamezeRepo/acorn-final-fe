@@ -1,4 +1,4 @@
-import { axiosClient } from "@components/AxiosClient";
+import { axiosClient } from "@configs/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";

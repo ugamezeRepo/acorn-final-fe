@@ -1,8 +1,8 @@
 
-import { axiosClient } from "@components/AxiosClient";
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { ChannelMainContent } from "@components/channel/main/content/ChannelMainContent";
 import { ChannelMainHeader } from "@components/channel/main/header/ChannelMainHeader";
+import { axiosClient } from "@configs/AxiosClient";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
