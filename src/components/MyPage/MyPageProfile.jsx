@@ -250,7 +250,7 @@ const MyPageProfile = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleModalClose}>취소</Button>
-                    <Button onClick={handleModalClose} autoFocus>
+                    <Button onClick={handleModalClose} variant="contained" color="error" autoFocus>
                         계정삭제하기
                     </Button>
                 </DialogActions>
