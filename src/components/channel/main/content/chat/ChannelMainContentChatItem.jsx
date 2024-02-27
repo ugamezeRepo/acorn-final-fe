@@ -77,6 +77,11 @@ const ChannelMainContentChatItem = ({
         setEditing(false);
     };
 
+    const checkAdmin = () => {
+        // TODO: check admin by channel role 
+        return true;
+    };
+
     return (
         <ChatItem sx={{ ...listStyle, bgcolor: openPopper ? "#f7f7f7" : null }}
             onMouseOver={handleMouseOver}
@@ -111,12 +116,15 @@ const ChannelMainContentChatItem = ({
                             <Edit sx={{ color: "#313338" }} />
                         </PopperButton>
                     }
-                    <PopperButton disableRipple>
-                        <Delete sx={{ color: "#da373c" }} />
-                    </PopperButton>
+                    {
+                        ((nickname === msg.author.nickname && hashtag === msg.author.hashtag) || checkAdmin()) &&
+                        < PopperButton disableRipple>
+                            <Delete sx={{ color: "#da373c" }} />
+                        </PopperButton>
+                    }
                 </Box>
             </Popper>
-        </ChatItem>
+        </ChatItem >
     );
 };
 
