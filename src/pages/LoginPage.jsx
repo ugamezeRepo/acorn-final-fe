@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 const LoginPageContainer = styled.div`
     width: 100%;
+    height: 100%;
     background-color: #efefef;
     display: flex;
     flex-direction: column;
@@ -12,8 +13,7 @@ const LoginPageContainer = styled.div`
 const LoginPage = () => {
     return (
         <LoginPageContainer>
-            <h2>🌰Dotori</h2>
-            <h5>Login or Create New Account</h5>
+            <h1>🌰Dotori Login</h1>
             <Box sx={{
                 width: 900,
                 height: 600,
@@ -27,7 +27,6 @@ const LoginPage = () => {
                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
             }}>
                 <img src="../public/LoginImg.jpg" width={650} height={400} />
-                <Typography align="center" fontSize={12}>Sign in with</Typography>
                 <Button
                     sx={{
                         width: 150,
