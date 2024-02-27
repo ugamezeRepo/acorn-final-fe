@@ -1,7 +1,7 @@
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Delete, Edit } from "@mui/icons-material";
-import { Avatar, Box, Icon, IconButton, Input, ListItem, Popper } from "@mui/material";
+import { Avatar, Box, IconButton, Input, ListItem, Popper } from "@mui/material";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
