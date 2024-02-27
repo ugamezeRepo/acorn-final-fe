@@ -107,7 +107,7 @@ const ChannelMainContentChatItem = ({
 
             </ContentView>
 
-            <Popper open={openPopper} anchorEl={popperAnchor} placement="top-end">
+            <Popper open={openPopper} anchorEl={popperAnchor} placement="top-end" sx={{ bgcolor: "white" }}>
                 <Box sx={{ border: 0.5, borderColor: "#eaebed", borderRadius: "8px", display: "flex" }}>
                     {
                         // TODO: change user verification logic
