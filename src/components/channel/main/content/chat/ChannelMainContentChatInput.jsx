@@ -63,13 +63,34 @@ const ChannelMainMessageInput = ({ placeholder }) => {
 
     useEffect(() => {
         if (lastJsonMessageOnWebSocket) {
-            const { author, content, createdAt } = lastJsonMessageOnWebSocket;
-            setMessages(msgs => [...msgs, {
-                author,
-                content,
-                createdAt,
-            }]);
+            const { body } = lastJsonMessageOnWebSocket;
+            if (body === null) return;
+            console.log(JSON.stringify(body));
+            const { job, messageDto } = body;
+            const { id, author, content, createdAt } = messageDto;
 
+            if (job === "insert") {
+                setMessages(msgs => [...msgs, {
+                    id,
+                    author,
+                    content,
+                    createdAt,
+                }]);
+            }
+            if (job === "update") {
+                setMessages(msgs => msgs.map(msg => {
+                    if (msg.id === id) {
+                        return {
+                            id, author, content, createdAt
+                        };
+                    }
+                    return msg;
+                }));
+            }
+            if (job === "delete") {
+                console.log(`receive delete message => ${id}`);
+                setMessages(msgs => msgs.filter(msg => msg.id !== id));
+            }
         }
     }, [lastJsonMessageOnWebSocket, setMessages]);
 
@@ -86,11 +107,14 @@ const ChannelMainMessageInput = ({ placeholder }) => {
             e.preventDefault();
             if (message) {
                 sendJsonMessageOnWebSocket({
-                    author: {
-                        nickname,
-                        hashtag
-                    },
-                    content: message,
+                    job: "insert",
+                    messageDto: {
+                        author: {
+                            nickname,
+                            hashtag
+                        },
+                        content: message,
+                    }
                 });
                 setMessage("");
             }

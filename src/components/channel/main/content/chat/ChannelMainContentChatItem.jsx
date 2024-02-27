@@ -1,3 +1,4 @@
+import { ChannelContext } from "@contexts/ChannelContext";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Delete, Edit } from "@mui/icons-material";
@@ -47,10 +48,13 @@ const ChannelMainContentChatItem = ({
     showProfile
 }) => {
     const { nickname, hashtag } = useContext(MemberContext);
+    const { sendJsonMessageOnWebSocket } = useContext(ChannelContext);
+
     const [openPopper, setOpenPopper] = useState(false);
     const [popperAnchor, setPopperAnchor] = useState(null);
     const [isEditing, setEditing] = useState(false);
     const [content, setContent] = useState(msg.content);
+
     const chatItemRef = useRef(null);
 
     useEffect(() => {
@@ -72,14 +76,39 @@ const ChannelMainContentChatItem = ({
 
     const handleEditClick = () => {
         setEditing(true);
+
     };
     const handleEditEnd = () => {
+        sendJsonMessageOnWebSocket({
+            job: "update",
+            messageDto: {
+                id: msg.id,
+                author: {
+                    nickname,
+                    hashtag
+                },
+                content,
+            }
+        });
         setEditing(false);
     };
 
     const checkAdmin = () => {
         // TODO: check admin by channel role 
         return true;
+    };
+
+    const handleDeleteClick = () => {
+        sendJsonMessageOnWebSocket({
+            job: "delete",
+            messageDto: {
+                id: msg.id,
+                author: {
+                    nickname,
+                    hashtag
+                },
+            }
+        });
     };
 
     return (
@@ -92,14 +121,14 @@ const ChannelMainContentChatItem = ({
                 {showProfile && <Avatar />}
             </AvatarView>
 
-            <ContentView>
+            <ContentView onBlurCapture={handleEditEnd}>
                 {showProfile && <AuthorInfo>
                     <div style={{ fontWeight: 700, paddingRight: "8px" }}>{msg.author.nickname}</div>
                     <div>{msg.createdAt[0]}년 {msg.createdAt[1]}월 {msg.createdAt[2]}일 {msg.createdAt[3]}시 {msg.createdAt[4]}분 {msg.createdAt[5]}초</div>
                 </AuthorInfo>}
                 {
                     isEditing
-                        ? <Input value={content} onChange={(e) => setContent(e.target.value)} onBlurCapture={handleEditEnd}></Input>
+                        ? <Input autoFocus value={content} onChange={(e) => setContent(e.target.value)} ></Input>
                         : <ContentMarkdown remarkPlugins={[remarkGfm]}>
                             {content}
                         </ContentMarkdown>
@@ -118,7 +147,7 @@ const ChannelMainContentChatItem = ({
                     }
                     {
                         ((nickname === msg.author.nickname && hashtag === msg.author.hashtag) || checkAdmin()) &&
-                        < PopperButton disableRipple>
+                        < PopperButton disableRipple onClick={handleDeleteClick}>
                             <Delete sx={{ color: "#da373c" }} />
                         </PopperButton>
                     }

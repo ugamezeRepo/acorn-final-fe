@@ -15,18 +15,7 @@ const ChannelMainContainer = styled(BaseContainer)`
 `;
 
 const ChannelMain = () => {
-    const { channelId, topicId } = useParams();
-
-    useEffect(() => {
-        (async () => {
-            const { data: chatList } = await axiosClient.get(`/channel/${channelId}/topic/${topicId}/message`);
-            console.log(chatList);
-        })();
-
-    }, [channelId, topicId]);
-
     const [memeberSidebarOpen, setMemberSidebarOpen] = useState(false);
-
     return (
         <ChannelMainContainer>
             <ChannelMainHeader setMemberSidebarOpen={setMemberSidebarOpen} />

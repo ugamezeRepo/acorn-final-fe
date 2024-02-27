@@ -3,7 +3,7 @@ import { ChannelMainContentChatItem } from "@components/channel/main/content/cha
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { List } from "@mui/material";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 
 const ChannelMainContentList = styled(List)`
@@ -49,18 +49,26 @@ const ChannelMainContentChatView = () => {
     /**
      * @type {React.RefObject<HTMLDivElement>}
      */
-    const endOfMessage = useRef(null);
+    const endOfMessageRef = useRef(null);
+    const chatListRef = useRef(null);
     const { messages } = useContext(ChannelContext);
-
+    const firstLoading = useRef(true);
 
     useEffect(() => {
-        endOfMessage.current?.scrollIntoView();
-    }, [endOfMessage, messages]);
+        if (messages.length === 0) return;
+        const chatList = chatListRef.current;
+        if (chatList) {
+            if (firstLoading.current || chatList.scrollHeight - chatList.scrollTop <= 1500) {
+                endOfMessageRef.current?.scrollIntoView();
+                firstLoading.current = false;
+            }
+        }
+    }, [messages]);
 
     return (
         <ChannelMainContentChatViewContainer>
 
-            <ChannelMainContentList>
+            <ChannelMainContentList ref={chatListRef}>
                 {messages.map((msg, idx) => {
                     return (
                         <ChannelMainContentChatItem
@@ -72,7 +80,7 @@ const ChannelMainContentChatView = () => {
                             } />
                     );
                 })}
-                <div ref={endOfMessage}></div>
+                <div ref={endOfMessageRef}></div>
             </ChannelMainContentList>
             <ChannelMainContentChatInput />
         </ChannelMainContentChatViewContainer >
