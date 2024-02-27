@@ -63,11 +63,12 @@ const ChannelMainContentChatView = () => {
             <ChannelMainContentList>
                 {messages.map((msg, idx) => {
                     return (
-                        <ChannelMainContentChatItem key={idx}
+                        <ChannelMainContentChatItem
+                            key={idx}
                             msg={msg}
                             showProfile={
                                 idx === 0 ||
-                                messages[idx - 1].author !== messages[idx].author
+                                messages[idx - 1].author.email !== messages[idx].author.email
                             } />
                     );
                 })}
