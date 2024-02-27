@@ -5,26 +5,26 @@ import styled from "@emotion/styled";
 
 
 const MyPageMainContainer = styled(BaseContainer)`
-    background-color: #fff;
+    background-color: #f2f3f5;
     display: flex;
     flex-direction: row;
 `;
 
 const MyPageNavContainer = styled.div`
-    min-width:192px;
-    height: 100vh;
-    padding:60px 20px 60px 6px;
-    background-color: #f2f3f5;
-    flex: 1;
+    min-width: 192px;
+    width: 477px;
+    background-color: #e2e4e7;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 `;
 
 const MyPageProfileContainer = styled.div`
-    min-width: 700px;
-    flex: 3;
+    min-width: 550px;
+    width: 100%;
+    padding: 60px 40px 80px 40px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow-y: auto;
 `;
 
 
