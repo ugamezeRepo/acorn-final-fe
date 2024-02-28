@@ -9,16 +9,14 @@ import PropTypes from "prop-types";
 
 const AppContextProvider = ({ children }) => {
     return (
-        <GoogleOAuthProvider clientId={getGoogleOAuth2ClientId()}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <MemberContextProvider>
-                    <ChannelContextProvider>
-                        {children}
-                    </ChannelContextProvider>
-                </MemberContextProvider>
-            </ThemeProvider>
-        </GoogleOAuthProvider>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <MemberContextProvider>
+                <ChannelContextProvider>
+                    {children}
+                </ChannelContextProvider>
+            </MemberContextProvider>
+        </ThemeProvider>
     );
 };
 
