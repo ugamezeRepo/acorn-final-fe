@@ -40,16 +40,16 @@ const CreateChannelButton = styled(Button)`
     border-radius: 50%;
     min-width: 40px;
     left:22%;
-    background-color: gray;
+    background-color: #bdbdbd;
     margin-top:10px;
     font-size: 26px;
-    color: #1bc01b;
+    color: #138013;
     text-align: center;
     &:hover {
         border-radius: 10px;
         transition: border-radius 0.3s ease-in-out;
         color: white;
-        background-color: #1bc01b;
+        background-color: #138013;
     }
     
 `;
@@ -85,8 +85,6 @@ const GlobalChannelNav = () => {
                 }
                 <CreateChannelButton onClick={handleOpenCreateModal}>+</CreateChannelButton>
             </GlobalChannelNavList>
-
-
 
             <Popover
                 open={openCreateModal}
