@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/channel/@me" element={<MyChannelPage />} />
                 <Route path="/channel/:channelId/topic/:topicId" element={<ChannelPage />} />
-                <Route path="/invite/:inviteId" element={<InvitePage />} />
+                <Route path="/invite/:inviteCode" element={<InvitePage />} />
                 <Route path="/rtc" element={<RtcTestPage />} />
                 <Route path="/404" element={<NotFoundPage />} />
                 <Route path="/signup" element={<SignupPage />} />
