@@ -2,6 +2,15 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import PropTypes from "prop-types";
 
 const LogoutModal = ({ open, close }) => {
+    const DeleteCookies = () => {
+        close();
+        const cookies = document.cookie.split("; ");
+        const expiration = "Sat, 01 Jan 1972 00:00:00 GMT";
+        for (let i = 0; i < cookies.length; i++) {
+            document.cookie = cookies[i].split("=")[0] + "=; expires=" + expiration;
+        }
+    };
+
     return (
         <Dialog
             open={open}
@@ -17,7 +26,7 @@ const LogoutModal = ({ open, close }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={close}>취소</Button>
-                <Button onClick={close} variant="contained" color="error" autoFocus>
+                <Button onClick={DeleteCookies} variant="contained" color="error" autoFocus>
                     로그아웃
                 </Button>
             </DialogActions>
