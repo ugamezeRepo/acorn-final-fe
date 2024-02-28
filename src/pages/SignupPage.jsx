@@ -1,6 +1,6 @@
-import { axiosClient } from "@configs/AxiosClient";
 import styled from "@emotion/styled";
 import { Button, FormControl, FormLabel, TextField } from "@mui/material";
+import { axiosClient } from "@utils/axiosClient";
 import { useState } from "react";
 
 const SignupContainer = styled.div`
