@@ -13,6 +13,7 @@ export default defineConfig({
             { find: "@routes", replacement: path.resolve(__dirname, "src", "routes") },
             { find: "@contexts", replacement: path.resolve(__dirname, "src", "contexts") },
             { find: "@configs", replacement: path.resolve(__dirname, "src", "configs") },
+            { find: "@assets", replacement: path.resolve(__dirname, "src", "assets") },
         ]
     }
 });

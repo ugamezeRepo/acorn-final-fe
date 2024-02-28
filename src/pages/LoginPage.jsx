@@ -1,3 +1,4 @@
+import loginBanner from "@assets/loginBanner.jpg";
 import { getHttpBaseUrl, getGoogleOAuth2ClientId } from "@configs/env";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
@@ -62,7 +63,7 @@ const LoginPage = () => {
                 alignItems: "center",
                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
             }}>
-                <img src="../public/LoginImg.jpg" width={650} height={400} />
+                <img src={loginBanner} width={650} height={400} />
                 <GoogleLoginButton onClick={handleGoogleLogin}>
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">

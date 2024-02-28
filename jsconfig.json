@@ -19,6 +19,9 @@
             "@configs/*": [
                 "configs/*"
             ],
+            "@assets/*": [
+                "assets/*"
+            ],
         }
     }
 }
