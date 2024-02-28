@@ -58,7 +58,7 @@ const DeleteAccountContainer = styled.div`
 `;
 
 
-const MyPageProfile = () => {
+const MySettingProfile = () => {
 
     const { nickname, hashtag, email } = useContext(MemberContext);
 
@@ -136,17 +136,6 @@ const MyPageProfile = () => {
                             >
                             </Avatar>
                             <div style={{ width: 300, fontSize: 20 }}>{nickname}</div>
-                            <Button
-                                variant="contained"
-                                size="medium"
-                                sx={{
-                                    width: "150px",
-                                    height: "35px"
-                                }}
-                                onClick={handleTextfieldOpen}
-                            >
-                                프로필 편집
-                            </Button>
                         </UserInfo>
                         <Box sx={{
                             bgcolor: "#ebedef",
@@ -259,4 +248,4 @@ const MyPageProfile = () => {
     );
 };
 
-export { MyPageProfile };
+export { MySettingProfile };

@@ -1,8 +1,8 @@
-import { LogoutModal } from "@components/MyPage/LogoutModal";
+import { LogoutModal } from "@components/my-setting/LogoutModal";
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { useState } from "react";
 
-const MyPageNav = () => {
+const MySettingNav = () => {
     const [logoutOpen, setLogoutOpen] = useState(false);
 
     const handleOpen = () => {
@@ -38,4 +38,4 @@ const MyPageNav = () => {
         </>
     );
 };
-export { MyPageNav };
+export { MySettingNav };

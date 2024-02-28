@@ -1,7 +1,9 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
-import { MyPageNav } from "@components/MyPage/MyPageNav";
-import { MyPageProfile } from "@components/MyPage/MyPageProfile";
+import { MySettingNav } from "@components/my-setting/MySettingNav";
+import { MySettingProfile } from "@components/my-setting/MySettingProfile";
 import styled from "@emotion/styled";
+
+
 
 
 const MyPageMainContainer = styled(BaseContainer)`
@@ -28,17 +30,17 @@ const MyPageProfileContainer = styled.div`
 `;
 
 
-const MyPage = () => {
+const MySetting = () => {
 
     return (
         <MyPageMainContainer>
             <MyPageNavContainer>
-                <MyPageNav />
+                <MySettingNav />
             </MyPageNavContainer>
             <MyPageProfileContainer>
-                <MyPageProfile />
+                <MySettingProfile />
             </MyPageProfileContainer>
         </MyPageMainContainer>
     );
 };
-export { MyPage };
+export { MySetting };
