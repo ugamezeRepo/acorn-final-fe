@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 
 
 
-const MyPageProfileContainer = styled.div`
+const MySettingProfileContainer = styled.div`
     width: 660px;
     min-width: 660px;
     height: 100vh;
@@ -58,7 +58,7 @@ const DeleteAccountContainer = styled.div`
 `;
 
 
-const MyPageProfile = () => {
+const MySettingProfile = () => {
 
     const { nickname, hashtag, email } = useContext(MemberContext);
 
@@ -112,7 +112,7 @@ const MyPageProfile = () => {
 
     return (
         <>
-            <MyPageProfileContainer>
+            <MySettingProfileContainer>
                 <h3>내계정</h3>
                 <div style={{ position: "relative" }}>
                     <Banner />
@@ -136,17 +136,6 @@ const MyPageProfile = () => {
                             >
                             </Avatar>
                             <div style={{ width: 300, fontSize: 20 }}>{nickname}</div>
-                            <Button
-                                variant="contained"
-                                size="medium"
-                                sx={{
-                                    width: "150px",
-                                    height: "35px"
-                                }}
-                                onClick={handleTextfieldOpen}
-                            >
-                                프로필 편집
-                            </Button>
                         </UserInfo>
                         <Box sx={{
                             bgcolor: "#ebedef",
@@ -215,7 +204,7 @@ const MyPageProfile = () => {
                         계정  삭제하기
                     </Button>
                 </DeleteAccountContainer>
-            </MyPageProfileContainer>
+            </MySettingProfileContainer>
             <Snackbar
                 open={snackbarOpen}
                 message="저장하지 않은 변경사항이 있어요"
@@ -259,4 +248,4 @@ const MyPageProfile = () => {
     );
 };
 
-export { MyPageProfile };
+export { MySettingProfile };

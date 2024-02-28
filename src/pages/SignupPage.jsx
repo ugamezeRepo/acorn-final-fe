@@ -11,7 +11,7 @@ const SignupPage = () => {
     return (
         <SignupContainer>
             <form style={{ display: "flex", flexDirection: "column", width: 400 }}>
-                <h3 style={{ textAlign: "center" }}>SignUp Page</h3>
+                <h3 style={{ textAlign: "center" }}>SignUp</h3>
                 <FormControl
                     sx={{
                         margin: 5
