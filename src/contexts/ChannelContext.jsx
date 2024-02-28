@@ -8,7 +8,7 @@ import useWebSocket from "react-use-websocket";
 
 const ChannelContext = createContext({
     topics: [],
-    currentChannel: { id: null, name: null, thumbnail: null },
+    currentChannel: { id: null, name: null, thumbnail: null, inviteCode: null },
     currentTopic: { id: null, title: null },
     messages: [],
     lastJsonMessageOnWebSocket: null,
@@ -25,7 +25,7 @@ const ChannelContextProvider = ({ children }) => {
     const [topics, setTopics] = useState([]);
 
     const { channels } = useContext(MemberContext);
-    const [currentChannel, setCurrentChannel] = useState({ id: null, name: null, thumbnail: null });
+    const [currentChannel, setCurrentChannel] = useState({ id: null, name: null, thumbnail: null, inviteCode: null });
     const [currentTopic, setCurrentTopic] = useState({ id: null, title: null });
     const [messages, setMessages] = useState([]);
 

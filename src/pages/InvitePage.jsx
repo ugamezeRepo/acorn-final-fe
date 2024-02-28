@@ -1,6 +1,4 @@
-import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import { useContext } from "react";
 
 const InviteContainer = styled.div`
     height:100vh;
@@ -23,11 +21,15 @@ const InvitePage = () => {
     return (
         <InviteContainer>
             <InviteModal>
-                <div>
-                    <div>썸네일</div>
-                    <h3>채널 이름</h3>
-                </div>
-                <button>초대 수락하기</button>
+                <form action="">
+                    <div>
+                        <div>썸네일</div>
+                        <h3>채널 이름</h3>
+                    </div>
+                    <button>초대 수락하기</button>
+                </form>
+
+                
             </InviteModal>
         </InviteContainer>
     );
