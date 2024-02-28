@@ -3,7 +3,6 @@ import { getWsBaseUrl } from "@configs/env";
 import { MemberContext } from "@contexts/MemberContext";
 import PropTypes from "prop-types";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
 const ChannelContext = createContext({
@@ -21,7 +20,6 @@ const ChannelContext = createContext({
 
 
 const ChannelContextProvider = ({ children }) => {
-    const navigate = useNavigate();
     const [topics, setTopics] = useState([]);
 
     const { channels } = useContext(MemberContext);
@@ -58,11 +56,6 @@ const ChannelContextProvider = ({ children }) => {
             setMessages(messages);
         })();
     }, [currentTopic, currentChannel, setMessages]);
-    useEffect(() => {
-        if (currentTopic.id && currentChannel.id) {
-            navigate(`/channel/${currentChannel.id}/topic/${currentTopic.id}`);
-        }
-    }, [currentTopic, currentChannel, navigate]);
 
     return (
         <ChannelContext.Provider value={{
