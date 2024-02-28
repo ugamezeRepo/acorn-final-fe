@@ -1,6 +1,4 @@
-import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import { useContext } from "react";
 
 const InviteContainer = styled.div`
     height:100vh;
