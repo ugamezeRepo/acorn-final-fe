@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 
 
 
-const MyPageProfileContainer = styled.div`
+const MySettingProfileContainer = styled.div`
     width: 660px;
     min-width: 660px;
     height: 100vh;
@@ -112,7 +112,7 @@ const MySettingProfile = () => {
 
     return (
         <>
-            <MyPageProfileContainer>
+            <MySettingProfileContainer>
                 <h3>내계정</h3>
                 <div style={{ position: "relative" }}>
                     <Banner />
@@ -204,7 +204,7 @@ const MySettingProfile = () => {
                         계정  삭제하기
                     </Button>
                 </DeleteAccountContainer>
-            </MyPageProfileContainer>
+            </MySettingProfileContainer>
             <Snackbar
                 open={snackbarOpen}
                 message="저장하지 않은 변경사항이 있어요"

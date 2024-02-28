@@ -6,13 +6,13 @@ import styled from "@emotion/styled";
 
 
 
-const MyPageMainContainer = styled(BaseContainer)`
+const MySettingMainContainer = styled(BaseContainer)`
     background-color: #f2f3f5;
     display: flex;
     flex-direction: row;
 `;
 
-const MyPageNavContainer = styled.div`
+const MySettingNavContainer = styled.div`
     min-width: 192px;
     width: 477px;
     background-color: #e2e4e7;
@@ -20,7 +20,7 @@ const MyPageNavContainer = styled.div`
     justify-content: flex-end;
 `;
 
-const MyPageProfileContainer = styled.div`
+const MySettingProfileContainer = styled.div`
     min-width: 550px;
     width: 100%;
     padding: 60px 40px 80px 40px;
@@ -33,14 +33,14 @@ const MyPageProfileContainer = styled.div`
 const MySetting = () => {
 
     return (
-        <MyPageMainContainer>
-            <MyPageNavContainer>
+        <MySettingMainContainer>
+            <MySettingNavContainer>
                 <MySettingNav />
-            </MyPageNavContainer>
-            <MyPageProfileContainer>
+            </MySettingNavContainer>
+            <MySettingProfileContainer>
                 <MySettingProfile />
-            </MyPageProfileContainer>
-        </MyPageMainContainer>
+            </MySettingProfileContainer>
+        </MySettingMainContainer>
     );
 };
 export { MySetting };
