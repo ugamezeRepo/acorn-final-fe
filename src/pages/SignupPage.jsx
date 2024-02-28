@@ -20,10 +20,7 @@ const SignupPage = () => {
     };
 
     const handleSubmit = () => {
-        axiosClient.post("/member/signup", signupData)
-            .then(res => {
-                console.log(res.data.isSuccess);
-            });
+        axiosClient.post("/member/signup", signupData);
     };
 
     return (
