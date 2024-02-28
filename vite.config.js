@@ -17,7 +17,7 @@ export default defineConfig({
         ]
     },
     server: {
-        proxy: (process.env === "development") ? {
+        proxy: (process.env.NODE_ENV === "development") ? {
             "/api": {
                 target: "http://localhost:9000",
                 changeOrigin: true,
