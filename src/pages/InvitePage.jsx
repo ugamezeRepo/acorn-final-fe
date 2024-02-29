@@ -17,7 +17,6 @@ const InviteModal = styled.div`
 `;
 
 const InvitePage = () => {
-
     return (
         <InviteContainer>
             <InviteModal>

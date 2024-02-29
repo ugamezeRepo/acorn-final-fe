@@ -1,7 +1,7 @@
-import { axiosClient } from "@configs/AxiosClient";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Avatar, Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField } from "@mui/material";
+import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
 
 
