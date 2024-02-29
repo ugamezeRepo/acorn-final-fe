@@ -12,6 +12,7 @@ const SignupContainer = styled.div`
 const SignupPage = () => {
     const navigate = useNavigate();
     const [signupData, setSignupData] = useState({ nickname: "", hashtag: "" });
+    const [hashtagError, setHashtagError] = useState(false);
 
     const handleChange = (e) => {
         setSignupData({
@@ -21,8 +22,14 @@ const SignupPage = () => {
     };
 
     const handleSubmit = async () => {
-        await axiosClient.post("/member/signup", signupData);
-        navigate("/channel/@me");
+        const hashtagRegex = /^\d{4}$/;
+        if (!hashtagRegex.test(signupData.hashtag)) {
+            setHashtagError(true);
+        } else {
+            setHashtagError(false);
+            await axiosClient.post("/member/signup", signupData);
+            navigate("/channel/@me");
+        }
     };
 
     return (
@@ -58,6 +65,8 @@ const SignupPage = () => {
                         required
                         name="hashtag"
                         onChange={handleChange}
+                        error={hashtagError}
+                        helperText="숫자 4자리를 입력하세요"
                     />
                 </FormControl>
                 <Button
