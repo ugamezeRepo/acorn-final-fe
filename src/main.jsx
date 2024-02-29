@@ -7,10 +7,9 @@ import { MyChannelPage } from "@pages/MyChannelPage";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { RtcTestPage } from "@pages/RtcTestPage";
 import { SignupPage } from "@pages/SignupPage";
-import { getAuthenticationCookie } from "@utils/cookieManager";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
