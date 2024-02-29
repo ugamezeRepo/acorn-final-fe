@@ -16,7 +16,6 @@ const LogoutModal = ({ open, close }) => {
                         setStatus("offline");
                     }
                     deleteCookie("Authorization");
-                    deleteCookie("RefreshToken");
                     close();
                 });
         })();
