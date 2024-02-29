@@ -1,6 +1,6 @@
-import { axiosClient } from "@configs/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import { MemberContext } from "@contexts/MemberContext";
+import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const ChannelContext = createContext({
     currentTopic: { id: null, title: null },
     messages: [],
     lastJsonMessageOnWebSocket: null,
-    channelUsers: null, 
+    channelUsers: null,
     sendJsonMessageOnWebSocket: () => { },
     setTopics: () => { },
     setCurrentChannel: () => { },
@@ -30,9 +30,9 @@ const ChannelContextProvider = ({ children }) => {
     const [currentTopic, setCurrentTopic] = useState({ id: null, title: null });
     const [messages, setMessages] = useState([]);
     const [channelUsers, setChannelUsers] = useState([]);
-    const { lastJsonMessage : webSocketChannelMemberStatus } = useWebSocket(
-        currentChannel.id 
-            ?`${getWsBaseUrl()}/connection/channel/${currentChannel.id}/members`
+    const { lastJsonMessage: webSocketChannelMemberStatus } = useWebSocket(
+        currentChannel.id
+            ? `${getWsBaseUrl()}/connection/channel/${currentChannel.id}/members`
             : null
     );
 
@@ -75,7 +75,7 @@ const ChannelContextProvider = ({ children }) => {
     useEffect(() => {
         setChannelUsers(webSocketChannelMemberStatus);
     }, [webSocketChannelMemberStatus, setChannelUsers]);
-    
+
     return (
         <ChannelContext.Provider value={{
             topics,
