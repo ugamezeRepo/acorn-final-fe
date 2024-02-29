@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Button, FormControl, FormLabel, TextField } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignupContainer = styled.div`
     display: flex;
@@ -9,7 +10,7 @@ const SignupContainer = styled.div`
 `;
 
 const SignupPage = () => {
-
+    const navigate = useNavigate();
     const [signupData, setSignupData] = useState({ nickname: "", hashtag: "" });
 
     const handleChange = (e) => {
@@ -19,8 +20,9 @@ const SignupPage = () => {
         });
     };
 
-    const handleSubmit = () => {
-        axiosClient.post("/member/signup", signupData);
+    const handleSubmit = async () => {
+        await axiosClient.post("/member/signup", signupData);
+        navigate("/channel/@me");
     };
 
     return (
