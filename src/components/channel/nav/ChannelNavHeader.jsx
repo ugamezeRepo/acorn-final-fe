@@ -57,10 +57,13 @@ const ChannelNavHeader = () => {
     };
 
     const deleteChannel = async () => {
-        await axiosClient.delete(`/channel/${currentChannel.id}`);
-        const { data: channels } = await axiosClient.get("/member/@me/channel");
-        setChannels(channels);
-        navigate("/channel/@me");
+        const confirm = window.confirm("진짜 삭제할겨?");
+        if (confirm) {
+            await axiosClient.delete(`/channel/${currentChannel.id}`);
+            const { data: channels } = await axiosClient.get("/member/@me/channel");
+            setChannels(channels);
+            navigate("/channel/@me");
+        }
     };
 
     return (
@@ -77,7 +80,7 @@ const ChannelNavHeader = () => {
                         <AddList>
                             <li onClick={handleOpenAddInvite}>초대하기</li>
                             <hr />
-                            <li onClick={deleteChannel}>채널 나가기</li>
+                            <li onClick={deleteChannel}>채널 삭제</li>
                         </AddList>
                     </div>
                 </ChannelSettingPopOver>
