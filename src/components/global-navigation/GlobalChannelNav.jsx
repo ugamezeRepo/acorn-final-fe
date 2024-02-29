@@ -41,13 +41,13 @@ const CreateChannelButton = styled(Button)`
     background-color: #bdbdbd;
     margin-top:10px;
     font-size: 26px;
-    color: #138013;
+    color: #18a518;
     text-align: center;
     &:hover {
         border-radius: 10px;
         transition: border-radius 0.3s ease-in-out;
         color: white;
-        background-color: #138013;
+        background-color: #18a518;
     }
 `;
 
