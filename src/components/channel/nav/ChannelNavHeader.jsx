@@ -1,10 +1,13 @@
 import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
 import { InviteModal } from "@components/global-navigation/InviteModal";
 import { ChannelContext } from "@contexts/ChannelContext";
+import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import { Close, ExpandMore } from "@mui/icons-material";
+import { ArrowForwardIos, Close, ExpandMore } from "@mui/icons-material";
 import { List, Popover } from "@mui/material";
+import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ChannelNavHeaderContainer = styled(BaseHeaderContainer)`
     flex-grow: 0; 
@@ -38,7 +41,9 @@ const ChannelSettingPopOver = styled(Popover)``;
 const InviteModalPopOver = styled(Popover)``;
 
 const ChannelNavHeader = () => {
+    const { setChannels } = useContext(MemberContext);
     const { currentChannel } = useContext(ChannelContext);
+    const navigate = useNavigate();
     const [channelSettingOpened, setChannelSettingOpened] = useState(false);
     const [inviteOpen, setInviteOpen] = useState(null);
     const handleOpenInviteModal = Boolean(inviteOpen);
@@ -51,22 +56,34 @@ const ChannelNavHeader = () => {
         setInviteOpen(null);
     };
 
+    const deleteChannel = async () => {
+        await axiosClient.delete(`/channel/${currentChannel.id}`);
+        const { data: channels } = await axiosClient.get("/member/@me/channel");
+        setChannels(channels);
+        navigate("/channel/@me");
+    };
+
     return (
-        <ChannelNavHeaderContainer onClick={() => setChannelSettingOpened(status => !status)}>
-            <ChannelLabel>{currentChannel?.name}</ChannelLabel>
-            <ChannelSettingPopOver
-                open={channelSettingOpened}
-                anchorReference="anchorPosition"
-                anchorPosition={{ top: 55, left: 80 }}
-            >
-                <div style={{ width: "225px" }}>
-                    <AddList>
-                        <li onClick={handleOpenAddInvite}>초대하기</li>
-                        <hr />
-                    </AddList>
-                </div>
-            </ChannelSettingPopOver>
-            {channelSettingOpened ? <Close /> : <ExpandMore />}
+        <div>
+
+            <ChannelNavHeaderContainer onClick={() => setChannelSettingOpened(status => !status)}>
+                <ChannelLabel>{currentChannel?.name}</ChannelLabel>
+                <ChannelSettingPopOver
+                    open={channelSettingOpened}
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: 55, left: 80 }}
+                >
+                    <div style={{ width: "225px" }}>
+                        <AddList>
+                            <li onClick={handleOpenAddInvite}>초대하기</li>
+                            <hr />
+                            <li onClick={deleteChannel}>채널 나가기</li>
+                        </AddList>
+                    </div>
+                </ChannelSettingPopOver>
+                {channelSettingOpened ? <Close /> : <ExpandMore />}
+
+            </ChannelNavHeaderContainer>
             <InviteModalPopOver
                 open={handleOpenInviteModal}
                 onClose={handleCloseInviteModal}
@@ -80,9 +97,9 @@ const ChannelNavHeader = () => {
                     vertical: "center",
                     horizontal: "center",
                 }}>
-                <InviteModal inviteCode={currentChannel.inviteCode} />
+                <InviteModal name={currentChannel?.name} inviteCode={currentChannel.inviteCode} />
             </InviteModalPopOver>
-        </ChannelNavHeaderContainer>
+        </div>
     );
 };
 
