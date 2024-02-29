@@ -10,15 +10,11 @@ import { Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { useContext, useState } from "react";
 
-
-
-
 const GlobalChannelNavContainer = styled(BaseContainer)`
     min-width: 72px;
     max-width: 72px;
     background-color: #e2e4e7;
     overflow: auto;
-
 
     /** hidden scrollbar  **/
     &::-webkit-scrollbar {
@@ -45,17 +41,15 @@ const CreateChannelButton = styled(Button)`
     background-color: #bdbdbd;
     margin-top:10px;
     font-size: 26px;
-    color: #138013;
+    color: #18a518;
     text-align: center;
     &:hover {
         border-radius: 10px;
         transition: border-radius 0.3s ease-in-out;
         color: white;
-        background-color: #138013;
+        background-color: #18a518;
     }
-    
 `;
-
 
 const GlobalChannelNav = () => {
     const { channels } = useContext(MemberContext);

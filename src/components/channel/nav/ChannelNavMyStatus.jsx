@@ -61,7 +61,7 @@ const StatusContainer = styled.div`
 
 
 const ChannelNavMyStatus = () => {
-    const { nickname, status, micEnabled, soundEnabled, setMicEnabled, setSoundEnabled } = useContext(MemberContext);
+    const { nickname, email, status, micEnabled, soundEnabled, setMicEnabled, setSoundEnabled } = useContext(MemberContext);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
 
@@ -83,6 +83,7 @@ const ChannelNavMyStatus = () => {
                 </AvatarBadge>
                 <NickStatusBox>
                     <NicknameContainer>{nickname}</NicknameContainer>
+                    <NicknameContainer>{email}</NicknameContainer>
                     <StatusContainer>{status}</StatusContainer>
                 </NickStatusBox>
             </MyInfoGroup>
