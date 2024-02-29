@@ -22,12 +22,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <Route path="/channel/:channelId/topic/:topicId" element={<SecureComponent val={<ChannelPage />} />} />
                     <Route path="/invite/:inviteCode" element={<SecureComponent val={<InvitePage />} />} />
                     <Route path="/signup" element={<SecureComponent val={<SignupPage />} />} />
-
-
+                    <Route path="/" element={<SecureComponent val={<MyChannelPage />} />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/rtc" element={<RtcTestPage />} />
-                    <Route path="/404" element={<NotFoundPage />} />
-                    <Route path="*" element={getAuthenticationCookie() ? <Navigate to='/channel/@me' /> : <LoginPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </AppContextProvider>
         </BrowserRouter>
