@@ -14,6 +14,15 @@ export default defineConfig({
             { find: "@contexts", replacement: path.resolve(__dirname, "src", "contexts") },
             { find: "@configs", replacement: path.resolve(__dirname, "src", "configs") },
             { find: "@assets", replacement: path.resolve(__dirname, "src", "assets") },
+            { find: "@utils", replacement: path.resolve(__dirname, "src", "utils") },
         ]
+    },
+    server: {
+        proxy: {
+            "/api": {
+                target: "http://localhost:9000",
+                changeOrigin: true,
+            }
+        },
     }
 });

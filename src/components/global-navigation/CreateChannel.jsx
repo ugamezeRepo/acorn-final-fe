@@ -1,5 +1,5 @@
-import { axiosClient } from "@configs/AxiosClient";
 import { MemberContext } from "@contexts/MemberContext";
+import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
 
 const CreateChannel = () => {
