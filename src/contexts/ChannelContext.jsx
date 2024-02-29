@@ -1,6 +1,6 @@
-import { axiosClient } from "@configs/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import { MemberContext } from "@contexts/MemberContext";
+import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { createContext, useContext, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";

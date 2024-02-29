@@ -1,4 +1,3 @@
-import { axiosClient } from "@configs/AxiosClient";
 import { getWsBaseUrl } from "@configs/env";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
@@ -33,13 +32,13 @@ const MemberContextProvider = ({ children }) => {
      * }
      */
     const [channels, setChannels] = useState([]);
-    const [nickname, setNickname] = useState("admin");
-    const [hashtag, setHashtag] = useState(7777);
-    const [email, setEmail] = useState("admin@gmail.com");
-    const [micEnabled, setMicEnabled] = useState(true);
-    const [soundEnabled, setSoundEnabled] = useState(true);
-    const [status, setStatus] = useState("온라인");
-    const pingWebSocket = useWebSocket(getWsBaseUrl() + "/connection/ping");
+    const [nickname, setNickname] = useState(null);
+    const [hashtag, setHashtag] = useState(0);
+    const [email, setEmail] = useState(null);
+    const [micEnabled, setMicEnabled] = useState(false);
+    const [soundEnabled, setSoundEnabled] = useState(false);
+    const [status, setStatus] = useState(null);
+    const pingWebSocket = useWebSocket(`${getWsBaseUrl()}/connection/ping`);
 
 
     // initialize ping - pong websocket connection 
@@ -50,15 +49,6 @@ const MemberContextProvider = ({ children }) => {
             hashtag,
         });
     }, [email, nickname, hashtag, pingWebSocket]);
-
-    // initialize user channels 
-    useEffect(() => {
-        (async () => {
-            const { data } = await axiosClient.get("/member/@me/channel");
-            setChannels(data);
-        })();
-    }, [setChannels]);
-
 
     return (
         <MemberContext.Provider value={{

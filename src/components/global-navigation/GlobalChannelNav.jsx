@@ -2,12 +2,14 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { CreateChannel } from "@components/global-navigation/CreateChannel";
 import { GlobalChannelNavItem } from "@components/global-navigation/GlobalChannelNavItem";
+import { GlobalChannelNavMyPageItem } from "@components/global-navigation/GlobalChannelNavMyPageItem";
 import { MemberContext } from "@contexts/MemberContext";
 import { Divider, List } from "@mui/material";
 import { Popover } from "@mui/material";
 import { Button } from "@mui/material";
 import { styled } from "@mui/system";
 import { useContext, useState } from "react";
+
 
 
 
@@ -73,12 +75,7 @@ const GlobalChannelNav = () => {
     return (
         <GlobalChannelNavContainer>
             <GlobalChannelNavList>
-                <GlobalChannelNavItem channel={
-                    {
-                        id: "@me",
-                        name: "mypage"
-                    }
-                } />
+                <GlobalChannelNavMyPageItem />
                 <Divider sx={{ margin: "0 16px", borderWidth: "1px" }} />
                 {
                     channels.map((c, idx) => <GlobalChannelNavItem key={idx} channel={c} />)
