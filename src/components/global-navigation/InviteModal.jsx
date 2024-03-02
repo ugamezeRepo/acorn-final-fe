@@ -25,7 +25,7 @@ const InviteModal = ({ name, inviteCode }) => {
     );
 };
 
-InviteModal.protTypes = {
+InviteModal.propTypes = {
     name: PropTypes.string.isRequired,
     inviteCode: PropTypes.string.isRequired
 };

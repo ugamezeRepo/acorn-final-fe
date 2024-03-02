@@ -2,12 +2,12 @@ import { BaseContainer } from "@components/basis/BaseContainer";
 import { ChannelNavHeader } from "@components/channel/nav/ChannelNavHeader";
 import { ChannelNavItem } from "@components/channel/nav/ChannelNavItem";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
+import { CreateTopic } from "@components/channel/nav/CreateTopic";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { List, Popover } from "@mui/material";
 import { useContext, useState } from "react";
 
-import { CreateTopic } from "./CreateTopic";
 
 const ChannelNavContainer = styled(BaseContainer)`
     max-width: 240px;
