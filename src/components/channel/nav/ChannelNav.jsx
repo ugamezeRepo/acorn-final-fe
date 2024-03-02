@@ -4,8 +4,10 @@ import { ChannelNavItem } from "@components/channel/nav/ChannelNavItem";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
-import { List } from "@mui/material";
-import { useContext } from "react";
+import { List, Popover } from "@mui/material";
+import { useContext, useState } from "react";
+
+import { CreateTopic } from "./CreateTopic";
 
 const ChannelNavContainer = styled(BaseContainer)`
     max-width: 240px;
@@ -45,18 +47,62 @@ const ChannelNavList = styled(List)`
     }
 `;
 
+const AddTopicButton = styled.div`
+    font-size: 13px;
+    color:#a8a8a8;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding:0 15px;
+`;
+
+const AddTopicModal = styled(Popover)`
+    
+`;
+
 const ChannelNav = () => {
     const { topics } = useContext(ChannelContext);
+    const [openTopic, setOpenTopic] = useState(null);
+    const OpenAddTopicModal = Boolean(openTopic);
+
+    const AddTopic = (e) => {
+        setOpenTopic(e.currentTarget);
+    };
+    const CloseAddTopicModal = () => {
+        setOpenTopic(null);
+    };
     return (
-        <ChannelNavContainer>
-            <ChannelNavHeader />
-            <ChannelNavList>
-                {
-                    topics.map((t, idx) => (<ChannelNavItem key={idx} topicId={t.id} topicName={t.title} />))
-                }
-            </ChannelNavList>
-            <ChannelNavMyStatus />
-        </ChannelNavContainer>
+        <>
+            <ChannelNavContainer>
+                <ChannelNavHeader />
+                <ChannelNavList>
+                    <AddTopicButton onClick={AddTopic}>
+                        <div>토픽 추가하기</div>
+                        <div>+</div>
+                    </AddTopicButton>
+                    {
+                        topics.map((t, idx) => (<ChannelNavItem key={idx} topicId={t.id} topicName={t.title} />))
+                    }
+                </ChannelNavList>
+                <ChannelNavMyStatus />
+            </ChannelNavContainer>
+
+            <AddTopicModal
+                open={OpenAddTopicModal}
+                onClose={CloseAddTopicModal}
+                anchorReference="anchorPosition"
+                anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}
+                anchorOrigin={{
+                    vertical: "center",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "center",
+                    horizontal: "center",
+                }}>
+                <CreateTopic />
+            </AddTopicModal>
+        </>
     );
 };
 
