@@ -17,12 +17,4 @@ export default defineConfig({
             { find: "@utils", replacement: path.resolve(__dirname, "src", "utils") },
         ]
     },
-    server: {
-        proxy: {
-            "/api": {
-                target: "http://localhost:9000",
-                changeOrigin: true,
-            }
-        },
-    }
 });
