@@ -12,8 +12,10 @@ const SecureComponent = ({ val, fallback }) => {
     if (!authCookie) {
         return <Navigate to={fallback} />;
     }
+    console.log("secure component loading");
 
     if (init.current) {
+        console.log("secure component init");
         axiosClient.get("/member/@me").then(({ data: { email, nickname, hashtag } }) => {
             setEmail(email);
             setNickname(nickname);
