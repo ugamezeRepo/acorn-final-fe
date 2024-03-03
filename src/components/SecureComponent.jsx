@@ -6,28 +6,26 @@ import { useContext, useRef } from "react";
 import { Navigate } from "react-router-dom";
 
 const SecureComponent = ({ val, fallback }) => {
-    const { setEmail, setNickname, setHashtag, setChannels } = useContext(MemberContext);
-    const init = useRef(true);
+    const { email, nickname, hashtag, channels, setEmail, setNickname, setHashtag, setChannels } = useContext(MemberContext);
+
     const authCookie = getAuthenticationCookie();
     if (!authCookie) {
         return <Navigate to={fallback} />;
     }
-    console.log("secure component loading");
 
-    if (init.current) {
+    if (!email || !nickname || !hashtag) {
         console.log("secure component init");
         axiosClient.get("/member/@me").then(({ data: { email, nickname, hashtag } }) => {
             setEmail(email);
             setNickname(nickname);
             setHashtag(hashtag);
         });
-
+    }
+    if (!channels || channels.length == 0) {
         axiosClient.get("/member/@me/channel").then(({ data }) => {
             setChannels(data);
         });
-        init.current = false;
     }
-
     return val;
 };
 
