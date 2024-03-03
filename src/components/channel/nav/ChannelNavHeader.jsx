@@ -41,7 +41,6 @@ const ChannelSettingPopOver = styled(Popover)``;
 const InviteModalPopOver = styled(Popover)``;
 
 const ChannelNavHeader = () => {
-    const { setChannels } = useContext(MemberContext);
     const { currentChannel } = useContext(ChannelContext);
     const navigate = useNavigate();
     const [channelSettingOpened, setChannelSettingOpened] = useState(false);
@@ -59,9 +58,7 @@ const ChannelNavHeader = () => {
     const deleteChannel = async () => {
         const confirm = window.confirm("진짜 삭제할겨?");
         if (confirm) {
-            await axiosClient.delete(`/channel/${currentChannel.id}`);
-            const { data: channels } = await axiosClient.get("/member/@me/channel");
-            setChannels(channels);
+            await axiosClient.delete(`/channel/${currentChannel?.id}`);
             navigate("/channel/@me");
         }
     };
@@ -100,7 +97,7 @@ const ChannelNavHeader = () => {
                     vertical: "center",
                     horizontal: "center",
                 }}>
-                <InviteModal name={currentChannel?.name} inviteCode={currentChannel.inviteCode} />
+                <InviteModal name={currentChannel?.name} inviteCode={currentChannel?.inviteCode} />
             </InviteModalPopOver>
         </div>
     );

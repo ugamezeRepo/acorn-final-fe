@@ -72,7 +72,7 @@ const GlobalChannelNav = () => {
                 <GlobalChannelNavMyPageItem />
                 <Divider sx={{ margin: "0 16px", borderWidth: "1px" }} />
                 {
-                    channels.map((c, idx) => <GlobalChannelNavItem key={idx} channel={c} />)
+                    channels?.map((c, idx) => <GlobalChannelNavItem key={idx} channel={c} />)
                 }
                 <CreateChannelButton onClick={handleOpenCreateModal}>+</CreateChannelButton>
             </GlobalChannelNavList>

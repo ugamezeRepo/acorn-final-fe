@@ -1,4 +1,5 @@
 import { getWsBaseUrl } from "@configs/env";
+import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
@@ -19,6 +20,7 @@ const MemberContext = createContext({
     setMicEnabled: () => { },
     setSoundEnabled: () => { },
     setStatus: () => { },
+    updateMyInfo: async () => { },
 });
 
 const MemberContextProvider = ({ children }) => {
@@ -31,15 +33,14 @@ const MemberContextProvider = ({ children }) => {
      *  thumbnail: string
      * }
      */
-    const [channels, setChannels] = useState([]);
+    const [channels, setChannels] = useState(null);
     const [nickname, setNickname] = useState(null);
-    const [hashtag, setHashtag] = useState(0);
+    const [hashtag, setHashtag] = useState(null);
     const [email, setEmail] = useState(null);
     const [micEnabled, setMicEnabled] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(false);
     const [status, setStatus] = useState(null);
-    const pingWebSocket = useWebSocket(`${getWsBaseUrl()}/connection/ping`);
-
+    const pingWebSocket = useWebSocket(`${getWsBaseUrl()}/connection/ping`, { shouldReconnect: () => true });
 
     // initialize ping - pong websocket connection 
     useEffect(() => {
@@ -50,6 +51,20 @@ const MemberContextProvider = ({ children }) => {
         });
     }, [email, nickname, hashtag, pingWebSocket]);
 
+
+    const updateMyInfo = async () => {
+        const { data } = await axiosClient.get("/member/@me");
+        if (email !== data.email || nickname !== data.nickname || hashtag !== data.hashtag) {
+            setEmail(data.email);
+            setNickname(data.nickname);
+            setHashtag(data.hashtag);
+        }
+
+        const { data: newChannels } = await axiosClient.get("/member/@me/channel");
+        if (JSON.stringify(newChannels) !== JSON.stringify(channels)) {
+            setChannels(newChannels);
+        }
+    };
     return (
         <MemberContext.Provider value={{
             channels,
@@ -59,6 +74,7 @@ const MemberContextProvider = ({ children }) => {
             micEnabled,
             soundEnabled,
             status,
+            pingWebSocket,
             setChannels,
             setNickname,
             setHashtag,
@@ -66,7 +82,7 @@ const MemberContextProvider = ({ children }) => {
             setMicEnabled,
             setSoundEnabled,
             setStatus,
-            pingWebSocket,
+            updateMyInfo
         }}>
             {children}
         </MemberContext.Provider>

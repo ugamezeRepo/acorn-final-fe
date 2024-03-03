@@ -3,7 +3,7 @@ import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
 
 const CreateChannel = () => {
-    const { nickname, hashtag, setChannels } = useContext(MemberContext);
+    const { nickname, hashtag, updateMyInfo } = useContext(MemberContext);
     const [serverName, setServerName] = useState("");
 
     const handleServerName = (e) => {
@@ -11,13 +11,13 @@ const CreateChannel = () => {
     };
 
     const createChannel = async () => {
-        const { data: newChannel } = await axiosClient.post("/channel", {
+        await axiosClient.post("/channel", {
             name: serverName,
             thumbnail: "",
             nickname: nickname,
             hashtag: hashtag,
         });
-        setChannels(channels => [...channels, newChannel]);
+        updateMyInfo();
     };
     return (
         <div>

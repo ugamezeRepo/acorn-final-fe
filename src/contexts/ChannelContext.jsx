@@ -3,7 +3,6 @@ import { MemberContext } from "@contexts/MemberContext";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
 const ChannelContext = createContext({
@@ -22,55 +21,59 @@ const ChannelContext = createContext({
 
 
 const ChannelContextProvider = ({ children }) => {
-    const [topics, setTopics] = useState([]);
-    const navigate = useNavigate();
-
     const { channels } = useContext(MemberContext);
+    const [topics, setTopics] = useState(null);
     const [currentChannel, setCurrentChannel] = useState({ id: null, name: null, thumbnail: null, inviteCode: null });
     const [currentTopic, setCurrentTopic] = useState({ id: null, title: null });
     const [messages, setMessages] = useState([]);
     const [channelUsers, setChannelUsers] = useState([]);
     const { lastJsonMessage: webSocketChannelMemberStatus } = useWebSocket(
-        currentChannel.id
+        (currentChannel && currentChannel.id)
             ? `${getWsBaseUrl()}/connection/channel/${currentChannel.id}/members`
-            : null
+            : null,
+        {
+            shouldReconnect: () => true,
+            onError: (e) => {
+                console.log(`ws error => ${e}`);
+            }
+        }
     );
 
     const { sendJsonMessage: sendJsonMessageOnWebSocket, lastJsonMessage: lastJsonMessageOnWebSocket } = useWebSocket(
-        (currentChannel?.id && currentTopic?.id)
+        (currentChannel && currentTopic && currentChannel.id && currentTopic.id)
             ? getWsBaseUrl() + `/chat/channel/${currentChannel.id}/topic/${currentTopic.id}`
-            : null
+            : null,
+        {
+            shouldReconnect: () => true,
+            onOpen: () => {
+                console.log(`websocket connected : ${currentChannel.id} ${currentTopic.id}`);
+            },
+            onError: (e) => {
+                console.log(`ws error => ${e}`);
+            }
+        }
     );
 
     useEffect(() => {
-        if (channels?.length) {
-            setCurrentChannel(channels[0]);
-        }
-    }, [channels, setCurrentChannel]);
-
-    useEffect(() => {
+        if (channels == null || currentChannel == null) return;
         (async () => {
-            if (!currentChannel.id) return;
-            const { data: topics } = await axiosClient.get(`/channel/${currentChannel.id}/topic`);
-            setTopics(topics);
-            setCurrentTopic(topics[0]);
-
+            const filteredChannel = channels.filter(c => c.id == currentChannel.id);
+            if (JSON.stringify(currentChannel) != JSON.stringify(filteredChannel[0])) {
+                setCurrentChannel(filteredChannel[0]);
+            }
         })();
-    }, [currentChannel, setTopics, setCurrentTopic]);
+    }, [channels, currentChannel]);
 
     useEffect(() => {
+        if (topics == null || currentTopic == null) return;
         (async () => {
-            if (!currentChannel?.id || !currentTopic?.id) return;
-            const { data: messages } = await axiosClient.get(`/channel/${currentChannel.id}/topic/${currentTopic.id}/message`);
-            setMessages(messages);
+            const filteredTopic = topics.filter(t => t.id == currentTopic.id);
+            if (JSON.stringify(currentTopic) != JSON.stringify(filteredTopic[0])) {
+                setCurrentTopic(filteredTopic[0]);
+            }
         })();
-    }, [currentTopic, currentChannel, setMessages]);
+    }, [topics, currentTopic]);
 
-    useEffect(() => {
-        if (currentTopic.id && currentChannel.id) {
-            navigate(`/channel/${currentChannel.id}/topic/${currentTopic.id}`);
-        }
-    }, [currentTopic, currentChannel, navigate]);
 
     useEffect(() => {
         setChannelUsers(webSocketChannelMemberStatus);

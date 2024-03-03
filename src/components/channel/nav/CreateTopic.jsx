@@ -1,9 +1,9 @@
-import { MemberContext } from "@contexts/MemberContext";
+import { ChannelContext } from "@contexts/ChannelContext";
 import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
 
 const CreateTopic = () => {
-    const { channels, setChannels } = useContext(MemberContext);
+    const { currentChannel, setTopics } = useContext(ChannelContext);
     const [title, setTitle] = useState("");
 
     const handleTitle = (e) => {
@@ -11,17 +11,16 @@ const CreateTopic = () => {
     };
 
     const createTopic = async () => {
-        const { data: newTitle } = await axiosClient.post(`/channel/${channels.id}/topic`, {
-            id: channels.id,
+        const { data } = await axiosClient.post(`/channel/${currentChannel?.id}/topic`, {
             title: title
         });
-        setChannels(channels => [...channels, newTitle]);
+        setTopics(topics => [...topics, data]);
     };
 
     return (
         <div>
             <h3>토픽을 만들어보세요</h3>
-            <input type="text" placeholder="토픽 이름" name="title" onChange={handleTitle} />
+            <input type="text" placeholder="토픽 이름" name="title" value={title} onChange={handleTitle} />
             <button onClick={createTopic}>생성</button>
         </div>
     );

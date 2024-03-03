@@ -60,7 +60,6 @@ const ChannelMainMessageInput = ({ placeholder }) => {
     const { sendJsonMessageOnWebSocket, lastJsonMessageOnWebSocket, setMessages } = useContext(ChannelContext);
     const [message, setMessage] = useState("");
 
-
     useEffect(() => {
         if (lastJsonMessageOnWebSocket) {
             const { body } = lastJsonMessageOnWebSocket;

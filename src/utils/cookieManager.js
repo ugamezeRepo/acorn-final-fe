@@ -6,7 +6,6 @@ const ACCESS_TOKEN_HEADER = "Authorization";
 
 export function getAuthenticationCookie() {
     const cookieJar = parse(document.cookie);
-    console.log(cookieJar);
     const authCookie = cookieJar[ACCESS_TOKEN_HEADER];
     if (authCookie && authCookie.startsWith("Bearer+")) {
         return authCookie.substring(7);

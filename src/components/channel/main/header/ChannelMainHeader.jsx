@@ -29,7 +29,7 @@ const ChannelMainHeader = ({ setMemberSidebarOpen }) => {
     const { currentTopic } = useContext(ChannelContext);
     return (
         <ChannelMainHeaderContainer>
-            <ChannelMainTopicLabel>{currentTopic.title}</ChannelMainTopicLabel>
+            <ChannelMainTopicLabel>{currentTopic?.title}</ChannelMainTopicLabel>
             <ChannelMainTopicTools>
                 <Group sx={{ cursor: "pointer" }} onClick={() => setMemberSidebarOpen(open => !open)} />
             </ChannelMainTopicTools>

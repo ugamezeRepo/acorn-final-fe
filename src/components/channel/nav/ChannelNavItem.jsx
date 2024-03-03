@@ -3,6 +3,7 @@ import { Tag } from "@mui/icons-material";
 import { ListItemButton } from "@mui/material";
 import PropTypes from "prop-types";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const ChannelNavItem = ({
@@ -10,14 +11,11 @@ const ChannelNavItem = ({
     topicName,
     topicId,
 }) => {
-    const { setCurrentTopic } = useContext(ChannelContext);
+    const { currentChannel } = useContext(ChannelContext);
+    const navigate = useNavigate();
     return (
         <ListItemButton onClick={() => {
-            console.log("clicked topic with id " + topicId);
-            setCurrentTopic({
-                id: topicId,
-                title: topicName
-            });
+            navigate(`/channel/${currentChannel.id}/topic/${topicId}`);
         }} sx={{ display: "flex", margin: "6px", borderRadius: "8px" }}>
             <Tag fontSize="small" sx={{ color: "gray", marginRight: "6px" }} />
             <span style={{ fontSize: "0.9em" }}>{topicName}</span>
