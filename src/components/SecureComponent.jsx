@@ -1,7 +1,5 @@
-import { MemberContext } from "@contexts/MemberContext";
 import { getAuthenticationCookie } from "@utils/cookieManager";
 import PropTypes from "prop-types";
-import { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
 const SecureComponent = ({ val, fallback }) => {

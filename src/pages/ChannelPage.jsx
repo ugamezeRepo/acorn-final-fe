@@ -5,8 +5,8 @@ import { ChannelContext } from "@contexts/ChannelContext";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { axiosClient } from "@utils/axiosClient";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const ChannelPageContainer = styled(BaseContainer)`
     display: flex;

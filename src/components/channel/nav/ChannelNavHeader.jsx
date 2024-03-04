@@ -1,7 +1,6 @@
 import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
 import { InviteModal } from "@components/global-navigation/InviteModal";
 import { ChannelContext } from "@contexts/ChannelContext";
-import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Close, ExpandMore } from "@mui/icons-material";
 import { List, Popover } from "@mui/material";
