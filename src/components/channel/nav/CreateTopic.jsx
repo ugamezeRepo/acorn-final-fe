@@ -27,7 +27,7 @@ const CreateTopic = ({ handleClose }) => {
         </div>
     );
 };
-CreateTopic.PropTypes = {
+CreateTopic.propTypes = {
     handleClose: PropTypes.func.isRequired,
 };
 export { CreateTopic };
