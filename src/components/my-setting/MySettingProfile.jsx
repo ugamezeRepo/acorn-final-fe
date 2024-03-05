@@ -62,7 +62,8 @@ const MySettingProfile = () => {
 
     const { nickname, hashtag, email } = useContext(MemberContext);
 
-    const [nickOpen, setnickOpen] = useState(false);
+    const [nickTextShow, setnickTextShow] = useState(false);
+    const [hashTextShow, sethashTextShow] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [ModalOpen, setModalOpen] = useState(false);
     const [newData, setNewData] = useState({
@@ -71,35 +72,32 @@ const MySettingProfile = () => {
         email: email
     });
 
-    const nicknameChange = (e) => {
+    const textChange = (e) => {
         setNewData({
             ...newData,
-            nickname: e.target.value
+            [e.target.name]: e.target.value
         });
         console.log(newData);
     };
 
-    const handleSnackBarOpen = () => {
+
+    const textfieldChange = (e) => {
+        textChange(e);
         setSnackbarOpen(true);
     };
 
-    const handlenickTextfield = (e) => {
-        nicknameChange(e);
-        handleSnackBarOpen();
-    };
-
     const nicknameSubmit = () => {
-        setnickOpen(false);
+        setnickTextShow(false);
         axiosClient.put(`/member/changeNick`, newData);
     };
 
     const handleTextfieldClose = () => {
-        setnickOpen(false);
+        setnickTextShow(false);
         setSnackbarOpen(false);
     };
 
     const handleTextfieldOpen = () => {
-        setnickOpen(true);
+        setnickTextShow(true);
     };
 
     const handleModalOpen = () => {
@@ -148,12 +146,14 @@ const MySettingProfile = () => {
                             <ProfileContainer>
                                 <div>
                                     <LabelContainer>nickname</LabelContainer>
-                                    {nickOpen ? <TextField
-                                        defaultValue={nickname}
-                                        size="small"
-                                        onChange={handlenickTextfield}
-                                        onBlur={handleTextfieldClose}
-                                    />
+                                    {nickTextShow ?
+                                        <TextField
+                                            defaultValue={nickname}
+                                            size="small"
+                                            name="nickname"
+                                            onChange={textfieldChange}
+                                            onBlur={handleTextfieldClose}
+                                        />
                                         :
                                         <ContentContainer>{nickname}</ContentContainer>
                                     }
@@ -170,7 +170,21 @@ const MySettingProfile = () => {
                             <ProfileContainer>
                                 <div>
                                     <LabelContainer>user name</LabelContainer>
-                                    <ContentContainer>{nickname + "_" + hashtag}</ContentContainer>
+                                    {hashTextShow ?
+                                        <>
+                                            <p>{nickname}</p>
+                                            <TextField
+                                                defaultValue={hashtag}
+                                                size="small"
+                                                name="hashtag"
+                                                onChange={textfieldChange}
+                                                onBlur={handleTextfieldClose}
+                                            />
+                                        </>
+
+                                        :
+                                        <ContentContainer>{nickname + "_" + hashtag}</ContentContainer>
+                                    }
                                 </div>
                                 <Button
                                     variant="contained"
