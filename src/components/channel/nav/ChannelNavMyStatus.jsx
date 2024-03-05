@@ -100,7 +100,7 @@ const ChannelNavMyStatus = () => {
             </MySettingGroup>
             <Modal open={open} onClose={handleClose}>
                 <>
-                    <MySetting onClose={handleClose} />
+                    <MySetting close={() => setOpen(false)} />
                 </>
             </Modal>
         </ChannelNavMyStatusContainer>
