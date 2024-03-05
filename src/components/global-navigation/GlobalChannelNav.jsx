@@ -90,7 +90,7 @@ const GlobalChannelNav = () => {
                     vertical: "center",
                     horizontal: "center",
                 }}>
-                <CreateChannel />
+                <CreateChannel handleClose={handleCloseCreateModal} />
             </Popover>
 
         </GlobalChannelNavContainer>

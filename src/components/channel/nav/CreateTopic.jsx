@@ -1,8 +1,9 @@
 import { ChannelContext } from "@contexts/ChannelContext";
 import { axiosClient } from "@utils/axiosClient";
+import { PropTypes } from "prop-types";
 import { useContext, useState } from "react";
 
-const CreateTopic = () => {
+const CreateTopic = ({ handleClose }) => {
     const { currentChannel, setTopics } = useContext(ChannelContext);
     const [title, setTitle] = useState("");
 
@@ -15,6 +16,7 @@ const CreateTopic = () => {
             title: title
         });
         setTopics(topics => [...topics, data]);
+        handleClose();
     };
 
     return (
@@ -24,5 +26,8 @@ const CreateTopic = () => {
             <button onClick={createTopic}>생성</button>
         </div>
     );
+};
+CreateTopic.propTypes = {
+    handleClose: PropTypes.func.isRequired,
 };
 export { CreateTopic };

@@ -3,10 +3,12 @@ import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Delete, Edit } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Input, ListItem, Popper } from "@mui/material";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+
 
 const AvatarView = styled.div`
     width: 48px;
@@ -124,7 +126,7 @@ const ChannelMainContentChatItem = ({
             <ContentView onBlurCapture={handleEditEnd}>
                 {showProfile && <AuthorInfo>
                     <div style={{ fontWeight: 700, paddingRight: "8px" }}>{msg.author.nickname}</div>
-                    <div>{msg.createdAt[0]}년 {msg.createdAt[1]}월 {msg.createdAt[2]}일 {msg.createdAt[3]}시 {msg.createdAt[4]}분 {msg.createdAt[5]}초</div>
+                    <div> {dayjs(msg.createdAt).format("YYYY" + "년 " + "MM" + "월 " + "DD" + "일 " + "HH" + "시 " + "MM" + "분 " + "ss" + "초")}</div><br />
                 </AuthorInfo>}
                 {
                     isEditing
