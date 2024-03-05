@@ -1,18 +1,14 @@
 import { ChannelContext } from "@contexts/ChannelContext";
 import { axiosClient } from "@utils/axiosClient";
+import { PropTypes } from "prop-types";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const SetTopic = () => {
+const SetTopic = ({ handleClose }) => {
     const { currentChannel, currentTopic, setCurrentTopic } = useContext(ChannelContext);
     const [title, setTitle] = useState(currentTopic.title || null);
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     setTitle(currentTopic.title);
-    // }, [currentTopic.title]);
-
 
     const handleTopicName = (e) => {
         setTitle(e.target.value);
@@ -26,13 +22,12 @@ const SetTopic = () => {
     };
 
     const deleteTopic = async () => {
-        console.log(currentChannel.id);
-        console.log(currentTopic.id);
         const confirm = window.confirm("진짜 삭제할겨?");
         if (confirm) {
             await axiosClient.delete(`/channel/${currentChannel.id}/topic/${currentTopic.id}`);
-            navigate("/channel/@me");
+            navigate(`/channel/${currentChannel.id}`);
         }
+        handleClose();
     };
 
     return (
@@ -46,5 +41,8 @@ const SetTopic = () => {
             <button onClick={deleteTopic}>삭제</button>
         </>
     );
+};
+SetTopic.PropTypes = {
+    handleClose: PropTypes.func.isRequired,
 };
 export { SetTopic };

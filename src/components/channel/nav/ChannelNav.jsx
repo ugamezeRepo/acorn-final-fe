@@ -100,7 +100,7 @@ const ChannelNav = () => {
                     vertical: "center",
                     horizontal: "center",
                 }}>
-                <CreateTopic />
+                <CreateTopic handleClose={CloseAddTopicModal} />
             </AddTopicModal>
         </>
     );

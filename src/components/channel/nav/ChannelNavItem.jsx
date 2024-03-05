@@ -55,7 +55,7 @@ const ChannelNavItem = ({
                     vertical: "center",
                     horizontal: "center",
                 }}>
-                <SetTopic />
+                <SetTopic handleClose={CloseTopicSetting} />
             </Popover>
 
         </>
