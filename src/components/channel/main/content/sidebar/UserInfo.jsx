@@ -65,12 +65,12 @@ const UserInfo = () => {
                 }}
                 subheader={<li />}
             >
-                {["offline", "online"].map((isOnline, index) => (
+                {["online", "offline"].map((isOnline, index) => (
                     <li key={`section-${index}`}>
                         <ul>
-                            <ListSubheader>{`${isOnline} - ${members.filter((e) => index ? e.status !== "offline" : e.status === "offline").length}`}</ListSubheader>
+                            <ListSubheader>{`${isOnline} - ${members.filter((e) => index ? e.status === "offline" : e.status !== "offline").length}`}</ListSubheader>
                             {members.map((user, idx) => {
-                                return (isOnline === "offline" && user.status === "offline") || (isOnline !== "offline" && user.status !== "offline") &&
+                                return ((isOnline === "offline" && user.status === "offline") || (isOnline !== "offline" && user.status !== "offline")) &&
                                     (<UserBox key={`user-${idx}`} status={user.status}>
                                         <AvatarBadge
                                             overlap="circular"
