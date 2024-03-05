@@ -42,7 +42,7 @@ const SetTopic = ({ handleClose }) => {
         </>
     );
 };
-SetTopic.PropTypes = {
+SetTopic.propTypes = {
     handleClose: PropTypes.func.isRequired,
 };
 export { SetTopic };
