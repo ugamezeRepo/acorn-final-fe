@@ -36,7 +36,7 @@ const CreateChannel = ({ handleClose }) => {
         </div>
     );
 };
-CreateChannel.PropTypes = {
+CreateChannel.propTypes = {
     handleClose: PropTypes.func.isrequired,
 };
 export { CreateChannel };
