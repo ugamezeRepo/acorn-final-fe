@@ -130,7 +130,7 @@ const MySettingProfile = () => {
                                 height: "80px",
                                 border: "3px solid rgba(0, 0, 0, 0.54)",
                                 position: "absolute",
-                                top: "78px",
+                                top: "55px",
                                 left: "22px"
                             }}
                             >

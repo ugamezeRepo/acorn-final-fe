@@ -2,7 +2,7 @@ import { BaseContainer } from "@components/basis/BaseContainer";
 import { MySettingNav } from "@components/my-setting/MySettingNav";
 import { MySettingProfile } from "@components/my-setting/MySettingProfile";
 import styled from "@emotion/styled";
-import { HighlightOffIcon } from "@mui/icons-material/HighlightOff";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import PropTypes from "prop-types";
 
 const MySettingMainContainer = styled(BaseContainer)`
@@ -39,10 +39,13 @@ const MySettingButtonContainer = styled.div`
     left: 1217px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    cursor: pointer;
 `;
 
 
-const MySetting = ({ onClose }) => {
+const MySetting = ({ close }) => {
+
 
     return (
         <MySettingMainContainer>
@@ -52,7 +55,7 @@ const MySetting = ({ onClose }) => {
             <MySettingProfileContainer>
                 <MySettingProfile />
             </MySettingProfileContainer>
-            <MySettingButtonContainer onClick={onClose}>
+            <MySettingButtonContainer onClick={close}>
                 <HighlightOffIcon />
                 <div
                     style={{
@@ -69,5 +72,5 @@ const MySetting = ({ onClose }) => {
 export { MySetting };
 
 MySetting.propTypes = {
-    onClose: PropTypes.func.isRequired
+    close: PropTypes.func.isRequired
 };

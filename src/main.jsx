@@ -7,7 +7,6 @@ import { MyChannelPage } from "@pages/MyChannelPage";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { RtcTestPage } from "@pages/RtcTestPage";
 import { SignupPage } from "@pages/SignupPage";
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

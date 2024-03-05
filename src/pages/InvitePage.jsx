@@ -1,7 +1,6 @@
-import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { axiosClient } from "@utils/axiosClient";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const InviteContainer = styled.div`
