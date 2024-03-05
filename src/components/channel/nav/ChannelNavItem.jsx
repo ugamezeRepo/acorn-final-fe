@@ -1,3 +1,4 @@
+import { SetTopic } from "@components/channel/nav/SetTopic";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { Tag } from "@mui/icons-material";
@@ -6,6 +7,7 @@ import { ListItemButton, Popover } from "@mui/material";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 
 const ChannelNavItem = ({
@@ -42,7 +44,20 @@ const ChannelNavItem = ({
                 </div>
                 <SetIcon fontSize="small" onClick={OpenTopicSet} />
             </ListItemButton>
-            <Popover open={openTopicSetting} onClose={CloseTopicSetting} />
+            <Popover open={openTopicSetting} onClose={CloseTopicSetting}
+                anchorReference="anchorPosition"
+                anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}
+                anchorOrigin={{
+                    vertical: "center",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "center",
+                    horizontal: "center",
+                }}>
+                <SetTopic handleClose={CloseTopicSetting} />
+            </Popover>
+
         </>
     );
 };

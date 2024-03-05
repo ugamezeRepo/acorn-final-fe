@@ -1,8 +1,9 @@
 import { MemberContext } from "@contexts/MemberContext";
 import { axiosClient } from "@utils/axiosClient";
+import { PropTypes } from "prop-types";
 import { useContext, useState } from "react";
 
-const CreateChannel = () => {
+const CreateChannel = ({ handleClose }) => {
     const { nickname, hashtag, updateMyInfo } = useContext(MemberContext);
     const [serverName, setServerName] = useState("");
 
@@ -18,6 +19,7 @@ const CreateChannel = () => {
             hashtag: hashtag,
         });
         updateMyInfo();
+        handleClose();
     };
     return (
         <div>
@@ -33,5 +35,8 @@ const CreateChannel = () => {
             <button>입장</button>
         </div>
     );
+};
+CreateChannel.propTypes = {
+    handleClose: PropTypes.func.isrequired,
 };
 export { CreateChannel };
