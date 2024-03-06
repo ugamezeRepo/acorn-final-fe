@@ -60,7 +60,7 @@ const DeleteAccountContainer = styled.div`
 
 const MySettingProfile = () => {
 
-    const { nickname, hashtag, email } = useContext(MemberContext);
+    const { nickname, hashtag, email, updateMyInfo } = useContext(MemberContext);
 
     const [nickTextShow, setnickTextShow] = useState(false);
     const [hashTextShow, sethashTextShow] = useState(false);
@@ -72,32 +72,51 @@ const MySettingProfile = () => {
         email: email
     });
 
-    const textChange = (e) => {
+    const nickTextChange = (e) => {
         setNewData({
             ...newData,
-            [e.target.name]: e.target.value
+            nickname: e.target.value
         });
-        console.log(newData);
-    };
-
-
-    const textfieldChange = (e) => {
-        textChange(e);
         setSnackbarOpen(true);
     };
 
-    const nicknameSubmit = () => {
-        setnickTextShow(false);
-        axiosClient.put(`/member/changeNick`, newData);
+    const hashTextChange = (e) => {
+        setNewData({
+            ...newData,
+            hashtag: Number(e.target.value)
+        });
+        setSnackbarOpen(true);
     };
 
-    const handleTextfieldClose = () => {
+    const updateSubmit = () => {
+        setnickTextShow(false);
+        sethashTextShow(false);
+        axiosClient.put(`/member/changeNick`, newData)
+            .then(res => {
+                console.log(newData);
+                console.log(res.data);
+                updateMyInfo();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        setSnackbarOpen(false);
+    };
+
+    const textfieldClose = () => {
+        setnickTextShow(false);
+        sethashTextShow(false);
+        setSnackbarOpen(false);
+    };
+
+    const nickTextfieldClose = () => {
         setnickTextShow(false);
         setSnackbarOpen(false);
     };
 
-    const handleTextfieldOpen = () => {
-        setnickTextShow(true);
+    const hashTextfieldClose = () => {
+        sethashTextShow(false);
+        setSnackbarOpen(false);
     };
 
     const handleModalOpen = () => {
@@ -151,8 +170,8 @@ const MySettingProfile = () => {
                                             defaultValue={nickname}
                                             size="small"
                                             name="nickname"
-                                            onChange={textfieldChange}
-                                            onBlur={handleTextfieldClose}
+                                            onChange={nickTextChange}
+                                            onBlur={nickTextfieldClose}
                                         />
                                         :
                                         <ContentContainer>{nickname}</ContentContainer>
@@ -162,7 +181,7 @@ const MySettingProfile = () => {
                                     variant="contained"
                                     size="small"
                                     sx={{ height: 35 }}
-                                    onClick={handleTextfieldOpen}
+                                    onClick={() => setnickTextShow(true)}
                                 >
                                     수정
                                 </Button>
@@ -171,16 +190,16 @@ const MySettingProfile = () => {
                                 <div>
                                     <LabelContainer>user name</LabelContainer>
                                     {hashTextShow ?
-                                        <>
-                                            <p>{nickname}</p>
+                                        <div>
+                                            <span>{nickname}</span>
                                             <TextField
                                                 defaultValue={hashtag}
                                                 size="small"
                                                 name="hashtag"
-                                                onChange={textfieldChange}
-                                                onBlur={handleTextfieldClose}
+                                                onChange={hashTextChange}
+                                                onBlur={hashTextfieldClose}
                                             />
-                                        </>
+                                        </div>
 
                                         :
                                         <ContentContainer>{nickname + "_" + hashtag}</ContentContainer>
@@ -190,6 +209,7 @@ const MySettingProfile = () => {
                                     variant="contained"
                                     size="small"
                                     sx={{ height: 35 }}
+                                    onClick={() => sethashTextShow(true)}
                                 >
                                     수정
                                 </Button>
@@ -224,10 +244,10 @@ const MySettingProfile = () => {
                 message="저장하지 않은 변경사항이 있어요"
                 action={
                     <>
-                        <Button size="small" onClick={handleTextfieldClose}>
+                        <Button size="small" onClick={textfieldClose}>
                             재설정
                         </Button>
-                        <Button size="small" onClick={nicknameSubmit} >
+                        <Button size="small" onClick={updateSubmit} >
                             변경사항 저장하기
                         </Button>
                     </>
