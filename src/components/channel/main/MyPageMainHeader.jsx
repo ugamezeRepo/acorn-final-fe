@@ -1,10 +1,7 @@
 import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
-import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
-import { Group } from "@mui/icons-material";
 import { List } from "@mui/material";
 import PropTypes from "prop-types";
-import { useContext } from "react";
 
 const ChannelMainHeaderContainer = styled(BaseHeaderContainer)`
     flex-grow: 0; 

@@ -1,11 +1,7 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
-import { ChannelNavHeader } from "@components/channel/nav/ChannelNavHeader";
-import { ChannelNavItem } from "@components/channel/nav/ChannelNavItem";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
-import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { Button, List } from "@mui/material";
-import { useContext } from "react";
 
 
 const ChannelNavContainer = styled(BaseContainer)`
