@@ -60,9 +60,10 @@ const DeleteAccountContainer = styled.div`
 
 const MySettingProfile = () => {
 
-    const { nickname, hashtag, email } = useContext(MemberContext);
+    const { nickname, hashtag, email, updateMyInfo } = useContext(MemberContext);
 
-    const [nickOpen, setnickOpen] = useState(false);
+    const [nickTextShow, setnickTextShow] = useState(false);
+    const [hashTextShow, sethashTextShow] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [ModalOpen, setModalOpen] = useState(false);
     const [newData, setNewData] = useState({
@@ -71,35 +72,51 @@ const MySettingProfile = () => {
         email: email
     });
 
-    const nicknameChange = (e) => {
+    const nickTextChange = (e) => {
         setNewData({
             ...newData,
             nickname: e.target.value
         });
-        console.log(newData);
-    };
-
-    const handleSnackBarOpen = () => {
         setSnackbarOpen(true);
     };
 
-    const handlenickTextfield = (e) => {
-        nicknameChange(e);
-        handleSnackBarOpen();
+    const hashTextChange = (e) => {
+        setNewData({
+            ...newData,
+            hashtag: Number(e.target.value)
+        });
+        setSnackbarOpen(true);
     };
 
-    const nicknameSubmit = () => {
-        setnickOpen(false);
-        axiosClient.put(`/member/changeNick`, newData);
-    };
-
-    const handleTextfieldClose = () => {
-        setnickOpen(false);
+    const updateSubmit = () => {
+        setnickTextShow(false);
+        sethashTextShow(false);
+        axiosClient.put(`/member/changeNick`, newData)
+            .then(res => {
+                console.log(newData);
+                console.log(res.data);
+                updateMyInfo();
+            })
+            .catch(error => {
+                console.log(error);
+            });
         setSnackbarOpen(false);
     };
 
-    const handleTextfieldOpen = () => {
-        setnickOpen(true);
+    const textfieldClose = () => {
+        setnickTextShow(false);
+        sethashTextShow(false);
+        setSnackbarOpen(false);
+    };
+
+    const nickTextfieldClose = () => {
+        setnickTextShow(false);
+        setSnackbarOpen(false);
+    };
+
+    const hashTextfieldClose = () => {
+        sethashTextShow(false);
+        setSnackbarOpen(false);
     };
 
     const handleModalOpen = () => {
@@ -148,12 +165,14 @@ const MySettingProfile = () => {
                             <ProfileContainer>
                                 <div>
                                     <LabelContainer>nickname</LabelContainer>
-                                    {nickOpen ? <TextField
-                                        defaultValue={nickname}
-                                        size="small"
-                                        onChange={handlenickTextfield}
-                                        onBlur={handleTextfieldClose}
-                                    />
+                                    {nickTextShow ?
+                                        <TextField
+                                            defaultValue={nickname}
+                                            size="small"
+                                            name="nickname"
+                                            onChange={nickTextChange}
+                                            onBlur={nickTextfieldClose}
+                                        />
                                         :
                                         <ContentContainer>{nickname}</ContentContainer>
                                     }
@@ -162,7 +181,7 @@ const MySettingProfile = () => {
                                     variant="contained"
                                     size="small"
                                     sx={{ height: 35 }}
-                                    onClick={handleTextfieldOpen}
+                                    onClick={() => setnickTextShow(true)}
                                 >
                                     수정
                                 </Button>
@@ -170,12 +189,27 @@ const MySettingProfile = () => {
                             <ProfileContainer>
                                 <div>
                                     <LabelContainer>user name</LabelContainer>
-                                    <ContentContainer>{nickname + "_" + hashtag}</ContentContainer>
+                                    {hashTextShow ?
+                                        <div>
+                                            <span>{nickname}</span>
+                                            <TextField
+                                                defaultValue={hashtag}
+                                                size="small"
+                                                name="hashtag"
+                                                onChange={hashTextChange}
+                                                onBlur={hashTextfieldClose}
+                                            />
+                                        </div>
+
+                                        :
+                                        <ContentContainer>{nickname + "_" + hashtag}</ContentContainer>
+                                    }
                                 </div>
                                 <Button
                                     variant="contained"
                                     size="small"
                                     sx={{ height: 35 }}
+                                    onClick={() => sethashTextShow(true)}
                                 >
                                     수정
                                 </Button>
@@ -210,10 +244,10 @@ const MySettingProfile = () => {
                 message="저장하지 않은 변경사항이 있어요"
                 action={
                     <>
-                        <Button size="small" onClick={handleTextfieldClose}>
+                        <Button size="small" onClick={textfieldClose}>
                             재설정
                         </Button>
-                        <Button size="small" onClick={nicknameSubmit} >
+                        <Button size="small" onClick={updateSubmit} >
                             변경사항 저장하기
                         </Button>
                     </>
