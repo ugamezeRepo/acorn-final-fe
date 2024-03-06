@@ -19,6 +19,7 @@ const ChannelNavItem = ({
     const navigate = useNavigate();
     const [openSet, SetOpenSet] = useState(null);
     const openTopicSetting = Boolean(openSet);
+
     const OpenTopicSet = (e) => {
         SetOpenSet(e.currentTarget);
     };
@@ -33,6 +34,8 @@ const ChannelNavItem = ({
         }
     `;
 
+
+
     return (
         <>
             <ListItemButton onClick={() => {
@@ -43,7 +46,7 @@ const ChannelNavItem = ({
                     <span style={{ fontSize: "0.9em" }}>{topicName}</span>
                 </div>
                 <SetIcon fontSize="small" onClick={OpenTopicSet} />
-            </ListItemButton>
+            </ListItemButton >
             <Popover open={openTopicSetting} onClose={CloseTopicSetting}
                 anchorReference="anchorPosition"
                 anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}

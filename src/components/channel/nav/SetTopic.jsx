@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const SetTopic = ({ handleClose }) => {
     const { currentChannel, currentTopic, setCurrentTopic } = useContext(ChannelContext);
-    const [title, setTitle] = useState(currentTopic.title || null);
+    const [title, setTitle] = useState(currentTopic.title || "");
     const navigate = useNavigate();
 
     const handleTopicName = (e) => {
@@ -15,10 +15,13 @@ const SetTopic = ({ handleClose }) => {
     };
 
     const ChangeTopicName = async () => {
-        const { data } = await axiosClient.post(`/channel`, {
+        const { data } = await axiosClient.patch(`/channel/${currentChannel.id}/topic/${currentTopic.id}`, {
+            id: currentTopic.id,
             title: title
         });
-        setCurrentTopic(title => [...title, data]);
+        setCurrentTopic(data);
+        navigate(`/channel/${currentChannel.id}/topic/${currentTopic.id}`);
+        handleClose();
     };
 
     const deleteTopic = async () => {
@@ -42,7 +45,7 @@ const SetTopic = ({ handleClose }) => {
         </>
     );
 };
-SetTopic.PropTypes = {
+SetTopic.propTypes = {
     handleClose: PropTypes.func.isRequired,
 };
 export { SetTopic };
