@@ -1,6 +1,7 @@
 import { axiosClient } from "@utils/axiosClient";
 
 const DmModal = () => {
+
     const DirectMessage = async () => {
         await axiosClient.post(`/channel/@me/`, {
 
