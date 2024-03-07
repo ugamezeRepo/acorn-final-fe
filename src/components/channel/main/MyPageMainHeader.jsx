@@ -1,6 +1,7 @@
 import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
 import styled from "@emotion/styled";
-import { List } from "@mui/material";
+import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import { Button, List } from "@mui/material";
 import PropTypes from "prop-types";
 
 const ChannelMainHeaderContainer = styled(BaseHeaderContainer)`
@@ -15,34 +16,38 @@ const ChannelMainHeaderContainer = styled(BaseHeaderContainer)`
 
 const ChannelMainTopicLabel = styled.div`
     display: flex;
-
+width: 60%;
 `;
 
 const MyPageFriendsList = styled(List)`
+width:100%;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     & > li {
-        margin-right:20px;
+        display: flex;
+        align-items: center;
     }
 `;
 
-const MyPageMainHeader = () => {
+const MyPageMainHeader = ({ handleButtonClick }) => {
+
     return (
         <ChannelMainHeaderContainer>
             <ChannelMainTopicLabel>
                 <MyPageFriendsList>
-                    <li>친구</li>
-                    <li>온라인</li>
-                    <li>모두</li>
-                    <li>대기 중</li>
-                    <li>차단 목록</li>
+                    <li><EmojiPeopleIcon></EmojiPeopleIcon><span>친구</span></li>
+                    <li onClick={() => handleButtonClick("online")}>온라인</li>
+                    <li onClick={() => handleButtonClick("all")}>모두</li>
+                    <li onClick={() => handleButtonClick("standBy")}>대기 중</li>
+                    <li onClick={() => handleButtonClick("block")}>차단 목록</li>
+                    <li><Button onClick={() => handleButtonClick("addFriend")}>친구추가</Button></li>
                 </MyPageFriendsList>
             </ChannelMainTopicLabel>
         </ChannelMainHeaderContainer>
     );
 };
-
-
 MyPageMainHeader.propTypes = {
-    setMemberSidebarOpen: PropTypes.func.isRequired
+    handleButtonClick: PropTypes.func.isRequired,
 };
 export { MyPageMainHeader };
