@@ -7,7 +7,6 @@ import BlockIcon from "@mui/icons-material/Block";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
-import { Button, Input } from "@mui/material";
 import { useState } from "react";
 
 const MyPageMainCotainer = styled(BaseContainer)`
