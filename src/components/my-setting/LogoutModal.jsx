@@ -1,25 +1,17 @@
-import { MemberContext } from "@contexts/MemberContext";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { deleteCookie } from "@utils/cookieManager";
 import PropTypes from "prop-types";
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ open, close }) => {
-    const { email, setStatus } = useContext(MemberContext);
-
-    const logout = () => {
-        (async () => {
-            await axiosClient.delete("/member/logout", email)
-                .then(res => {
-                    if(res.data===false){
-                        setStatus("offline");
-                    }
-                    deleteCookie("Authorization");
-                    close();
-                });
-        })();
-
+    const navigate = useNavigate();
+    const logout = async () => {
+        const { data } = await axiosClient.post("/member/logout");
+        if (!data) console.log("logout");
+        deleteCookie("Authorization");
+        close();
+        navigate("/login");
     };
 
     return (
