@@ -160,7 +160,7 @@ const ChannelMainMessageInput = ({ placeholder }) => {
                 anchorEl={fileUploadModalAnchor}
                 anchorOrigin={{ vertical: -80, horizontal: "left" }}>
                 <FileUploadForm>
-                    <FileUploadFormInner>파일 업로드</FileUploadFormInner>
+                    <FileUploadFormInner>이미지 업로드</FileUploadFormInner>
                 </FileUploadForm>
             </Popover>
 
