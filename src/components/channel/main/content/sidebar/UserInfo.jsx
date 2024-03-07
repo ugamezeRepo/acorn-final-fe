@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Avatar, Badge, List, ListSubheader, Popover } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
-import { DmModal } from "./DmModal";
+import { DmModal } from "/DmModal";
 
 const UserInfoContainer = styled.div`
 background-color: #f2f3f5;
