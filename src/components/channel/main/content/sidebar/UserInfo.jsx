@@ -1,9 +1,9 @@
+import { DmModal } from "@components/channel/main/content/sidebar/DmModal";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { Avatar, Badge, List, ListSubheader, Popover } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
-import { DmModal } from "./DmModal";
 
 const UserInfoContainer = styled.div`
 background-color: #f2f3f5;
@@ -47,16 +47,18 @@ const handleStatusColor = (status) => {
 const UserInfo = () => {
     const { channelUsers } = useContext(ChannelContext);
     const [members, setMembers] = useState([]);
+    const [anchorEl, setAnchorEl] = useState(null);
     const [openDm, setOpenDm] = useState(null);
     const handlePopover = Boolean(openDm);
 
-    const handleOpenDm = (selectedUser) => {
+    const handleOpenDm = (event, selectedUser) => {
         setOpenDm(selectedUser);
-        console.log(selectedUser);
+        setAnchorEl(event.currentTarget);
     };
 
     const handleCloseDm = () => {
         setOpenDm(null);
+        setAnchorEl(null);
     };
 
     useEffect(() => {
@@ -85,7 +87,7 @@ const UserInfo = () => {
                                 <ListSubheader>{`${isOnline} - ${members.filter((e) => index ? e.status === "offline" : e.status !== "offline").length}`}</ListSubheader>
                                 {members.map((user, idx) => {
                                     return ((isOnline === "offline" && user.status === "offline") || (isOnline !== "offline" && user.status !== "offline")) &&
-                                        (<UserBox key={`user-${idx}`} status={user.status} onClick={() => handleOpenDm(user)}>
+                                        (<UserBox key={`user-${idx}`} status={user.status} onClick={(event) => handleOpenDm(event, user)}>
                                             <AvatarBadge
                                                 overlap="circular"
                                                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -105,17 +107,9 @@ const UserInfo = () => {
             <Popover
                 open={handlePopover}
                 onClose={handleCloseDm}
-
-                anchorReference="anchorPosition"
-                anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}
-                anchorOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}
-                transformOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}>
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}>
                 <DmModal selectedUser={openDm} onClose={handleCloseDm} />
             </Popover>
         </>

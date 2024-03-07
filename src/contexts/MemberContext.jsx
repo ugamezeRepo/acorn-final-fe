@@ -6,6 +6,7 @@ import useWebSocket from "react-use-websocket";
 
 const MemberContext = createContext({
     channels: [],
+    id: null,
     nickname: null,
     hashtag: null,
     email: null,
@@ -14,6 +15,7 @@ const MemberContext = createContext({
     status: null,
     pingWebSocket: null,
     setChannels: () => { },
+    setId: () => { },
     setNickname: () => { },
     setHashtag: () => { },
     setEmail: () => { },
@@ -34,6 +36,7 @@ const MemberContextProvider = ({ children }) => {
      * }
      */
     const [channels, setChannels] = useState(null);
+    const [id, setId] = useState(null);
     const [nickname, setNickname] = useState(null);
     const [hashtag, setHashtag] = useState(null);
     const [email, setEmail] = useState(null);
@@ -54,7 +57,8 @@ const MemberContextProvider = ({ children }) => {
 
     const updateMyInfo = async () => {
         const { data } = await axiosClient.get("/member/@me");
-        if (email !== data.email || nickname !== data.nickname || hashtag !== data.hashtag) {
+        if (id !== data.id || email !== data.email || nickname !== data.nickname || hashtag !== data.hashtag) {
+            setId(data.id);
             setEmail(data.email);
             setNickname(data.nickname);
             setHashtag(data.hashtag);
@@ -68,6 +72,7 @@ const MemberContextProvider = ({ children }) => {
     return (
         <MemberContext.Provider value={{
             channels,
+            id,
             nickname,
             hashtag,
             email,
@@ -76,6 +81,7 @@ const MemberContextProvider = ({ children }) => {
             status,
             pingWebSocket,
             setChannels,
+            setId,
             setNickname,
             setHashtag,
             setEmail,
