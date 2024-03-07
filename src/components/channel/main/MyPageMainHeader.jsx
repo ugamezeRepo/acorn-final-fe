@@ -27,6 +27,7 @@ width:100%;
     & > li {
         display: flex;
         align-items: center;
+        cursor: pointer;
     }
 `;
 
