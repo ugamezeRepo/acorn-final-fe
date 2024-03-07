@@ -3,6 +3,8 @@ import styled from "@emotion/styled";
 import { Avatar, Badge, List, ListSubheader, Popover } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
+import { DmModal } from "./DmModal";
+
 const UserInfoContainer = styled.div`
 background-color: #f2f3f5;
     display: flex;
@@ -48,14 +50,14 @@ const UserInfo = () => {
     const [openDm, setOpenDm] = useState(null);
     const handlePopover = Boolean(openDm);
 
-    const handleOpenDm = (e) => {
-        setOpenDm(e.currentTarget);
+    const handleOpenDm = (selectedUser) => {
+        setOpenDm(selectedUser);
+        console.log(selectedUser);
     };
 
     const handleCloseDm = () => {
         setOpenDm(null);
     };
-
 
     useEffect(() => {
         if (!channelUsers) return;
@@ -83,7 +85,7 @@ const UserInfo = () => {
                                 <ListSubheader>{`${isOnline} - ${members.filter((e) => index ? e.status === "offline" : e.status !== "offline").length}`}</ListSubheader>
                                 {members.map((user, idx) => {
                                     return ((isOnline === "offline" && user.status === "offline") || (isOnline !== "offline" && user.status !== "offline")) &&
-                                        (<UserBox key={`user-${idx}`} status={user.status} onClick={handleOpenDm}>
+                                        (<UserBox key={`user-${idx}`} status={user.status} onClick={() => handleOpenDm(user)}>
                                             <AvatarBadge
                                                 overlap="circular"
                                                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -103,6 +105,7 @@ const UserInfo = () => {
             <Popover
                 open={handlePopover}
                 onClose={handleCloseDm}
+
                 anchorReference="anchorPosition"
                 anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}
                 anchorOrigin={{
@@ -113,6 +116,7 @@ const UserInfo = () => {
                     vertical: "center",
                     horizontal: "center",
                 }}>
+                <DmModal selectedUser={openDm} onClose={handleCloseDm} />
             </Popover>
         </>
     );

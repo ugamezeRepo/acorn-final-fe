@@ -105,10 +105,10 @@ const MyPageMain = () => {
                 <>
                     <ContentAdd>
                         <h3>친구 추가하기</h3>
-                        <AddForm action="">
+                        <AddForm onSubmit={() => { }}>
                             <h4>친구 아이디를 사용하여 친구를 추가할 수 있음</h4>
                             <AddInput type="text" placeholder="친구 추가 ㄱ" />
-                            <AddBtn onSubmit={() => { }}>친구 요청 보내기</AddBtn>
+                            <AddBtn type="submit">친구 요청 보내기</AddBtn>
                         </AddForm>
                     </ContentAdd>
                 </>
