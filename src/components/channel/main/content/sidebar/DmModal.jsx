@@ -12,7 +12,6 @@ border-radius: 5px;
 `;
 const DmModal = ({ selectedUser, onClose }) => {
     const { id } = useContext(MemberContext);
-    const [dmTopic, setDmTopic] = useState(null);
     const navigate = useNavigate();
 
     const DirectMessage = async () => {
@@ -20,7 +19,8 @@ const DmModal = ({ selectedUser, onClose }) => {
             member1Id: id,
             member2Id: selectedUser.id
         }).then((res) => {
-            setDmTopic(res.data);
+            const { data: dmTopic } = res;
+
             onClose();
             navigate(`/channel/@me/${dmTopic}`);
         });
