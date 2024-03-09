@@ -6,27 +6,31 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import PropTypes from "prop-types";
 
 const MySettingMainContainer = styled(BaseContainer)`
-    background-color: #f2f3f5;
+    width: 100%;
+    height: 100%;
+    padding: 40px 80px 40px 80px;
+    background-color: #fff6ef;
     display: flex;
     flex-direction: row;
-    position: relative;
+    justify-content: center;
+    align-items: center;
 `;
 
 const MySettingNavContainer = styled.div`
     min-width: 192px;
-    width: 477px;
-    background-color: #e2e4e7;
-    display: flex;
-    justify-content: flex-end;
+    width: 300px;
+    height: 85%;
+    background-color: #ffffff;
+    margin-right: 80px;
+    padding: 5px;
 `;
 
 const MySettingProfileContainer = styled.div`
     min-width: 550px;
-    width: 100%;
-    padding: 60px 40px 80px 40px;
-    display: flex;
-    justify-content: flex-start;
-    overflow-y: auto;
+    width: 550px;
+    height: 85%;
+    background-color: #ffffff;
+    padding: 15px;
 `;
 
 const MySettingButtonContainer = styled.div`
@@ -36,7 +40,7 @@ const MySettingButtonContainer = styled.div`
     top: 60px;
     bottom: 586px;
     right: 283px;
-    left: 1217px;
+    left: 1350px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,13 +60,14 @@ const MySetting = ({ close }) => {
                 <MySettingProfile />
             </MySettingProfileContainer>
             <MySettingButtonContainer onClick={close}>
-                <HighlightOffIcon />
+                <HighlightOffIcon sx={{ color: "#707070" }} />
                 <div
                     style={{
                         marginTop: "8px",
                         fontWeight: 600,
                         fontSize: "13px",
-                        textAlign: "center"
+                        textAlign: "center",
+                        color: "#707070"
                     }}
                 >ESC</div>
             </MySettingButtonContainer>
