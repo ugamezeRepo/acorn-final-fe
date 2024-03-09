@@ -1,14 +1,23 @@
-import { getAuthenticationCookie } from "@utils/cookieManager";
+import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
+import { useAsync } from "react-async";
 import { Navigate } from "react-router-dom";
 
+const retrieveUserInfo = async () => {
+    const res = await axiosClient.get("/member/@me");
+    return res.status == 200;
+};
+
 const SecureComponent = ({ val, fallback }) => {
-    const authCookie = getAuthenticationCookie();
-    if (!authCookie) {
+    const { data, error, isLoading } = useAsync({ promiseFn: retrieveUserInfo });
+    if (isLoading) return <>loading..</>;
+    if (error) {
         return <Navigate to={fallback} />;
     }
-
-    return val;
+    if (data) {
+        return val;
+    }
+    return null;
 };
 
 
