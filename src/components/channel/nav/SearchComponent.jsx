@@ -1,14 +1,15 @@
 import { Search } from "@mui/icons-material";
 import { InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
+// import { useState } from "react";
 
 const SearchComponent = () => {
 
-    const [searchText, setSearchText] = useState("");
+    // const [searchText, setSearchText] = useState("");
 
-    const searchTextChange = (e) => {
-        setSearchText(e.target.value);
-    };
+    // const searchTextChange = (e) => {
+    //     setSearchText(e.target.value);
+    // };
+
 
     return (
         <div
@@ -34,7 +35,7 @@ const SearchComponent = () => {
                     ),
                 }}
                 autoFocus
-                onChange={searchTextChange}
+            //onChange={searchTextChange}
             />
         </div>
     );
