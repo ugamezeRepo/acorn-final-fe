@@ -19,7 +19,7 @@ const MySettingMainContainer = styled(BaseContainer)`
 const MySettingNavContainer = styled.div`
     min-width: 192px;
     width: 300px;
-    height: 85%;
+    height: 600px;
     background-color: #ffffff;
     margin-right: 80px;
     padding: 5px;
@@ -28,7 +28,7 @@ const MySettingNavContainer = styled.div`
 const MySettingProfileContainer = styled.div`
     min-width: 550px;
     width: 550px;
-    height: 85%;
+    height: 600px;
     background-color: #ffffff;
     padding: 15px;
 `;
