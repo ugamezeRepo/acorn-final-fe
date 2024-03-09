@@ -1,11 +1,10 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
-import { DmFriendList } from "@components/my-setting/DmFriendList";
+import { SearchComponent } from "@components/channel/nav/SearchComponent";
 import styled from "@emotion/styled";
 import { Button, List, Popover } from "@mui/material";
 import { useState } from "react";
 
-import { SearchComponent } from "./SearchComponent";
 
 
 const ChannelNavContainer = styled(BaseContainer)`
