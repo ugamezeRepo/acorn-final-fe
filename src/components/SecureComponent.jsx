@@ -1,8 +1,9 @@
-import { Box, CircularProgress } from "@mui/material";
+import { LodingPage } from "@components/LodingPage";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { useAsync } from "react-async";
 import { Navigate } from "react-router-dom";
+
 
 const retrieveUserInfo = async () => {
     const res = await axiosClient.get("/member/@me");
@@ -11,12 +12,7 @@ const retrieveUserInfo = async () => {
 
 const SecureComponent = ({ val, fallback }) => {
     const { data, error, isLoading } = useAsync({ promiseFn: retrieveUserInfo });
-    if (isLoading) return <>
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-            <CircularProgress />
-        </Box>
-
-    </>;
+    if (isLoading) return <LodingPage />;
     if (error) {
         return <Navigate to={fallback} />;
     }

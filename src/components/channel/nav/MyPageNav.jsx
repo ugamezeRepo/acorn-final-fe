@@ -1,9 +1,10 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
-import { DmFriendList } from "@components/my-setting/DmFriendList";
+import { SearchComponent } from "@components/channel/nav/SearchComponent";
 import styled from "@emotion/styled";
 import { Button, List, Popover } from "@mui/material";
 import { useState } from "react";
+
 
 
 const ChannelNavContainer = styled(BaseContainer)`
@@ -91,6 +92,19 @@ const MyPageNav = () => {
         <>
             <ChannelNavContainer>
                 <FindDm onClick={openClickFind}>대화 시작하기</FindDm>
+                <Popover open={openFindView} onClose={closeClickFind}
+                    anchorEl={openFind}
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                    }}
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left"
+                    }}
+                >
+                    <SearchComponent />
+                </Popover>
                 <ChannelNavList>
                     <AddDmButton>
                         <div>다이렉트 메세지</div>
@@ -103,19 +117,6 @@ const MyPageNav = () => {
                 </ChannelNavList>
                 <ChannelNavMyStatus />
             </ChannelNavContainer>
-            <Popover open={openFindView} onClose={closeClickFind}
-                anchorReference="anchorPosition"
-                anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}
-                anchorOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}
-                transformOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}>
-                <DmFriendList />
-            </Popover>
         </>
     );
 };
