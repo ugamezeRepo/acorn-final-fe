@@ -31,15 +31,33 @@ const MySettingProfile = () => {
         email: email
     });
     const [canSubmit, setCanSubmit] = useState(false);
+    const [isHashInvalid, setHashInvalid] = useState(false);
     const [DeleteModalOpen, setDeleteModalOpen] = useState(false);
 
 
-    const profileChange = (e) => {
+    const nicknameChange = (e) => {
         setNewData({
             ...newData,
-            [e.target.name]: e.target.value
+            nickname: e.target.value
         });
-        setCanSubmit(true);
+        if (isHashInvalid === false) {
+            setCanSubmit(true);
+        }
+    };
+
+    const hashtagChange = (e) => {
+        const hashtagRegex = /^\d{4}$/;
+        if (hashtagRegex.test(e.target.value)) {
+            setHashInvalid(false);
+            setNewData({
+                ...newData,
+                hashtag: e.target.value
+            });
+            setCanSubmit(true);
+        } else {
+            setCanSubmit(false);
+            setHashInvalid(true);
+        }
     };
 
     const updateSubmit = () => {
@@ -85,23 +103,23 @@ const MySettingProfile = () => {
                     <TextField
                         defaultValue={nickname}
                         size="small"
-                        name="nickname"
                         sx={{
                             marginBottom: 3,
                             width: 300
                         }}
-                        onChange={profileChange}
+                        onChange={nicknameChange}
                     />
                     <TextfieldLabelContainer>해시태그</TextfieldLabelContainer>
                     <TextField
                         defaultValue={hashtag}
                         size="small"
-                        name="hashtag"
                         sx={{
                             marginBottom: 3,
                             width: 300
                         }}
-                        onChange={profileChange}
+                        error={isHashInvalid}
+                        helperText={isHashInvalid ? "4자리 숫자로 입력해주세요" : ""}
+                        onChange={hashtagChange}
                     />
                 </div>
                 <Button

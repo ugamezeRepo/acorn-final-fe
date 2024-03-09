@@ -23,6 +23,7 @@ const MySettingNavContainer = styled.div`
     background-color: #ffffff;
     margin-right: 80px;
     padding: 5px;
+    border-radius: 10px;
 `;
 
 const MySettingProfileContainer = styled.div`
@@ -31,6 +32,7 @@ const MySettingProfileContainer = styled.div`
     height: 600px;
     background-color: #ffffff;
     padding: 15px;
+    border-radius: 10px;
 `;
 
 const MySettingButtonContainer = styled.div`

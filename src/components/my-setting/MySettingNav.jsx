@@ -35,7 +35,7 @@ const ProfileTextContainer = styled.div`
 const LogoutTextContainer = styled.div`
     color: #707070;
     text-decoration: underline;
-    height: 100px;
+    height: 30px;
     text-align: center;
     cursor: pointer;
 `;
@@ -64,7 +64,8 @@ const MySettingNav = () => {
                 </AccountInfoContainer>
                 <List
                     sx={{
-                        padding: "20px 5px 20px 5px"
+                        padding: "20px 5px 20px 5px",
+                        marginBottom: "50px"
                     }}
                 >
                     <ListItem>
@@ -73,14 +74,6 @@ const MySettingNav = () => {
                                 <PersonOutline color="#c2c2c2" />
                             </ListItemIcon>
                             <ListItemText primary="나의 계정" />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <PersonOutline color="#c2c2c2" />
-                            </ListItemIcon>
-                            <ListItemText primary="리스트2" />
                         </ListItemButton>
                     </ListItem>
                 </List>
