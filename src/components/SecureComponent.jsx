@@ -1,3 +1,4 @@
+import { Box, CircularProgress } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { useAsync } from "react-async";
@@ -10,7 +11,12 @@ const retrieveUserInfo = async () => {
 
 const SecureComponent = ({ val, fallback }) => {
     const { data, error, isLoading } = useAsync({ promiseFn: retrieveUserInfo });
-    if (isLoading) return <>loading..</>;
+    if (isLoading) return <>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <CircularProgress />
+        </Box>
+
+    </>;
     if (error) {
         return <Navigate to={fallback} />;
     }
