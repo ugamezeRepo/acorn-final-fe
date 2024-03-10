@@ -1,6 +1,6 @@
 
 import { MySetting } from "@components/my-setting/MySetting";
-import { CHATTING_INPUT_BG_COLOR, MY_STAT_HOVER_BG_COLOR } from "@configs/color";
+import { CHATTING_INPUT_BG_COLOR, MY_STAT_BG_HOVER_COLOR } from "@configs/color";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { HeadsetMic, HeadsetOff, Mic, MicOff, Settings } from "@mui/icons-material";
@@ -24,7 +24,7 @@ const MyInfoGroup = styled.div`
 
 
     &:hover {
-        background-color: ${MY_STAT_HOVER_BG_COLOR};
+        background-color: ${MY_STAT_BG_HOVER_COLOR};
         transition: background-color 0.18s linear;
     }
 `;

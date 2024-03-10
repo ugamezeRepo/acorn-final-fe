@@ -19,7 +19,7 @@ export const NAV_BG_HOVER_COLOR = "#e9e9eb";
 
 // 사이드 네비게이션바 밑, 나의 정보 배경색을 결정합니다
 export const MY_STAT_BG_COLOR = "#ebedef";
-export const MY_STAT_HOVER_BG_COLOR = "#e2e4e6";
+export const MY_STAT_BG_HOVER_COLOR = "#e2e4e6";
 
 
 // 글로벌 네비게이션 바의 색깔을 결정합니다.
