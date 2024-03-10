@@ -1,5 +1,6 @@
 
 import { MySetting } from "@components/my-setting/MySetting";
+import { CHATTING_INPUT_BG_COLOR, MY_STAT_HOVER_BG_COLOR } from "@configs/color";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { HeadsetMic, HeadsetOff, Mic, MicOff, Settings } from "@mui/icons-material";
@@ -9,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 const ChannelNavMyStatusContainer = styled.div`
     flex-grow: 0; 
     flex-shrink: 0;
-    background-color: #ebedef;
+    background-color: ${CHATTING_INPUT_BG_COLOR};
     height: 53px;
     display: flex;
 `;
@@ -23,7 +24,7 @@ const MyInfoGroup = styled.div`
 
 
     &:hover {
-        background-color: #d2d4d8;
+        background-color: ${MY_STAT_HOVER_BG_COLOR};
         transition: background-color 0.18s linear;
     }
 `;

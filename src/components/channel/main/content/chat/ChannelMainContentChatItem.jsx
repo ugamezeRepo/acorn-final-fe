@@ -1,3 +1,4 @@
+import { CHATTING_BG_HOVER_COLOR } from "@configs/color";
 import { ChannelContext } from "@contexts/ChannelContext";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
@@ -114,7 +115,7 @@ const ChannelMainContentChatItem = ({
     };
 
     return (
-        <ChatItem sx={{ ...listStyle, bgcolor: openPopper ? "#f7f7f7" : null }}
+        <ChatItem sx={{ ...listStyle, bgcolor: openPopper ? CHATTING_BG_HOVER_COLOR : null }}
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
             ref={chatItemRef}

@@ -3,6 +3,7 @@ import { BaseContainer } from "@components/basis/BaseContainer";
 import { CreateChannel } from "@components/global-navigation/CreateChannel";
 import { GlobalChannelNavItem } from "@components/global-navigation/GlobalChannelNavItem";
 import { GlobalChannelNavMyPageItem } from "@components/global-navigation/GlobalChannelNavMyPageItem";
+import { GLOBAL_NAV_BG_COLOR, GLOBAL_NAV_ICON_BG_COLOR } from "@configs/color";
 import { MemberContext } from "@contexts/MemberContext";
 import { Divider, List } from "@mui/material";
 import { Popover } from "@mui/material";
@@ -13,7 +14,7 @@ import { useContext, useState } from "react";
 const GlobalChannelNavContainer = styled(BaseContainer)`
     min-width: 72px;
     max-width: 72px;
-    background-color: #e2e4e7;
+    background-color: ${GLOBAL_NAV_BG_COLOR};
     overflow: auto;
 
     /** hidden scrollbar  **/
@@ -38,7 +39,7 @@ const CreateChannelButton = styled(Button)`
     border-radius: 50%;
     min-width: 40px;
     left:22%;
-    background-color: #bdbdbd;
+    background-color: ${GLOBAL_NAV_ICON_BG_COLOR};
     margin-top:10px;
     font-size: 26px;
     color: #18a518;

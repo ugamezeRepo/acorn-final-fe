@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const ChannelNavItem = ({
-    // TODO: add props for topic type
     topicName,
     topicId,
 }) => {

@@ -1,4 +1,5 @@
 import { DmModal } from "@components/channel/main/content/sidebar/DmModal";
+import { NAV_BG_COLOR } from "@configs/color";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { Avatar, Badge, List, ListSubheader, Popover } from "@mui/material";
@@ -6,10 +7,9 @@ import { useContext, useEffect, useState } from "react";
 
 
 const UserInfoContainer = styled.div`
-background-color: #f2f3f5;
+    background-color: ${NAV_BG_COLOR};
     display: flex;
     flex-direction: column;
-    background-color: #f2f3f5;
     width: 240px;
 `;
 
@@ -73,10 +73,8 @@ const UserInfo = () => {
                     sx={{
                         width: "100%",
                         maxWidth: 360,
-                        bgcolor: "background.paper",
                         position: "relative",
                         overflow: "auto",
-
                         "& ul": { padding: 0 },
                     }}
                     subheader={<li />}
@@ -84,7 +82,7 @@ const UserInfo = () => {
                     {["online", "offline"].map((isOnline, index) => (
                         <li key={`section-${index}`}>
                             <ul>
-                                <ListSubheader>{`${isOnline} - ${members.filter((e) => index ? e.status === "offline" : e.status !== "offline").length}`}</ListSubheader>
+                                <ListSubheader sx={{ bgcolor: NAV_BG_COLOR }}>{`${isOnline} - ${members.filter((e) => index ? e.status === "offline" : e.status !== "offline").length}`}</ListSubheader>
                                 {members.map((user, idx) => {
                                     return ((isOnline === "offline" && user.status === "offline") || (isOnline !== "offline" && user.status !== "offline")) &&
                                         (<UserBox key={`user-${idx}`} status={user.status} onClick={(event) => handleOpenDm(event, user)}>

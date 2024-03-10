@@ -1,11 +1,12 @@
 import maindotori from "@assets/maindotori.png";
+import { LOGIN_PAGE_BG_COLOR, LOGIN_PAGE_BTN_BG_COLOR, LOGIN_PAGE_BTN_COLOR } from "@configs/color";
 import { getHttpBaseUrl } from "@configs/env";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 const LoginPageContainer = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #f5f5f1;
+    background-color: ${LOGIN_PAGE_BG_COLOR};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,8 +26,8 @@ const DotoriContainer = styled.div`
 const GoogleLoginButton = styled(Button)`
     width: 340px;
     height: 60px;
-    background-color: #456e2a;
-    color: #ffffff;
+    background-color: ${LOGIN_PAGE_BTN_BG_COLOR};
+    color:  ${LOGIN_PAGE_BTN_COLOR};
     font-size: 20px;
     font-weight: 500;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; ;

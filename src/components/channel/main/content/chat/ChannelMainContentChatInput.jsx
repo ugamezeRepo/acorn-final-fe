@@ -1,4 +1,5 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
+import { MY_STAT_BG_COLOR } from "@configs/color";
 import { ChannelContext } from "@contexts/ChannelContext";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
@@ -20,7 +21,7 @@ const ChannelMainMessageInputContainer = styled(BaseContainer)`
 
 const ChannelMainMessageInputContent = styled.div`
     width: 100%;
-    background-color: #ebedef;
+    background-color: ${MY_STAT_BG_COLOR};
     margin-bottom: 24px;
     border-radius: 12px;
     padding-left: 12px;

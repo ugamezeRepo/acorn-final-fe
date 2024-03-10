@@ -1,17 +1,17 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
 import { SearchComponent } from "@components/channel/nav/SearchComponent";
+import { NAV_BG_COLOR } from "@configs/color";
 import styled from "@emotion/styled";
 import { Button, List, Popover } from "@mui/material";
 import { useState } from "react";
-
 
 
 const ChannelNavContainer = styled(BaseContainer)`
     max-width: 240px;
     display: flex;
     flex-direction: column;
-    background-color: #f2f3f5;
+    background-color: ${NAV_BG_COLOR};
 `;
 
 
