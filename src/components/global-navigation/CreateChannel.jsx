@@ -4,7 +4,7 @@ import { PropTypes } from "prop-types";
 import { useContext, useState } from "react";
 
 const CreateChannel = ({ handleClose }) => {
-    const { nickname, hashtag, updateMyInfo } = useContext(MemberContext);
+    const { myInfo, updateMyInfo } = useContext(MemberContext);
     const [serverName, setServerName] = useState("");
 
     const handleServerName = (e) => {
@@ -15,8 +15,8 @@ const CreateChannel = ({ handleClose }) => {
         await axiosClient.post("/channel", {
             name: serverName,
             thumbnail: "",
-            nickname: nickname,
-            hashtag: hashtag,
+            nickname: myInfo.nickname,
+            hashtag: myInfo.hashtag,
         });
         updateMyInfo();
         handleClose();

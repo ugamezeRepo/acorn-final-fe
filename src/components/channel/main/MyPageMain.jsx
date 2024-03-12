@@ -7,7 +7,9 @@ import BlockIcon from "@mui/icons-material/Block";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
-import { useState } from "react";
+import { Button } from "@mui/material";
+import { axiosClient } from "@utils/axiosClient";
+import { useEffect, useState } from "react";
 
 const MyPageMainCotainer = styled(BaseContainer)`
     background-color: #fff;
@@ -46,13 +48,20 @@ const AddInput = styled.input`
     border-radius: 5px;
 `;
 
-const AddBtn = styled.button`
+const AddBtn = styled(Button)`
     
 `;
 
 const MyPageMain = () => {
     const [content, setContent] = useState("default");
+    const [searchText, setSearchText] = useState("");
 
+    useEffect(() => {
+        (async () => {
+            const { data } = await axiosClient.get(`/friend/search?keyword=${searchText}`);
+            console.log(data);
+        })();
+    }, [searchText]);
     const handleButtonClick = (addFriend) => {
         setContent(addFriend);
     };
@@ -107,8 +116,10 @@ const MyPageMain = () => {
                         <h3>친구 추가하기</h3>
                         <AddForm onSubmit={() => { }}>
                             <h4>친구 아이디를 사용하여 친구를 추가할 수 있음</h4>
-                            <AddInput type="text" placeholder="친구 추가 ㄱ" />
-                            <AddBtn type="submit">친구 요청 보내기</AddBtn>
+                            <AddInput type="text" placeholder="친구 추가 ㄱ" value={searchText} onChange={async (e) => {
+                                setSearchText(e.target.value);
+                            }} />
+                            <AddBtn variant="contained" type="submit">친구 요청 보내기</AddBtn>
                         </AddForm>
                     </ContentAdd>
                 </>

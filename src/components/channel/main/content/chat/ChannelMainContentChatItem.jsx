@@ -50,7 +50,7 @@ const ChannelMainContentChatItem = ({
     msg,
     showProfile
 }) => {
-    const { nickname, hashtag } = useContext(MemberContext);
+    const { myInfo } = useContext(MemberContext);
     const { sendJsonMessageOnWebSocket } = useContext(ChannelContext);
 
     const [openPopper, setOpenPopper] = useState(false);
@@ -87,8 +87,8 @@ const ChannelMainContentChatItem = ({
             messageDto: {
                 id: msg.id,
                 author: {
-                    nickname,
-                    hashtag
+                    nickname: myInfo.nickname,
+                    hashtag: myInfo.hashtag
                 },
                 content,
             }
@@ -107,8 +107,8 @@ const ChannelMainContentChatItem = ({
             messageDto: {
                 id: msg.id,
                 author: {
-                    nickname,
-                    hashtag
+                    nickname: myInfo.nickname,
+                    hashtag: myInfo.hashtag
                 },
             }
         });
@@ -143,13 +143,13 @@ const ChannelMainContentChatItem = ({
                 <Box sx={{ border: 0.5, borderColor: "#eaebed", borderRadius: "8px", display: "flex" }}>
                     {
                         // TODO: change user verification logic
-                        (nickname === msg.author.nickname && hashtag === msg.author.hashtag) &&
+                        (myInfo.id === msg.author.id) &&
                         <PopperButton disableRipple onClick={handleEditClick}>
                             <Edit sx={{ color: "#313338" }} />
                         </PopperButton>
                     }
                     {
-                        ((nickname === msg.author.nickname && hashtag === msg.author.hashtag) || checkAdmin()) &&
+                        (myInfo.id === msg.author.id || checkAdmin()) &&
                         < PopperButton disableRipple onClick={handleDeleteClick}>
                             <Delete sx={{ color: "#da373c" }} />
                         </PopperButton>
