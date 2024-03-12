@@ -1,7 +1,7 @@
 import { getWsBaseUrl } from "@configs/env";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 
 const MemberContext = createContext({
@@ -51,7 +51,7 @@ const MemberContextProvider = ({ children }) => {
     }, [myInfo, pingWebSocket]);
 
 
-    const updateMyInfo = async () => {
+    const updateMyInfo = useCallback(async () => {
         const { data, status } = await axiosClient.get("/member/@me");
         if (status == 200) {
             setMyInfo(data);
@@ -60,7 +60,8 @@ const MemberContextProvider = ({ children }) => {
         if (JSON.stringify(newChannels) !== JSON.stringify(channels)) {
             setChannels(newChannels);
         }
-    };
+    }, [channels]);
+
     return (
         <MemberContext.Provider value={{
             channels,

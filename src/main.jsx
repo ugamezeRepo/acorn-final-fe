@@ -6,7 +6,6 @@ import { LoginPage } from "@pages/LoginPage";
 import { MyChannelPage } from "@pages/MyChannelPage";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { RtcTestPage } from "@pages/RtcTestPage";
-import { SignupPage } from "@pages/SignupPage";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -20,7 +19,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/channel/:channelId" element={<SecureComponent val={<ChannelPage />} />} />
                 <Route path="/channel/:channelId/topic/:topicId" element={<SecureComponent val={<ChannelPage />} />} />
                 <Route path="/invite/:inviteCode" element={<SecureComponent val={<InvitePage />} />} />
-                <Route path="/signup" element={<SecureComponent val={<SignupPage />} />} />
                 <Route path="/" element={<SecureComponent val={<MyChannelPage />} />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/rtc" element={<RtcTestPage />} />

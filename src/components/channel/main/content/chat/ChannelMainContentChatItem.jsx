@@ -87,6 +87,7 @@ const ChannelMainContentChatItem = ({
             messageDto: {
                 id: msg.id,
                 author: {
+                    id: myInfo.id,
                     nickname: myInfo.nickname,
                     hashtag: myInfo.hashtag
                 },
@@ -107,6 +108,7 @@ const ChannelMainContentChatItem = ({
             messageDto: {
                 id: msg.id,
                 author: {
+                    id: myInfo.id,
                     nickname: myInfo.nickname,
                     hashtag: myInfo.hashtag
                 },

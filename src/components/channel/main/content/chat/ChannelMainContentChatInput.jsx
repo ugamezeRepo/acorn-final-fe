@@ -110,6 +110,7 @@ const ChannelMainMessageInput = ({ placeholder }) => {
                     job: "insert",
                     messageDto: {
                         author: {
+                            id: myInfo.id,
                             nickname: myInfo.nickname,
                             hashtag: myInfo.hashtag
                         },
