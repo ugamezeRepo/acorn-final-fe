@@ -9,7 +9,7 @@ const SearchComponent = () => {
     const { id } = useContext(MemberContext);
     const [searchText, setSearchText] = useState("");
     const [friendList, setFriendList] = useState([]);
-    const [selectedFriend, setSelectedFriend] = useState({});
+
 
     useEffect(() => {
         const searchFriends = async () => {
@@ -54,7 +54,7 @@ const SearchComponent = () => {
             <List sx={{ width: 580 }}>
                 {friendList.filter(item => item.nickname.includes(searchText))
                     .map((friend, idx) => (
-                        <ListItemButton key={idx} sx={{ textAlign: "left" }} onClick={() => setSelectedFriend(friend)}>
+                        <ListItemButton key={idx} sx={{ textAlign: "left" }}>
                             <ListItemIcon><Person /></ListItemIcon>
                             <ListItemText><strong style={{ marginRight: 5 }}>{friend.nickname}</strong> #{friend.hashtag}</ListItemText>
                         </ListItemButton>
