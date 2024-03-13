@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 const DmContainer = styled.div`
@@ -12,18 +12,15 @@ border-radius: 5px;
 `;
 const DmModal = ({ selectedUser, onClose }) => {
     const { id } = useContext(MemberContext);
-    const [dmTopic, setDmTopic] = useState(null);
     const navigate = useNavigate();
 
     const DirectMessage = async () => {
-        await axiosClient.post(`/channel/@me/`, {
+        const { data: { id: directMessageId } } = await axiosClient.post(`/channel/@me`, {
             member1Id: id,
             member2Id: selectedUser.id
-        }).then((res) => {
-            setDmTopic(res.data);
-            onClose();
-            navigate(`/channel/@me/${dmTopic}`);
         });
+        onClose();
+        navigate(`/channel/@me/${directMessageId}`, { state: { selectedUserId: selectedUser.id } });
     };
 
     return (

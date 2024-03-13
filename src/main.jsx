@@ -4,6 +4,7 @@ import { ChannelPage } from "@pages/ChannelPage";
 import { InvitePage } from "@pages/InvitePage";
 import { LoginPage } from "@pages/LoginPage";
 import { MyChannelPage } from "@pages/MyChannelPage";
+import { MyDmPage } from "@pages/MyDmPage";
 import { NotFoundPage } from "@pages/NotFoundPage";
 import { RtcTestPage } from "@pages/RtcTestPage";
 import ReactDOM from "react-dom/client";
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <AppContextProvider>
             <Routes>
                 <Route path="/channel/@me" element={<SecureComponent val={<MyChannelPage />} />} />
+                <Route path="/channel/@me/:directMessageId" element={<SecureComponent val={<MyDmPage />} />} />
                 <Route path="/channel/:channelId" element={<SecureComponent val={<ChannelPage />} />} />
                 <Route path="/channel/:channelId/topic/:topicId" element={<SecureComponent val={<ChannelPage />} />} />
                 <Route path="/invite/:inviteCode" element={<SecureComponent val={<InvitePage />} />} />
