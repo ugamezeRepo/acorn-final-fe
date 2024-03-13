@@ -1,4 +1,4 @@
-import { LodingPage } from "@components/LodingPage";
+import { LodingPage } from "@components/LoadingPage";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
 import { useAsync } from "react-async";
