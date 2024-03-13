@@ -24,12 +24,8 @@ const TextfieldLabelContainer = styled.div`
 
 
 const MySettingProfile = () => {
-    const { nickname, hashtag, email, updateMyInfo } = useContext(MemberContext);
-    const [newData, setNewData] = useState({
-        nickname: nickname,
-        hashtag: hashtag,
-        email: email
-    });
+    const { myInfo, updateMyInfo } = useContext(MemberContext);
+    const [newData, setNewData] = useState(myInfo);
     const [canSubmit, setCanSubmit] = useState(false);
     const [isHashInvalid, setHashInvalid] = useState(false);
     const [DeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -62,9 +58,7 @@ const MySettingProfile = () => {
 
     const updateSubmit = () => {
         axiosClient.put("/member/changeNick", newData)
-            .then(res => {
-                console.log(newData);
-                console.log(res.data);
+            .then(_ => {
                 updateMyInfo();
                 setCanSubmit(false);
             })
@@ -101,7 +95,7 @@ const MySettingProfile = () => {
                     </div>
                     <TextfieldLabelContainer>닉네임</TextfieldLabelContainer>
                     <TextField
-                        defaultValue={nickname}
+                        defaultValue={myInfo.nickname}
                         size="small"
                         sx={{
                             marginBottom: 3,
@@ -111,7 +105,7 @@ const MySettingProfile = () => {
                     />
                     <TextfieldLabelContainer>해시태그</TextfieldLabelContainer>
                     <TextField
-                        defaultValue={hashtag}
+                        defaultValue={myInfo.hashtag}
                         size="small"
                         sx={{
                             marginBottom: 3,

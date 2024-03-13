@@ -1,24 +1,22 @@
 import { getWsBaseUrl } from "@configs/env";
 import { axiosClient } from "@utils/axiosClient";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 
 const MemberContext = createContext({
     channels: [],
-    id: null,
-    nickname: null,
-    hashtag: null,
-    email: null,
+    myInfo: {
+        id: null,
+        nickname: null,
+        hashtag: null,
+        email: null,
+    },
     micEnabled: true,
     soundEnabled: true,
     status: null,
     pingWebSocket: null,
     setChannels: () => { },
-    setId: () => { },
-    setNickname: () => { },
-    setHashtag: () => { },
-    setEmail: () => { },
     setMicEnabled: () => { },
     setSoundEnabled: () => { },
     setStatus: () => { },
@@ -36,10 +34,7 @@ const MemberContextProvider = ({ children }) => {
      * }
      */
     const [channels, setChannels] = useState(null);
-    const [id, setId] = useState(null);
-    const [nickname, setNickname] = useState(null);
-    const [hashtag, setHashtag] = useState(null);
-    const [email, setEmail] = useState(null);
+    const [myInfo, setMyInfo] = useState({});
     const [micEnabled, setMicEnabled] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(false);
     const [status, setStatus] = useState(null);
@@ -48,43 +43,34 @@ const MemberContextProvider = ({ children }) => {
     // initialize ping - pong websocket connection 
     useEffect(() => {
         pingWebSocket.sendJsonMessage({
-            email,
-            nickname,
-            hashtag,
+            id: myInfo.id,
+            email: myInfo.email,
+            nickname: myInfo.nickname,
+            hashtag: myInfo.hashtag,
         });
-    }, [email, nickname, hashtag, pingWebSocket]);
+    }, [myInfo, pingWebSocket]);
 
 
-    const updateMyInfo = async () => {
-        const { data } = await axiosClient.get("/member/@me");
-        if (id !== data.id || email !== data.email || nickname !== data.nickname || hashtag !== data.hashtag) {
-            setId(data.id);
-            setEmail(data.email);
-            setNickname(data.nickname);
-            setHashtag(data.hashtag);
+    const updateMyInfo = useCallback(async () => {
+        const { data, status } = await axiosClient.get("/member/@me");
+        if (status == 200) {
+            setMyInfo(data);
         }
-
         const { data: newChannels } = await axiosClient.get("/member/@me/channel");
         if (JSON.stringify(newChannels) !== JSON.stringify(channels)) {
             setChannels(newChannels);
         }
-    };
+    }, [channels]);
+
     return (
         <MemberContext.Provider value={{
             channels,
-            id,
-            nickname,
-            hashtag,
-            email,
+            myInfo,
             micEnabled,
             soundEnabled,
             status,
             pingWebSocket,
             setChannels,
-            setId,
-            setNickname,
-            setHashtag,
-            setEmail,
             setMicEnabled,
             setSoundEnabled,
             setStatus,

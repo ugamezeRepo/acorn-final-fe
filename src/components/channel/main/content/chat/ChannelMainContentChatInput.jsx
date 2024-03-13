@@ -57,7 +57,7 @@ const ChannelMainMessageInput = ({ placeholder }) => {
     const [fileUploadModalAnchor, setFileUploadModalAnchor] = useState(null);
     const [emojiModalAnchor, setEmojiModalAnchor] = useState(null);
 
-    const { nickname, hashtag } = useContext(MemberContext);
+    const { myInfo } = useContext(MemberContext);
     const { sendJsonMessageOnWebSocket, lastJsonMessageOnWebSocket, setMessages } = useContext(ChannelContext);
     const [message, setMessage] = useState("");
 
@@ -110,8 +110,9 @@ const ChannelMainMessageInput = ({ placeholder }) => {
                     job: "insert",
                     messageDto: {
                         author: {
-                            nickname,
-                            hashtag
+                            id: myInfo.id,
+                            nickname: myInfo.nickname,
+                            hashtag: myInfo.hashtag
                         },
                         content: message,
                     }

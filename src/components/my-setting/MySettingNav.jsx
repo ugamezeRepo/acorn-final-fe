@@ -41,7 +41,7 @@ const LogoutTextContainer = styled.div`
 `;
 
 const MySettingNav = () => {
-    const { nickname, email } = useContext(MemberContext);
+    const { myInfo } = useContext(MemberContext);
     const [logoutOpen, setLogoutOpen] = useState(false);
 
     const handleOpen = () => {
@@ -59,8 +59,8 @@ const MySettingNav = () => {
                     <ProfileImageContainer>
                         <img src={maindotori} alt="" style={{ width: 100, height: 150 }} />
                     </ProfileImageContainer>
-                    <ProfileTextContainer style={{ marginTop: 15 }}>{nickname}</ProfileTextContainer>
-                    <ProfileTextContainer style={{ marginBottom: 15 }}>{email}</ProfileTextContainer>
+                    <ProfileTextContainer style={{ marginTop: 15 }}>{myInfo.nickname}</ProfileTextContainer>
+                    <ProfileTextContainer style={{ marginBottom: 15 }}>{myInfo.email}</ProfileTextContainer>
                 </AccountInfoContainer>
                 <List
                     sx={{
