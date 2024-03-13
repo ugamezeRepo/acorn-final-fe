@@ -1,11 +1,11 @@
 
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { MyPageMainHeader } from "@components/channel/main/MyPageMainHeader";
+import { FriendAll } from "@components/my-setting/FriendAll";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import AppleIcon from "@mui/icons-material/Apple";
 import BlockIcon from "@mui/icons-material/Block";
-import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 import { Autocomplete, Button, TextField } from "@mui/material";
@@ -25,7 +25,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-
 `;
 const ContentAdd = styled.div`
 width:100%;
@@ -82,10 +81,7 @@ const MyPageMain = () => {
                 </>)}
             {content === "all" && (
                 <>
-                    <Content>
-                        <CatchingPokemonIcon sx={{ fontSize: `200px`, color: `#f0f0f0` }}></CatchingPokemonIcon>
-                        <Text>너님의 친구리스트.</Text>
-                    </Content>
+                    <FriendAll />
                 </>
             )}
             {content === "standBy" && (
