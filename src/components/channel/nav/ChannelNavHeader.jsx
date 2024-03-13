@@ -32,8 +32,20 @@ const ChannelLabel = styled.h3`
 `;
 
 const AddList = styled(List)`
+    text-indent: 20px;
     & > li {
         cursor: pointer;
+        padding:5px;
+        margin:0 10px;
+    }
+    & > li:hover {
+        background-color: #eeeeee;
+        border-radius: 5px;
+        font-weight: 600;
+    }
+    & > hr {
+        width: 90%;
+        border: 1px solid #f2f3f5;
     }
 `;
 
