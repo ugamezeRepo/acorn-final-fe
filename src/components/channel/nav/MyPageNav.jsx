@@ -1,9 +1,11 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
+import { DmList } from "@components/channel/main/content/sidebar/DmList";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
 import { DmFriendList } from "@components/my-setting/DmFriendList";
 import styled from "@emotion/styled";
 import { Button, List, Popover } from "@mui/material";
 import { useState } from "react";
+
 
 
 const ChannelNavContainer = styled(BaseContainer)`
@@ -61,20 +63,6 @@ const AddDmButton = styled.div`
     }
 `;
 
-const DmList = styled(List)`
-    font-size: 14px;
-    margin-top:10px;
-    padding:0 15px;
-    & > li {
-        padding:10px;
-        border-radius: 5px;
-    }
-    & > li:hover { 
-        background-color: #ebebeb;
-        color:#858585;
-    }
-`;
-
 const MyPageNav = () => {
 
     const [openFind, setOpenFind] = useState(null);
@@ -96,10 +84,7 @@ const MyPageNav = () => {
                         <div>다이렉트 메세지</div>
                         <span>+</span>
                     </AddDmButton>
-                    <DmList>
-                        <li>DM 중인 친구 닉네임 1</li>
-                        <li>DM 중인 친구 닉네임 2</li>
-                    </DmList>
+                    <DmList />
                 </ChannelNavList>
                 <ChannelNavMyStatus />
             </ChannelNavContainer>
