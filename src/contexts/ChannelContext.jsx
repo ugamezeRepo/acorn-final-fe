@@ -48,7 +48,7 @@ const ChannelContextProvider = ({ children }) => {
                 console.log(`websocket connected : ${currentChannel.id} ${currentTopic.id}`);
             },
             onError: (e) => {
-                console.log(`ws error => ${e}`);
+                console.log(`ws error => ${JSON.stringify(e)}`);
             }
         }
     );

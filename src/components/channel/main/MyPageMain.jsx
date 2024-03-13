@@ -1,15 +1,16 @@
 
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { MyPageMainHeader } from "@components/channel/main/MyPageMainHeader";
+import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import AppleIcon from "@mui/icons-material/Apple";
 import BlockIcon from "@mui/icons-material/Block";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
-import { Button } from "@mui/material";
+import { Autocomplete, Button, TextField } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const MyPageMainCotainer = styled(BaseContainer)`
     background-color: #fff;
@@ -39,29 +40,22 @@ justify-content: flex-start;
 const Text = styled.div`
     color:#e9e9e9;
 `;
-const AddForm = styled.form`
-    width: 100%;
-`;
-const AddInput = styled.input`
-    width: 80%;
-    height: 50px;
-    border-radius: 5px;
-`;
-
-const AddBtn = styled(Button)`
-    
-`;
 
 const MyPageMain = () => {
+    const { myInfo } = useContext(MemberContext);
     const [content, setContent] = useState("default");
+    const [searchResults, setSearchResults] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const [selectedFriendCandidate, setSelectedFriendCandidate] = useState(null);
 
     useEffect(() => {
         (async () => {
             const { data } = await axiosClient.get(`/friend/search?keyword=${searchText}`);
             console.log(data);
+            setSearchResults(data);
         })();
     }, [searchText]);
+
     const handleButtonClick = (addFriend) => {
         setContent(addFriend);
     };
@@ -114,13 +108,42 @@ const MyPageMain = () => {
                 <>
                     <ContentAdd>
                         <h3>친구 추가하기</h3>
-                        <AddForm onSubmit={() => { }}>
-                            <h4>친구 아이디를 사용하여 친구를 추가할 수 있음</h4>
-                            <AddInput type="text" placeholder="친구 추가 ㄱ" value={searchText} onChange={async (e) => {
-                                setSearchText(e.target.value);
-                            }} />
-                            <AddBtn variant="contained" type="submit">친구 요청 보내기</AddBtn>
-                        </AddForm>
+                        <h4>친구 닉네임을 통해 친구를 검색해보세요</h4>
+                        <div style={{ display: "flex", width: "100%" }}>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={searchResults}
+                                sx={{ width: "80%" }}
+                                onChange={(ev, val) => {
+                                    console.log(` val => ${JSON.stringify(val)}`);
+                                    setSearchText("");
+                                    setSearchResults([]);
+                                    setSelectedFriendCandidate(val);
+                                }}
+                                renderInput={(params) => <TextField
+                                    {...params}
+                                    placeholder="친구 닉네임을 입력해주세요"
+                                    value={searchText}
+                                    onInput={(e) => {
+                                        console.log("search text : " + e.target.value);
+                                        setSearchText(e.target.value);
+                                    }}
+                                />}
+                                getOptionLabel={(opt) => {
+                                    return `${opt.nickname} #${opt.hashtag}`;
+                                }}
+                            />
+                            <Button variant="contained" onClick={async () => {
+                                if (!selectedFriendCandidate) return;
+                                const { data } = await axiosClient.post("/friend/request", {
+                                    fromId: myInfo.id,
+                                    toId: selectedFriendCandidate.id,
+                                });
+                                console.log("friend request result => " + data);
+                            }}>친구 요청 보내기</Button>
+
+                        </div>
                     </ContentAdd>
                 </>
             )}
