@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { List } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 const ViewDmList = styled(List)`
     font-size: 14px;

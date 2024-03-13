@@ -4,7 +4,6 @@ import { MyChannelView } from "@components/MyChannelView";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 const MyChannelPageContainer = styled(BaseContainer)`
     display: flex; 
