@@ -1,5 +1,6 @@
 import { BaseHeaderContainer } from "@components/basis/BaseHeaderContainer";
 import { InviteModal } from "@components/global-navigation/InviteModal";
+import { NAV_BG_HOVER_COLOR } from "@configs/color";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { Close, ExpandMore } from "@mui/icons-material";
@@ -19,7 +20,7 @@ const ChannelNavHeaderContainer = styled(BaseHeaderContainer)`
 
 
     &:hover {
-        background-color: #dfe1e5;
+        background-color: ${NAV_BG_HOVER_COLOR};
         cursor: pointer;
     };
     

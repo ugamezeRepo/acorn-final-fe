@@ -1,5 +1,6 @@
 
 import { MySetting } from "@components/my-setting/MySetting";
+import { CHATTING_INPUT_BG_COLOR, MY_STAT_BG_HOVER_COLOR } from "@configs/color";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import { HeadsetMic, HeadsetOff, Mic, MicOff, Settings } from "@mui/icons-material";
@@ -9,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 const ChannelNavMyStatusContainer = styled.div`
     flex-grow: 0; 
     flex-shrink: 0;
-    background-color: #ebedef;
+    background-color: ${CHATTING_INPUT_BG_COLOR};
     height: 53px;
     display: flex;
 `;
@@ -23,7 +24,7 @@ const MyInfoGroup = styled.div`
 
 
     &:hover {
-        background-color: #d2d4d8;
+        background-color: ${MY_STAT_BG_HOVER_COLOR};
         transition: background-color 0.18s linear;
     }
 `;
@@ -61,7 +62,7 @@ const StatusContainer = styled.div`
 
 
 const ChannelNavMyStatus = () => {
-    const { nickname, email, status, micEnabled, soundEnabled, setMicEnabled, setSoundEnabled } = useContext(MemberContext);
+    const { myInfo, status, micEnabled, soundEnabled, setMicEnabled, setSoundEnabled } = useContext(MemberContext);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
 
@@ -82,8 +83,8 @@ const ChannelNavMyStatus = () => {
                     <Avatar sx={{ width: "32px", height: "32px" }} />
                 </AvatarBadge>
                 <NickStatusBox>
-                    <NicknameContainer>{nickname}</NicknameContainer>
-                    <NicknameContainer>{email}</NicknameContainer>
+                    <NicknameContainer>{myInfo.nickname}</NicknameContainer>
+                    <NicknameContainer>{myInfo.email}</NicknameContainer>
                     <StatusContainer>{status}</StatusContainer>
                 </NickStatusBox>
             </MyInfoGroup>

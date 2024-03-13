@@ -1,7 +1,8 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { DmList } from "@components/channel/main/content/sidebar/DmList";
 import { ChannelNavMyStatus } from "@components/channel/nav/ChannelNavMyStatus";
-import { DmFriendList } from "@components/my-setting/DmFriendList";
+import { SearchComponent } from "@components/channel/nav/SearchComponent";
+import { NAV_BG_COLOR } from "@configs/color";
 import styled from "@emotion/styled";
 import { Button, List, Popover } from "@mui/material";
 import { useState } from "react";
@@ -12,7 +13,7 @@ const ChannelNavContainer = styled(BaseContainer)`
     max-width: 240px;
     display: flex;
     flex-direction: column;
-    background-color: #f2f3f5;
+    background-color: ${NAV_BG_COLOR};
 `;
 
 
@@ -79,6 +80,19 @@ const MyPageNav = () => {
         <>
             <ChannelNavContainer>
                 <FindDm onClick={openClickFind}>대화 시작하기</FindDm>
+                <Popover open={openFindView} onClose={closeClickFind}
+                    anchorEl={openFind}
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                    }}
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left"
+                    }}
+                >
+                    <SearchComponent />
+                </Popover>
                 <ChannelNavList>
                     <AddDmButton>
                         <div>다이렉트 메세지</div>
@@ -88,19 +102,6 @@ const MyPageNav = () => {
                 </ChannelNavList>
                 <ChannelNavMyStatus />
             </ChannelNavContainer>
-            <Popover open={openFindView} onClose={closeClickFind}
-                anchorReference="anchorPosition"
-                anchorPosition={{ left: window.innerWidth / 2, top: window.innerHeight / 2 }}
-                anchorOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}
-                transformOrigin={{
-                    vertical: "center",
-                    horizontal: "center",
-                }}>
-                <DmFriendList />
-            </Popover>
         </>
     );
 };

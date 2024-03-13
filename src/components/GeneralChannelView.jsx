@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 
 const GeneralChannelViewContainer = styled(BaseContainer)`
     display:flex;
-    background-color: yellow;
     overflow-x: hidden;
 `;
 
