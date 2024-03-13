@@ -1,6 +1,7 @@
 
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { MyPageMainHeader } from "@components/channel/main/MyPageMainHeader";
+import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import AppleIcon from "@mui/icons-material/Apple";
 import BlockIcon from "@mui/icons-material/Block";
@@ -9,7 +10,7 @@ import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDiss
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const MyPageMainCotainer = styled(BaseContainer)`
     background-color: #fff;
@@ -41,10 +42,11 @@ const Text = styled.div`
 `;
 
 const MyPageMain = () => {
+    const { myInfo } = useContext(MemberContext);
     const [content, setContent] = useState("default");
     const [searchResults, setSearchResults] = useState([]);
     const [searchText, setSearchText] = useState("");
-    const [_selectedFriendCandidate, setSelectedFriendCandidate] = useState(null);
+    const [selectedFriendCandidate, setSelectedFriendCandidate] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -123,13 +125,23 @@ const MyPageMain = () => {
                                     {...params}
                                     placeholder="친구 닉네임을 입력해주세요"
                                     value={searchText}
-                                    onChange={(e) => setSearchText(e.target.value)}
+                                    onInput={(e) => {
+                                        console.log("search text : " + e.target.value);
+                                        setSearchText(e.target.value);
+                                    }}
                                 />}
                                 getOptionLabel={(opt) => {
                                     return `${opt.nickname} #${opt.hashtag}`;
                                 }}
                             />
-                            <Button variant="contained" type="submit">친구 요청 보내기</Button>
+                            <Button variant="contained" onClick={async () => {
+                                if (!selectedFriendCandidate) return;
+                                const { data } = await axiosClient.post("/friend/request", {
+                                    fromId: myInfo.id,
+                                    toId: selectedFriendCandidate.id,
+                                });
+                                console.log("friend request result => " + data);
+                            }}>친구 요청 보내기</Button>
 
                         </div>
                     </ContentAdd>
