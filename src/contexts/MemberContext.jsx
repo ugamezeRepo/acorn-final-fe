@@ -42,12 +42,14 @@ const MemberContextProvider = ({ children }) => {
 
     // initialize ping - pong websocket connection 
     useEffect(() => {
-        pingWebSocket.sendJsonMessage({
-            id: myInfo.id,
-            email: myInfo.email,
-            nickname: myInfo.nickname,
-            hashtag: myInfo.hashtag,
-        });
+        if ("id" in myInfo) {
+            pingWebSocket.sendJsonMessage({
+                id: myInfo.id,
+                email: myInfo.email,
+                nickname: myInfo.nickname,
+                hashtag: myInfo.hashtag,
+            });
+        }
     }, [myInfo, pingWebSocket]);
 
 
