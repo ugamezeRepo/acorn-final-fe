@@ -44,7 +44,7 @@ const MyPageMain = () => {
     const [content, setContent] = useState("default");
     const [searchResults, setSearchResults] = useState([]);
     const [searchText, setSearchText] = useState("");
-    const [selectedFriendCandidate, setSelectedFriendCandidate] = useState(null);
+    const [_selectedFriendCandidate, setSelectedFriendCandidate] = useState(null);
 
     useEffect(() => {
         (async () => {
