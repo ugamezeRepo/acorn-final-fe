@@ -3,8 +3,8 @@ import { InviteModal } from "@components/global-navigation/InviteModal";
 import { NAV_BG_HOVER_COLOR } from "@configs/color";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
-import { Close, ExpandMore } from "@mui/icons-material";
-import { List, Popover } from "@mui/material";
+import { Close, DeleteOutline, ExpandMore, PersonAddAlt } from "@mui/icons-material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, Popover } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,12 +52,23 @@ const AddList = styled(List)`
 const ChannelSettingPopOver = styled(Popover)``;
 const InviteModalPopOver = styled(Popover)``;
 
+const CancelButton = styled(Button)`
+  border-color: #535252 ;
+  color: #535252;
+  margin-right: 15px;
+`;
+const DeleteButton = styled(Button)`
+  background-color: #ee5757 ;
+  color: #ffffff;
+`;
+
 const ChannelNavHeader = () => {
     const { currentChannel } = useContext(ChannelContext);
     const navigate = useNavigate();
     const [channelSettingOpened, setChannelSettingOpened] = useState(false);
     const [inviteOpen, setInviteOpen] = useState(null);
     const handleOpenInviteModal = Boolean(inviteOpen);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     const handleOpenAddInvite = (e) => {
         setInviteOpen(e.currentTarget);
@@ -67,12 +78,18 @@ const ChannelNavHeader = () => {
         setInviteOpen(null);
     };
 
+    const handleOpenDeleteModal = () => {
+        setDeleteModalOpen(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setDeleteModalOpen(false);
+    };
+
     const deleteChannel = async () => {
-        const confirm = window.confirm("진짜 삭제할겨?");
-        if (confirm) {
-            await axiosClient.delete(`/channel/${currentChannel?.id}`);
-            navigate("/channel/@me");
-        }
+        setDeleteModalOpen(false);
+        await axiosClient.delete(`/channel/${currentChannel?.id}`);
+        navigate("/channel/@me");
     };
 
     return (
@@ -87,9 +104,9 @@ const ChannelNavHeader = () => {
                 >
                     <div style={{ width: "225px" }}>
                         <AddList>
-                            <li onClick={handleOpenAddInvite}>초대하기</li>
+                            <li onClick={handleOpenAddInvite} style={{ display: "flex", alignItems: "center" }}><PersonAddAlt sx={{ marginLeft: "3px" }} />초대하기</li>
                             <hr />
-                            <li onClick={deleteChannel}>채널 삭제</li>
+                            <li onClick={handleOpenDeleteModal} style={{ display: "flex", alignItems: "center" }}><DeleteOutline />채널 삭제</li>
                         </AddList>
                     </div>
                 </ChannelSettingPopOver>
@@ -109,8 +126,24 @@ const ChannelNavHeader = () => {
                     vertical: "center",
                     horizontal: "center",
                 }}>
-                <InviteModal name={currentChannel?.name} inviteCode={currentChannel?.inviteCode} />
+                <InviteModal name={currentChannel?.name} inviteCode={currentChannel?.inviteCode} close={handleCloseInviteModal} />
             </InviteModalPopOver>
+            <Dialog open={deleteModalOpen} onClose={handleCloseDeleteModal}>
+                <div
+                    style={{
+                        width: 300, height: 200, padding: "10px 20px 10px 20px", display: "flex", flexDirection: "column"
+                    }}>
+                    <div style={{ display: "flex", justifyContent: "right" }}>
+                        <Close onClick={handleCloseDeleteModal} sx={{ cursor: "pointer" }} />
+                    </div>
+                    <h3 style={{ textAlign: "left" }}>채널 삭제</h3>
+                    <h5 style={{ textAlign: "left", marginTop: 0 }}>채널을 삭제하시겠습니까?</h5>
+                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <CancelButton onClick={handleCloseDeleteModal} variant="outlined">취소</CancelButton>
+                        <DeleteButton onClick={deleteChannel} variant="contained" color="error">삭제</DeleteButton>
+                    </div>
+                </div>
+            </Dialog>
         </div>
     );
 };

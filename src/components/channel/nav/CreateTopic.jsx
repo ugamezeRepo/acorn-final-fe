@@ -1,35 +1,15 @@
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
+import { Close } from "@mui/icons-material";
+import { Button, IconButton, TextField } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { PropTypes } from "prop-types";
 import { useContext, useState } from "react";
 
-const Wrap = styled.div`
-    min-width: 400px;
-    padding:10px;
-`;
-
-const TopicForm = styled.div`
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    & > input {
-        width:50%;
-        height: 30px;
-        border:1px solid #a1a1a1;
-        border-radius: 5px;
-    }
-    & > button {
-        width:30%;
-        height: 30px;
-        border:1px solid #a1a1a1;
-        border-radius: 5px;
-    }
-    & > button:hover {
-        background-color:#2e7d32;
-        color: #ffffff;
-    }
+const CreateChannelContainer = styled.div`
+    width: 350px;
+    height: 250px;
+    padding: 15px 20px 20px 20px ;
 `;
 
 const CreateTopic = ({ handleClose }) => {
@@ -49,13 +29,25 @@ const CreateTopic = ({ handleClose }) => {
     };
 
     return (
-        <Wrap>
-            <h3>토픽을 만들어보세요</h3>
-            <TopicForm>
-                <input type="text" placeholder="토픽 이름" name="title" value={title} onChange={handleTitle} />
-                <button onClick={createTopic}>생성</button>
-            </TopicForm>
-        </Wrap>
+        <CreateChannelContainer>
+            <div style={{ display: "flex", justifyContent: "right" }}>
+                <IconButton>
+                    <Close onClick={handleClose} />
+                </IconButton>
+            </div>
+            <h3 style={{ textAlign: "center", color: "#535252", marginTop: "10px" }}>토픽을 만들어보세요</h3>
+            <TextField
+                placeholder="토픽이름"
+                size="small"
+                sx={{ width: 310, marginBottom: "22px" }}
+                name="title" value={title} onChange={handleTitle} autoFocus />
+            <Button
+                sx={{ width: 310, marginTop: 1, backgroundColor: "#456e2a", color: "#ececec" }}
+                onClick={createTopic}
+            >
+                생성
+            </Button>
+        </CreateChannelContainer>
     );
 };
 CreateTopic.propTypes = {
