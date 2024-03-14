@@ -1,7 +1,7 @@
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import { Button, List, ListItem } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useContext, useEffect, useState } from "react";
 
