@@ -4,7 +4,7 @@ import { NAV_BG_HOVER_COLOR } from "@configs/color";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { Close, DeleteOutline, ExpandMore, PersonAddAlt } from "@mui/icons-material";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, Popover } from "@mui/material";
+import { Button, Dialog, List, Popover } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
