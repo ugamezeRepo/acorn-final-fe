@@ -29,20 +29,19 @@ const Text = styled.div`
 
 const StandByList = styled(List)`
     width: 100%;
-    padding:0;
+    padding:20px;
+    & > span {
+        text-indent: 10px;
+    }
 `;
 const MyStandByList = styled(ListItem)`
     width: 100%;
-    background-color: #f7f7f7;
     padding: 10px;
-    margin-bottom: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
     display: flex;
     justify-content: space-between;
     
     &:hover {
-        background-color: #e0e0e0;
+        background-color: #f7f7f7;
     }
 `;
 const StandBy = () => {
@@ -93,11 +92,12 @@ const StandBy = () => {
                 <>
                     <ContentTwo>
                         <StandByList>
+                            <span>대기 중인 요청</span>
+                            <hr />
                             {request.map((req, idx) => (
                                 <MyStandByList key={idx}>
                                     <span>{idx + 1} ) {req.nickname} # {req.hashtag} 님의 요청</span>
                                     <div>
-
                                         <Button onClick={() => acceptFriendRequest(req)}>수락</Button>
                                         <Button onClick={() => denyFriendRequest(req)}>거절</Button>
                                     </div>

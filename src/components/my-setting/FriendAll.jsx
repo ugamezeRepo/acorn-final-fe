@@ -29,19 +29,20 @@ const Text = styled.div`
 
 const FriendList = styled(List)`
     width: 100%;
-    padding:0;
+    padding:20px;
+    & > span {
+        text-indent: 10px;
+    }
 `;
 
 const MyFriendList = styled(ListItem)`
     width: 100%;
-    background-color: #f7f7f7;
     padding: 10px;
-    margin-bottom: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
     
     &:hover {
-        background-color: #e0e0e0;
+        background-color: #f7f7f7;
     }
 `;
 const FriendAll = () => {
@@ -67,6 +68,8 @@ const FriendAll = () => {
                 <>
                     <ContentTwo>
                         <FriendList>
+                            <span>모든 친구</span>
+                            <hr />
                             {friendList.map((fl, idx) => (
                                 <MyFriendList key={idx}>
                                     <span>{idx + 1}) {fl.nickname} / #{fl.hashtag}</span>
