@@ -2,12 +2,12 @@
 import { BaseContainer } from "@components/basis/BaseContainer";
 import { MyPageMainHeader } from "@components/channel/main/MyPageMainHeader";
 import { FriendAll } from "@components/my-setting/FriendAll";
+import { Online } from "@components/my-setting/Online";
 import { StandBy } from "@components/my-setting/StandBy";
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
 import AppleIcon from "@mui/icons-material/Apple";
 import BlockIcon from "@mui/icons-material/Block";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useContext, useEffect, useState } from "react";
@@ -74,10 +74,7 @@ const MyPageMain = () => {
             )}
             {content === "online" && (
                 <>
-                    <Content>
-                        <SentimentVeryDissatisfiedIcon sx={{ fontSize: `200px`, color: `#f0f0f0` }}></SentimentVeryDissatisfiedIcon>
-                        <Text>아무도 안들어옴.</Text>
-                    </Content>
+                    <Online />
                 </>)}
             {content === "all" && (
                 <>

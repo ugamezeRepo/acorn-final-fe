@@ -1,6 +1,6 @@
 import { MemberContext } from "@contexts/MemberContext";
 import styled from "@emotion/styled";
-import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { List, ListItem } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { useContext, useEffect, useState } from "react";
@@ -27,7 +27,7 @@ const Text = styled.div`
     color:#e9e9e9;
 `;
 
-const FriendList = styled(List)`
+const FriendListAll = styled(List)`
     width: 100%;
     padding:20px;
     & > span {
@@ -35,7 +35,7 @@ const FriendList = styled(List)`
     }
 `;
 
-const MyFriendList = styled(ListItem)`
+const FriendList = styled(ListItem)`
     width: 100%;
     padding: 10px;
     display: flex;
@@ -45,37 +45,51 @@ const MyFriendList = styled(ListItem)`
         background-color: #f7f7f7;
     }
 `;
-const FriendAll = () => {
+const Online = () => {
     const { myInfo } = useContext(MemberContext);
-    const [friendList, setFriendList] = useState([]);
+    const [List, setList] = useState([]);
+
+
     useEffect(() => {
         (async () => {
             const { data } = await axiosClient.get(`/friend/${myInfo.id}/list`);
-            setFriendList(data);
+            setList(data);
         })();
-    }, []);
+    }, [myInfo.id]);
+
     return (
         <>
 
-            {friendList.length === 0 ? (
+            {List.length === 0 ? (
                 <>
                     <ContentOne>
-                        <CatchingPokemonIcon sx={{ fontSize: `200px`, color: `#f0f0f0` }}></CatchingPokemonIcon>
-                        <Text>너님의 친구리스트.</Text>
+                        <SentimentVeryDissatisfiedIcon sx={{ fontSize: `200px`, color: `#f0f0f0` }}></SentimentVeryDissatisfiedIcon>
+                        <Text>아무도 안들어옴.</Text>
                     </ContentOne>
                 </>
             ) : (
                 <>
                     <ContentTwo>
-                        <FriendList>
-                            <span>모든 친구</span>
+                        <FriendListAll>
+                            <span>온라인</span>
                             <hr />
-                            {friendList.map((fl, idx) => (
-                                <MyFriendList key={idx}>
-                                    <span>{idx + 1}) {fl.nickname} / #{fl.hashtag}</span>
-                                </MyFriendList>
+                            {List.map((req, idx) => (
+                                req.status === "online" && (
+                                    <FriendList key={idx}>
+                                        <span>{req.nickname}</span>
+                                    </FriendList>
+                                )
                             ))}
-                        </FriendList>
+                            <span>오프라인</span>
+                            <hr />
+                            {List.map((req, idx) => (
+                                req.status === "offline" && (
+                                    <FriendList key={idx}>
+                                        <span>{req.nickname}</span>
+                                    </FriendList>
+                                )
+                            ))}
+                        </FriendListAll>
                     </ContentTwo>
                 </>
             )}
@@ -83,4 +97,4 @@ const FriendAll = () => {
     );
 };
 
-export { FriendAll };
+export { Online };
