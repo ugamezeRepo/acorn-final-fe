@@ -14,12 +14,23 @@ const InviteCodeInput = styled.input`
 
 const InviteModal = ({ name, inviteCode }) => {
 
+    const copyToClipboard = () => {
+        const input = `${location.origin}/invite/${inviteCode}`;
+        navigator.clipboard.writeText(input)
+            .then(() => {
+                alert("복사되었습니다.");
+            })
+            .catch((err) => {
+                console.error("클립보드 복사 실패:", err);
+            });
+    };
+
     return (
         <div>
             <ModalContainer>
                 <p>친구를 <strong>{name}</strong> 그룹으로 초대하기</p>
                 <p>이 서버에 대한 엑세스 권한을 허용하려면 이 링크를 공유하세요. </p>
-                <InviteCodeInput type="text" value={`${location.origin}/invite/${inviteCode}`} readOnly />
+                <InviteCodeInput type="text" value={`${location.origin}/invite/${inviteCode}`} onClick={copyToClipboard} readOnly />
             </ModalContainer>
         </div>
     );
