@@ -53,7 +53,7 @@ const FriendAll = () => {
             const { data } = await axiosClient.get(`/friend/${myInfo.id}/list`);
             setFriendList(data);
         })();
-    }, []);
+    }, [myInfo.id]);
     return (
         <>
 
