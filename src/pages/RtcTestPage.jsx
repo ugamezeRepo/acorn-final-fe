@@ -22,9 +22,9 @@ const RtcTestPage = () => {
         (async () => {
             if (rtcSignaler.lastJsonMessage == null) return;
             const { desc, candidate, uuid: target } = rtcSignaler.lastJsonMessage;
-            if (target == uuid) return;
             try {
-                if (desc) {
+                if (desc && target != uuid) {
+                    console.log("exchange sdp");
                     if (desc.type === "offer") {
                         await pc.current?.setRemoteDescription(desc);
                         const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
@@ -38,7 +38,8 @@ const RtcTestPage = () => {
                         console.log("Unsupported SDP type.");
                     }
                 } else if (candidate) {
-                    await pc.current?.addIceCandidate(candidate);
+                    console.log("add ice candidate");
+                    await pc.current.addIceCandidate(candidate);
                 }
             } catch (err) {
                 console.error(err);
@@ -59,7 +60,7 @@ const RtcTestPage = () => {
             });
 
             rtc.onicecandidate = ({ candidate }) => {
-                // console.log(`candidate => ${JSON.stringify(candidate)}`);
+                console.log(`candidate => ${JSON.stringify(candidate)}`);
                 rtcSignaler.sendJsonMessage({ candidate, uuid });
             };
 
