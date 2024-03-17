@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/invite/:inviteCode" element={<SecureComponent val={<InvitePage />} />} />
                 <Route path="/" element={<SecureComponent val={<MyChannelPage />} />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/rtc" element={<RtcTestPage />} />
+                <Route path="/rtc/:rtcId" element={<RtcTestPage />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </AppContextProvider>

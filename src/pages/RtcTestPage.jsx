@@ -1,69 +1,107 @@
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import useWebSocket from "react-use-websocket";
 
-class SignalingChannel {
-    send({ candidate }) {
-        console.log(candidate);
-    }
-}
+
 const RtcTestPage = () => {
-    /** @type React.MutableRefObject<HTMLVideoElement> */
+    /** @type {React.MutableRefObject<HTMLVideoElement>} */
     const localVideoRef = useRef(null);
-    /** @type React.MutableRefObject<HTMLVideoElement> */
+    /** @type {React.MutableRefObject<HTMLVideoElement>} */
     const remoteVideoRef = useRef(null);
-    const [_makingOffer, setMakingOffer] = useState(false);
+    /**
+     * @type {React.MutableRefObject<RTCPeerConnection>}
+     */
+    const pc = useRef(null);
+    const { rtcId } = useParams();
+    const rtcSignaler = useWebSocket(`wss://localhost/api/webrtc/signal/${rtcId}`);
+    const [uuid] = useState(crypto.randomUUID());
+
 
     useEffect(() => {
         (async () => {
-            const constraints = { video: true, audio: false };
-            const peerConfig = {
-                // https://freestun.net/status/
-                iceServers: [{ urls: "STUN:freestun.net:3479" }]
-            };
-
-            const signaler = new SignalingChannel();
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-            const pc = new RTCPeerConnection(peerConfig);
-            for (const track of stream.getTracks()) {
-                pc.addTrack(track);
-            }
-
-            pc.ontrack = ({ _track, streams }) => {
-                if (remoteVideoRef.srcObject) {
-                    return;
+            if (rtcSignaler.lastJsonMessage == null) return;
+            const { desc, candidate, uuid: target } = rtcSignaler.lastJsonMessage;
+            if (target == uuid) return;
+            try {
+                if (desc) {
+                    if (desc.type === "offer") {
+                        await pc.current?.setRemoteDescription(desc);
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                        stream.getTracks().forEach((track) =>
+                            pc.current?.addTrack(track, stream));
+                        await pc.current?.setLocalDescription(await pc.current?.createAnswer());
+                        rtcSignaler.sendJsonMessage({ desc: pc.current.localDescription, uuid });
+                    } else if (desc.type === "answer") {
+                        await pc.current?.setRemoteDescription(desc);
+                    } else {
+                        console.log("Unsupported SDP type.");
+                    }
+                } else if (candidate) {
+                    await pc.current?.addIceCandidate(candidate);
                 }
-                remoteVideoRef.srcObject = streams[0];
+            } catch (err) {
+                console.error(err);
+            }
+        })();
+    }, [rtcSignaler, rtcSignaler.lastJsonMessage, uuid]);
+
+    useEffect(() => {
+        (async () => {
+            const rtc = new RTCPeerConnection({
+                iceServers: [
+                    { urls: "stun:stun.l.google.com:19302" },
+                    { urls: "stun:stun1.l.google.com:19302" },
+                    { urls: "stun:stun2.l.google.com:19302" },
+                    { urls: "stun:stun3.l.google.com:19302" },
+                    { urls: "stun:stun4.l.google.com:19302" },
+                ]
+            });
+
+            rtc.onicecandidate = ({ candidate }) => {
+                // console.log(`candidate => ${JSON.stringify(candidate)}`);
+                rtcSignaler.sendJsonMessage({ candidate, uuid });
             };
 
-            pc.onnegotiationneeded = async () => {
+            rtc.onnegotiationneeded = async () => {
                 try {
-                    setMakingOffer(true);
-                    await pc.setLocalDescription();
-                    signaler.send({ description: pc.localDescription });
+                    await pc.current?.setLocalDescription(await pc.current.createOffer());
+                    // Send the offer to the other peer.
+                    rtcSignaler.sendJsonMessage({ desc: pc.current.localDescription, uuid });
                 } catch (err) {
                     console.error(err);
-                } finally {
-                    setMakingOffer(false);
                 }
             };
 
-            pc.onicecandidate = ({ candidate }) => signaler.send({ candidate });
+            rtc.ontrack = (ev) => {
+                console.log("on track called");
+                if (remoteVideoRef.current.srcObject) return;
+                remoteVideoRef.current.srcObject = ev.streams[0];
+            };
+            pc.current = rtc;
+
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: true,
+            });
+            stream.getTracks().forEach(t => pc.current.addTrack(t, stream));
             localVideoRef.current.srcObject = stream;
-            localVideoRef.current.play();
 
         })();
-    }, [localVideoRef]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [uuid]);
+
+
     return (
         <>
             <h1>rtc test</h1>
             <div style={{ display: "flex" }}>
                 <div>
                     <h3>local stream</h3>
-                    <video ref={localVideoRef}></video>
+                    <video ref={localVideoRef} autoPlay={true}></video>
                 </div>
                 <div>
                     <h3>remote stream</h3>
-                    <video ref={remoteVideoRef}></video>
+                    <video ref={remoteVideoRef} autoPlay={true}></video>
                 </div>
             </div>
         </>
