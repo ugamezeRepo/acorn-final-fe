@@ -33,6 +33,9 @@ Springboot & React 를 활용한 메신저 사이트
 - 채팅 파일 업로드 구현
 - Swagger 이용한 API 공유
 
+## ⭐️ 참여도
+
+<img width="500" alt="스크린샷 2024-03-17 오후 10 54 42" src="https://github.com/SSONGTJ/acorn-final-fe/assets/107839313/fa8e72e9-42c2-4435-bd5f-20db4b5d4104">
 
 ## 세팅
 
