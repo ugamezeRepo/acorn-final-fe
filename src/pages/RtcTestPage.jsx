@@ -80,8 +80,8 @@ const RtcTestPage = () => {
             };
 
             rtc.ontrack = (ev) => {
-                console.log("on track called");
-                if (remoteVideoRef.current.srcObject) return;
+                console.log("on track called stream => " + JSON.stringify(ev.streams[0]));
+                // if (remoteVideoRef.current.srcObject) return
                 remoteVideoRef.current.srcObject = ev.streams[0];
             };
             pc.current = rtc;
