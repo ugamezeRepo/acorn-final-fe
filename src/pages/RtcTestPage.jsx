@@ -27,14 +27,17 @@ const RtcTestPage = () => {
                 if (desc) {
                     console.log("exchange sdp");
                     if (desc.type === "offer") {
+                        console.log(`recieved offer => ${JSON.stringify(desc)}`);
                         await pc.current?.setRemoteDescription(desc);
                         const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
                         stream.getTracks().forEach((track) =>
                             pc.current?.addTrack(track, stream));
                         await pc.current?.setLocalDescription(await pc.current?.createAnswer());
                         rtcSignaler.sendJsonMessage({ desc: pc.current.localDescription, uuid });
+                        console.log(`create & send answer => ${JSON.stringify({ desc: pc.current.localDescription, uuid })}`);
                     } else if (desc.type === "answer") {
                         await pc.current?.setRemoteDescription(desc);
+                        console.log(`received answer => ${JSON.stringify(desc)}`);
                     } else {
                         console.log("Unsupported SDP type.");
                     }
@@ -61,7 +64,7 @@ const RtcTestPage = () => {
             });
 
             rtc.onicecandidate = ({ candidate }) => {
-                console.log(`candidate => ${JSON.stringify(candidate)}`);
+                console.log(`on ice candidate => ${JSON.stringify(candidate)}`);
                 rtcSignaler.sendJsonMessage({ candidate, uuid });
             };
 
@@ -70,6 +73,7 @@ const RtcTestPage = () => {
                     await pc.current?.setLocalDescription(await pc.current.createOffer());
                     // Send the offer to the other peer.
                     rtcSignaler.sendJsonMessage({ desc: pc.current.localDescription, uuid });
+                    console.log(`create and send offer => ${JSON.stringify({ desc: pc.current.localDescription, uuid })}`);
                 } catch (err) {
                     console.error(err);
                 }
