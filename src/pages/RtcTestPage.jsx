@@ -1,3 +1,4 @@
+import { getWsBaseUrl } from "@configs/env";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
@@ -13,7 +14,7 @@ const RtcTestPage = () => {
      */
     const pc = useRef(null);
     const { rtcId } = useParams();
-    const rtcSignaler = useWebSocket(`wss://localhost/api/webrtc/signal/${rtcId}`);
+    const rtcSignaler = useWebSocket(`${getWsBaseUrl()}/webrtc/signal/${rtcId}`);
     const [uuid] = useState(crypto.randomUUID());
 
 
