@@ -27,7 +27,7 @@ const RtcTestPage = () => {
                 if (desc) {
                     if (desc.type === "offer") {
                         await pc.current?.setRemoteDescription(desc);
-                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
                         stream.getTracks().forEach((track) =>
                             pc.current?.addTrack(track, stream));
                         await pc.current?.setLocalDescription(await pc.current?.createAnswer());
@@ -81,7 +81,7 @@ const RtcTestPage = () => {
             pc.current = rtc;
 
             const stream = await navigator.mediaDevices.getUserMedia({
-                audio: true,
+                audio: false,
                 video: true,
             });
             stream.getTracks().forEach(t => pc.current.addTrack(t, stream));
