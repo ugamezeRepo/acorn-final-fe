@@ -1,7 +1,7 @@
 import { SetTopic } from "@components/channel/nav/SetTopic";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
-import { Tag } from "@mui/icons-material";
+import { Tag, VolumeUp } from "@mui/icons-material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { ListItemButton, Popover } from "@mui/material";
 import PropTypes from "prop-types";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 const ChannelNavItem = ({
     topicName,
     topicId,
+    isRtcChannel,
 }) => {
     const { currentChannel } = useContext(ChannelContext);
     const navigate = useNavigate();
@@ -33,15 +34,14 @@ const ChannelNavItem = ({
         }
     `;
 
-
-
     return (
         <>
             <ListItemButton onClick={() => {
                 navigate(`/channel/${currentChannel.id}/topic/${topicId}`);
             }} sx={{ display: "flex", justifyContent: "space-between", margin: "6px", borderRadius: "8px" }}>
                 <div style={{ display: "flex" }}>
-                    <Tag fontSize="small" sx={{ color: "gray", marginRight: "6px" }} />
+                    {isRtcChannel && <VolumeUp fontSize="small" sx={{ color: "gray", marginRight: "6px" }} />}
+                    {!isRtcChannel && <Tag fontSize="small" sx={{ color: "gray", marginRight: "6px" }} />}
                     <span style={{ fontSize: "0.9em" }}>{topicName}</span>
                 </div>
                 <SetIcon fontSize="small" onClick={OpenTopicSet} />
@@ -67,5 +67,6 @@ const ChannelNavItem = ({
 ChannelNavItem.propTypes = {
     topicName: PropTypes.string.isRequired,
     topicId: PropTypes.number.isRequired,
+    isRtcChannel: PropTypes.bool.isRequired,
 };
 export { ChannelNavItem };

@@ -82,7 +82,7 @@ const ChannelNav = () => {
                         <div>+</div>
                     </AddTopicButton>
                     {
-                        topics?.map((t, idx) => (<ChannelNavItem key={idx} topicId={t.id} topicName={t.title} />))
+                        topics?.map((t, idx) => (<ChannelNavItem key={idx} topicId={t.id} topicName={t.title} isRtcChannel={t.isRtcChannel} />))
                     }
                 </ChannelNavList>
                 <ChannelNavMyStatus />
