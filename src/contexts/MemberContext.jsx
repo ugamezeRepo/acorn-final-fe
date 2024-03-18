@@ -12,8 +12,9 @@ const MemberContext = createContext({
         hashtag: null,
         email: null,
     },
-    micEnabled: true,
-    soundEnabled: true,
+    vidEnabled: false,
+    micEnabled: false,
+    soundEnabled: false,
     status: null,
     pingWebSocket: null,
     setChannels: () => { },
@@ -35,6 +36,7 @@ const MemberContextProvider = ({ children }) => {
      */
     const [channels, setChannels] = useState(null);
     const [myInfo, setMyInfo] = useState({});
+    const [vidEnabled, setVidEnabled] = useState(false);
     const [micEnabled, setMicEnabled] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(false);
     const [status, setStatus] = useState(null);
@@ -68,11 +70,13 @@ const MemberContextProvider = ({ children }) => {
         <MemberContext.Provider value={{
             channels,
             myInfo,
+            vidEnabled,
             micEnabled,
             soundEnabled,
             status,
             pingWebSocket,
             setChannels,
+            setVidEnabled,
             setMicEnabled,
             setSoundEnabled,
             setStatus,

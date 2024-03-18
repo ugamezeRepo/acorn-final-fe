@@ -42,7 +42,6 @@ const ChannelMainContentChatViewContainer = styled.div`
     flex-grow: 1; 
     flex-shrink: 1;
     min-width: 456px;
-
 `;
 
 const ChannelMainContentChatView = () => {

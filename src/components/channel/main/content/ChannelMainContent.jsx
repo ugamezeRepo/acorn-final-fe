@@ -1,7 +1,11 @@
 import { ChannelMainContentChatView } from "@components/channel/main/content/chat/ChannelMainContentChatView";
+import { ChannelMainContentRtcView } from "@components/channel/main/content/rtc/ChannelMainContentRtcView";
 import { ChannelMainContentMemberSidebar } from "@components/channel/main/content/sidebar/ChannelMainContentMemberSidebar";
+import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+
 
 
 
@@ -15,10 +19,11 @@ const ChannelMainContentContainer = styled.div`
 const ChannelMainContent = ({
     memberSidebarOpen,
 }) => {
-
+    const { currentTopic } = useContext(ChannelContext);
     return (
         <ChannelMainContentContainer>
-            <ChannelMainContentChatView />
+            {!currentTopic.isRtcChannel && <ChannelMainContentChatView />}
+            {currentTopic.isRtcChannel && <ChannelMainContentRtcView />}
             {memberSidebarOpen && <ChannelMainContentMemberSidebar memberSidebarOpen={memberSidebarOpen} />}
         </ChannelMainContentContainer >
     );
