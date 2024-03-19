@@ -16,6 +16,9 @@ const ChannelMainContentRtcViewContainer = styled.div`
     min-width: 456px;
 `;
 
+const rtcConfig = {
+    iceServers: [{ urls: "stun:stun.l.google.com:19302" }], iceTransportPolicy: "all"
+};
 const ChannelMainContentRtcView = () => {
     const { micEnabled, soundEnabled, vidEnabled } = useContext(MemberContext);
     const { currentChannel, currentTopic } = useContext(ChannelContext);
@@ -28,23 +31,24 @@ const ChannelMainContentRtcView = () => {
         setParticipant(p => ({
             ...p, [uuid]: {
                 uuid,
+                pc: new RTCPeerConnection(rtcConfig)
             }
         }));
     }, [uuid]);
 
     useEffect(() => {
+        console.log("use effect called");
         (async () => {
             if (!rtcSignaler.lastJsonMessage) return;
             const { desc, candidate, uuid: remoteUuid } = rtcSignaler.lastJsonMessage;
+            console.log(`last json message => ${rtcSignaler.lastJsonMessage}`);
             if (remoteUuid == uuid) return;
             try {
                 if (remoteUuid) {
                     if (!(remoteUuid in participant)) {
                         setParticipant(p => ({
                             ...p, [remoteUuid]: { uuid: remoteUuid },
-                            pc: new RTCPeerConnection({
-                                iceServers: [{ urls: "stun:stun.l.google.com:19302" }], iceTransportPolicy: "all"
-                            })
+                            pc: new RTCPeerConnection(rtcConfig)
                         }));
                     }
                 }
@@ -72,7 +76,7 @@ const ChannelMainContentRtcView = () => {
     return (
         <ChannelMainContentRtcViewContainer>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ padding: "12px", overflow: "auto" }}>
-                {Object.keys(participant).map(key => (<RtcParticipantCard key={key} participant={participant[key]} signal={rtcSignaler.sendJsonMessage} />))}
+                {Object.keys(participant).map(key => (<RtcParticipantCard key={key} participant={participant[key]} sendSignal={rtcSignaler.sendJsonMessage} />))}
             </Grid>
         </ChannelMainContentRtcViewContainer>
     );
