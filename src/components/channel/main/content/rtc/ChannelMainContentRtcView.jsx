@@ -20,7 +20,7 @@ const rtcConfig = {
     iceServers: [{ urls: "stun:stun.l.google.com:19302" }], iceTransportPolicy: "all"
 };
 const ChannelMainContentRtcView = () => {
-    const { micEnabled, soundEnabled, vidEnabled } = useContext(MemberContext);
+    const { micEnabled: _micEnabled, soundEnabled: _soundEnabled, vidEnabled: _vidEnabled } = useContext(MemberContext);
     const { currentChannel, currentTopic } = useContext(ChannelContext);
     const rtcSignaler = useWebSocket(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`);
     const [uuid] = useState(crypto.randomUUID());
