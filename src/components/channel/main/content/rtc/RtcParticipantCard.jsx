@@ -21,6 +21,7 @@ const RtcParticipantCard = ({ participant, sendSignal }) => {
             };
 
             participant.pc.onnegotiationneeded = async () => {
+                console.log("on negotiation needed");
                 const offer = await participant.pc.createOffer();
                 await participant.pc.setLocalDescription(offer);
                 sendSignal({ desc: offer, uuid: participant.uuid });
