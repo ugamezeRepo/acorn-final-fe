@@ -41,15 +41,21 @@ const ChannelMainContentRtcView = () => {
         (async () => {
             if (!rtcSignaler.lastJsonMessage) return;
             const { desc, candidate, uuid: remoteUuid } = rtcSignaler.lastJsonMessage;
-            console.log(`last json message => ${rtcSignaler.lastJsonMessage}`);
+            console.log(`last json message => ${JSON.stringify(rtcSignaler.lastJsonMessage)}`);
             if (remoteUuid == uuid) return;
             try {
                 if (remoteUuid) {
+                    console.log("remote uuid exists");
+                    console.log(JSON.stringify(participant));
                     if (!(remoteUuid in participant)) {
+                        console.log(`add new user with remote uuid - ${remoteUuid}`);
                         setParticipant(p => ({
-                            ...p, [remoteUuid]: { uuid: remoteUuid },
-                            pc: new RTCPeerConnection(rtcConfig)
+                            ...p, [remoteUuid]: {
+                                uuid: remoteUuid,
+                                pc: new RTCPeerConnection(rtcConfig)
+                            },
                         }));
+                        console.log(participant);
                     }
                 }
                 if (desc) {
