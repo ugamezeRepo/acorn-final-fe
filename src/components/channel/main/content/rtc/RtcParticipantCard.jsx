@@ -1,7 +1,7 @@
 import { Grid, Paper } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
-const RtcParticipantCard = ({ participant, sendSignal }) => {
+const RtcParticipantCard = ({ participant, sendSignal, isMe }) => {
     /**
      * @type {React.MutableRefObject<HTMLVideoElement}
      */
@@ -11,11 +11,12 @@ const RtcParticipantCard = ({ participant, sendSignal }) => {
         if (!participant.pc) return;
         if (!videoRef.current) return;
         (async () => {
+            if (isMe) {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                stream.getTracks().forEach(t => participant.pc.addTrack(t, stream));
+                videoRef.current.srcObject = stream;
+            }
 
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-
-            stream.getTracks().forEach(t => participant.pc.addTrack(t, stream));
-            videoRef.current.srcObject = stream;
             participant.pc.onicecandidate = ({ candidate }) => {
                 sendSignal({ candidate, uuid: participant.uuid });
             };
@@ -46,6 +47,7 @@ const RtcParticipantCard = ({ participant, sendSignal }) => {
 RtcParticipantCard.propTypes = {
     participant: PropTypes.object.isRequired,
     sendSignal: PropTypes.func.isRequired,
+    isMe: PropTypes.bool.isRequired,
 };
 
 export { RtcParticipantCard };

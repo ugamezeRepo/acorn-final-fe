@@ -44,33 +44,25 @@ const ChannelMainContentRtcView = () => {
             if (remoteUuid == uuid) return;
             try {
                 if (remoteUuid) {
-                    console.log("remote uuid exists");
-                    console.log(JSON.stringify(participant));
                     if (!(remoteUuid in participant)) {
-                        console.log(`add new user with remote uuid - ${remoteUuid}`);
                         setParticipant(p => ({
                             ...p, [remoteUuid]: {
                                 uuid: remoteUuid,
                                 pc: new RTCPeerConnection(rtcConfig)
                             },
                         }));
-                        participant[uuid].pc.onnegotiationneeded();
-                        console.log(participant);
                     }
                 }
                 if (desc) {
                     if (desc.type === "offer") {
-                        console.log("receive offer");
                         await participant[remoteUuid].pc.setRemoteDescription(desc);
                         const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
                         stream.getTracks().forEach(t => participant[remoteUuid].pc.addTrack(t, stream));
                         const answer = await participant[remoteUuid].pc.createAnswer();
                         await participant[remoteUuid].pc.setLocalDescription(answer);
                     } else if (desc.type === "answer") {
-                        console.log("receive answer");
                         await participant[remoteUuid].pc.setRemoteDescription(desc);
                     } else if (desc.type === "remove") {
-
                         setParticipant(p => {
                             console.log(`p before remove ${remoteUuid} => ${JSON.stringify(p)}`);
                             delete p[remoteUuid];
@@ -95,7 +87,7 @@ const ChannelMainContentRtcView = () => {
     return (
         <ChannelMainContentRtcViewContainer>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ padding: "12px", overflow: "auto" }}>
-                {participantKeys.map(key => participant[key] && (<RtcParticipantCard key={key} participant={participant[key]} sendSignal={rtcSignaler.sendJsonMessage} />))}
+                {participantKeys.map(key => participant[key] && (<RtcParticipantCard key={key} participant={participant[key]} sendSignal={rtcSignaler.sendJsonMessage} isMe={key === uuid} />))}
             </Grid>
         </ChannelMainContentRtcViewContainer>
     );
