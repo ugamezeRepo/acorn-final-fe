@@ -1,3 +1,4 @@
+import { Peer } from "@components/channel/main/content/rtc/Peer";
 import { RtcParticipantCard } from "@components/channel/main/content/rtc/RtcParticipantCard";
 import { getWsBaseUrl } from "@configs/env";
 import { ChannelContext } from "@contexts/ChannelContext";
@@ -5,6 +6,7 @@ import styled from "@emotion/styled";
 import { Grid, Paper } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
 import useWebSocket from "react-use-websocket";
+
 
 
 const ChannelMainContentRtcViewContainer = styled.div`
@@ -15,126 +17,86 @@ const ChannelMainContentRtcViewContainer = styled.div`
     min-width: 456px;
 `;
 
-const rtcConfig = {
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-    iceTransportPolicy: "all",
-};
 
 const ChannelMainContentRtcView = () => {
     /**
     * @type {React.MutableRefObject<HTMLVideoElement>}
     */
     const myVideoRef = useRef(null);
+    const [uuid] = useState(crypto.randomUUID());
     const { currentChannel, currentTopic } = useContext(ChannelContext);
     const [signal, setSignal] = useState(null);
-    const [socketUrl] = useState(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`);
-    const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl, {
-        shouldReconnect: () => true,
-        onClose: () => {
-            console.log("closed");
-        }
-    });
-    const [uuid] = useState(crypto.randomUUID());
-    const [participants, setParticipants] = useState([]);
-    const rtcRef = useRef({});
-    const [streams, setStreams] = useState({});
+    const [updatePeer, setUpdatePeer] = useState(false);
 
-    useEffect(() => {
-        navigator.mediaDevices
-            .getUserMedia({ video: true, audio: true })
-            .then(stream => myVideoRef.current.srcObject = stream);
-        setSignal({ uuid });
-        console.log("uuid changed");
-    }, [uuid]);
+    const { sendJsonMessage, lastJsonMessage } = useWebSocket(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`, { shouldReconnect: () => true });
+    /**
+     * @type{ [Peer[], React.Dispatch<React.SetStateAction<Peer[]>>]}
+     */
+    const [peers, setPeers] = useState([]);
+    /**
+     * @type {React.MutableRefObject<{[key: any] : Peer}>
+     */
+    const peerRef = useRef({});
 
+    // signal handler
     useEffect(() => {
         if (!signal) return;
         sendJsonMessage(signal);
     }, [signal, sendJsonMessage]);
 
+
     useEffect(() => {
-        function createNewPeerConnection(remoteUuid) {
-            rtcRef.current[remoteUuid] = new RTCPeerConnection(rtcConfig);
-            rtcRef.current[remoteUuid].onicecandidate = function ({ candidate }) {
-                setSignal({ candidate, uuid });
-            };
-
-            rtcRef.current[remoteUuid].onnegotiationneeded = async function () {
-                console.log("on negotiation needed");
-                const offer = await rtcRef.current[remoteUuid].createOffer();
-                await rtcRef.current[remoteUuid].setLocalDescription(offer);
-                setSignal({ desc: rtcRef.current[remoteUuid].localDescription, uuid });
-            };
-
-
-            rtcRef.current[remoteUuid].ontrack = function (e) {
-                console.log("on track");
-                console.log("uuid => " + remoteUuid);
-                console.log("[streams]" + e.streams[0]);
-                streams[remoteUuid] = e.streams[0];
-                setStreams(streams);
-            };
-            (async () => {
-                console.log("adding tracks..");
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-                stream.getTracks().forEach(t => {
-                    console.log("am i adding?");
-                    rtcRef.current[remoteUuid].addTrack(t, stream);
-                });
-            })();
-            return { uuid: remoteUuid, pc: rtcRef.current[remoteUuid] };
-        }
-
-        if (!lastJsonMessage) return;
-        const { desc, candidate, uuid: remoteUuid } = lastJsonMessage;
-        if (remoteUuid === uuid) return;
         (async () => {
-            const matching = participants.filter(p => p.uuid == remoteUuid);
-            let participant = matching.length > 0 ? matching[0] : createNewPeerConnection(remoteUuid);
-            let remove = false;
+            console.log("get user media");
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            console.log("add srcObject");
+            myVideoRef.current.srcObject = stream;
+            setSignal({ uuid });
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            if (!lastJsonMessage) return;
+            const { desc, candidate, uuid: remoteUuid } = lastJsonMessage;
+            if (!remoteUuid || remoteUuid == uuid) return;
+            console.log("json message => " + JSON.stringify(lastJsonMessage));
+            if (!peerRef.current[remoteUuid]) {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                peerRef.current[remoteUuid] = new Peer(remoteUuid, stream, setSignal);
+                setUpdatePeer(true);
+            }
+
             if (desc) {
-                if (desc.type === "offer") {
-                    console.log("[offer]");
-                    await participant.pc.setRemoteDescription(desc);
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-                    stream.getTracks().forEach(track => participant.pc.addTrack(track, stream));
-                    const answer = await participant.pc.createAnswer();
-                    await participant.pc.setLocalDescription(answer);
-                    setSignal({ desc: participant.pc.localDescription, uuid });
+                console.log("desc => " + JSON.stringify(desc));
+                if (desc.type == "offer") {
+                    console.log("offer!");
+                    console.log("set remote description on offer");
+                    await peerRef.current[remoteUuid].setRemoteDescription(desc);
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    stream.getTracks().forEach(track => peerRef.current[remoteUuid].addTrack(track, stream));
+                    await peerRef.current[remoteUuid].setLocalDescription(await peerRef.current[remoteUuid].createAnswer());
+                    setSignal({ desc: peerRef.current[remoteUuid].getLocalDescription(), uuid });
                 }
-                if (desc.type === "answer") {
-                    console.log("[answer]");
-                    await participant.pc.setRemoteDescription(desc);
-                }
-                if (desc.type === "remove") {
-                    console.log("[remove] " + remoteUuid);
-                    // remove = true;
+                if (desc.type == "answer") {
+                    console.log("set remote description on answer");
+                    await peerRef.current[remoteUuid].setRemoteDescription(desc);
                 }
             }
             if (candidate) {
-                console.log("[candidate] : " + JSON.stringify(candidate));
-                await participant.pc.addIceCandidate(candidate);
-            }
-
-            setParticipants(p => {
-                if (remove) {
-                    return p.filter(p => p.uuid != remoteUuid);
-                } else if (p.filter(p => p.uuid == remoteUuid).length == 0) {
-                    return [...p, participant];
-                }
-                return p;
-            });
-            if (remove) {
-                rtcRef.current[remoteUuid] = null;
+                console.log("candidate => " + JSON.stringify(candidate));
+                await peerRef.current[remoteUuid].addIceCandidate(candidate);
             }
         })();
-        /** adding participants into dependency array makes infinite loop ;( */
-        // eslint-disable-next-line react-hooks/exhaustive-deps 
-    }, [lastJsonMessage, uuid]);
+    }, [uuid, lastJsonMessage]);
 
     useEffect(() => {
-        console.log(JSON.stringify(participants));
-    }, [participants]);
+        if (!updatePeer) return;
+        setPeers(Object.keys(peerRef.current).map(uuid => peerRef.current[uuid]));
+        setUpdatePeer(false);
+    }, [updatePeer]);
+
+
     return (
         <ChannelMainContentRtcViewContainer>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ padding: "12px", overflow: "auto" }}>
@@ -147,9 +109,8 @@ const ChannelMainContentRtcView = () => {
                 </Grid >
                 {/* video for participant */}
                 {
-                    participants.map((participant, idx) => {
-
-                        return <RtcParticipantCard key={idx} participant={participant} stream={streams[participant.uuid]} />;
+                    peers.map((peer, idx) => {
+                        return <RtcParticipantCard key={idx} peer={peer} />;
                     })
                 }
             </Grid>
