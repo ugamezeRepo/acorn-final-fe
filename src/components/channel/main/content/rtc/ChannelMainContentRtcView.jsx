@@ -1,11 +1,9 @@
 import { Peer } from "@components/channel/main/content/rtc/Peer";
 import { RtcParticipantCard } from "@components/channel/main/content/rtc/RtcParticipantCard";
-import { getWsBaseUrl } from "@configs/env";
 import { ChannelContext } from "@contexts/ChannelContext";
 import styled from "@emotion/styled";
 import { Grid, Paper } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
-import useWebSocket from "react-use-websocket";
 
 
 
@@ -22,13 +20,11 @@ const ChannelMainContentRtcView = () => {
     /**
     * @type {React.MutableRefObject<HTMLVideoElement>}
     */
-    const myVideoRef = useRef(null);
     const [uuid] = useState(crypto.randomUUID());
-    const { currentChannel, currentTopic } = useContext(ChannelContext);
     const [signal, setSignal] = useState(null);
     const [updatePeer, setUpdatePeer] = useState(false);
-
-    const { sendJsonMessage, lastJsonMessage } = useWebSocket(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`, { shouldReconnect: () => true });
+    const myVideoRef = useRef(null);
+    const { lastJsonRtcSignal, sendJsonRtcSignal } = useContext(ChannelContext);
     /**
      * @type{ [Peer[], React.Dispatch<React.SetStateAction<Peer[]>>]}
      */
@@ -41,37 +37,43 @@ const ChannelMainContentRtcView = () => {
     // signal handler
     useEffect(() => {
         if (!signal) return;
-        sendJsonMessage(signal);
-    }, [signal, sendJsonMessage]);
+        sendJsonRtcSignal(signal);
+    }, [signal, sendJsonRtcSignal]);
 
 
     useEffect(() => {
         (async () => {
-            console.log("get user media");
             const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            console.log("add srcObject");
             myVideoRef.current.srcObject = stream;
             setSignal({ uuid });
         })();
-    }, []);
+    }, [uuid]);
+
 
     useEffect(() => {
         (async () => {
-            if (!lastJsonMessage) return;
-            const { desc, candidate, uuid: remoteUuid } = lastJsonMessage;
+            if (!lastJsonRtcSignal) return;
+            const { desc, candidate, uuid: remoteUuid } = lastJsonRtcSignal;
             if (!remoteUuid || remoteUuid == uuid) return;
-            console.log("json message => " + JSON.stringify(lastJsonMessage));
+
             if (!peerRef.current[remoteUuid]) {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                peerRef.current[remoteUuid] = new Peer(remoteUuid, stream, setSignal);
-                setUpdatePeer(true);
+                peerRef.current[remoteUuid] = new Peer(remoteUuid, (sdp) => {
+                    console.log("send signal");
+                    setSignal({ ...sdp, uuid });
+                });
+                await peerRef.current[remoteUuid].init();
+                console.log("1. create peer object for " + remoteUuid);
+                setTimeout(() => setUpdatePeer(true), 0);
+            }
+
+            if (candidate) {
+                await peerRef.current[remoteUuid].addIceCandidate(candidate);
+                console.log("2. receive ice candidate info");
             }
 
             if (desc) {
-                console.log("desc => " + JSON.stringify(desc));
                 if (desc.type == "offer") {
-                    console.log("offer!");
-                    console.log("set remote description on offer");
+                    console.log("receive offer");
                     await peerRef.current[remoteUuid].setRemoteDescription(desc);
                     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                     stream.getTracks().forEach(track => peerRef.current[remoteUuid].addTrack(track, stream));
@@ -79,16 +81,12 @@ const ChannelMainContentRtcView = () => {
                     setSignal({ desc: peerRef.current[remoteUuid].getLocalDescription(), uuid });
                 }
                 if (desc.type == "answer") {
-                    console.log("set remote description on answer");
+                    console.log("4. receive answer");
                     await peerRef.current[remoteUuid].setRemoteDescription(desc);
                 }
             }
-            if (candidate) {
-                console.log("candidate => " + JSON.stringify(candidate));
-                await peerRef.current[remoteUuid].addIceCandidate(candidate);
-            }
         })();
-    }, [uuid, lastJsonMessage]);
+    }, [uuid, lastJsonRtcSignal]);
 
     useEffect(() => {
         if (!updatePeer) return;

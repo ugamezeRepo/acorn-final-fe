@@ -11,7 +11,7 @@ const RtcParticipantCard = ({ peer }) => {
     useEffect(() => {
         if (!videoRef.current) return;
         peer.registerRemoteStreamListener((stream) => {
-            console.log("stream listener callback called : " + stream);
+            console.log("6. set video src Object");
             videoRef.current.srcObject = stream;
         });
     }, [videoRef, peer]);

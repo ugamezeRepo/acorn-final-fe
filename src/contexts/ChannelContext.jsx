@@ -10,12 +10,14 @@ const ChannelContext = createContext({
     currentTopic: { id: null, title: null },
     messages: [],
     lastJsonMessageOnWebSocket: null,
+    lastJsonRtcSignal: null,
     channelUsers: null,
     sendJsonMessageOnWebSocket: () => { },
     setTopics: () => { },
     setCurrentChannel: () => { },
     setCurrentTopic: () => { },
     setMessages: () => { },
+    sendJsonRtcSignal: () => { }
 });
 
 
@@ -41,6 +43,20 @@ const ChannelContextProvider = ({ children }) => {
     const { sendJsonMessage: sendJsonMessageOnWebSocket, lastJsonMessage: lastJsonMessageOnWebSocket } = useWebSocket(
         (currentChannel && currentTopic && currentChannel.id && currentTopic.id)
             ? getWsBaseUrl() + `/chat/channel/${currentChannel.id}/topic/${currentTopic.id}`
+            : null,
+        {
+            shouldReconnect: () => true,
+            onOpen: () => {
+                console.log(`websocket connected : ${currentChannel.id} ${currentTopic.id}`);
+            },
+            onError: (e) => {
+                console.log(`ws error => ${JSON.stringify(e)}`);
+            }
+        }
+    );
+    const { sendJsonMessage: sendJsonRtcSignal, lastJsonMessage: lastJsonRtcSignal } = useWebSocket(
+        (currentChannel && currentTopic && currentChannel.id && currentTopic.id)
+            ? getWsBaseUrl() + `/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`
             : null,
         {
             shouldReconnect: () => true,
@@ -85,6 +101,8 @@ const ChannelContextProvider = ({ children }) => {
             currentTopic,
             sendJsonMessageOnWebSocket,
             lastJsonMessageOnWebSocket,
+            sendJsonRtcSignal,
+            lastJsonRtcSignal,
             messages,
             channelUsers,
             setTopics,

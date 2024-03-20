@@ -3,6 +3,7 @@ const rtcConfig = {
     iceTransportPolicy: "all",
 };
 
+
 class Peer {
     /**
      * @type {string}
@@ -19,47 +20,43 @@ class Peer {
     /**
      * @type {MediaStream}
      */
-    #negotiationDone;
     #remoteStream;
 
     #localSdpQueue;
     #remoteSdpQueue;
     #remoteStreamListenerQueue;
 
-    constructor(uuid, stream, setSignal) {
-        console.log("uuid => " + uuid);
+    constructor(uuid, setSignal) {
         this.#uuid = uuid;
         this.#pc = new RTCPeerConnection(rtcConfig);
-        this.#stream = stream;
+        // this.#stream = stream;
         this.#remoteSdpQueue = [];
         this.#remoteStreamListenerQueue = [];
-        this.#negotiationDone = false;
 
-        console.log("stream => " + stream);
+        // console.log("stream => " + stream);
         this.#pc.onicecandidate = ({ candidate }) => {
-            console.log("on ice candidate");
-            setSignal({ candidate, uuid: this.#uuid });
+            console.log("send ice candidate information");
+            setSignal({ candidate });
         };
 
         this.#pc.onnegotiationneeded = async () => {
             await this.#pc.setLocalDescription(await this.#pc.createOffer());
-            setSignal({ desc: this.#pc.localDescription, uuid: this.#uuid });
-            this.#negotiationDone = true;
-            while (this.#remoteSdpQueue.length > 0) {
-                const desc = this.#remoteSdpQueue.shift();
-                await this.setRemoteDescription(desc);
-            }
+            setSignal({ desc: this.#pc.localDescription });
+            console.log("3. create offer && send to signal server");
         };
 
         this.#pc.ontrack = (e) => {
-            console.log("on track");
-            // this.#remoteStream = e.streams[0];
+            console.log("5. get track info");
             this.#remoteStreamListenerQueue.forEach(fn => fn(e.streams[0]));
         };
 
-        this.#stream.getTracks().forEach(track => {
-            this.#pc.addTrack(track, this.#stream);
-        });
+        console.log("0. add track");
+    }
+
+    async init() {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        stream.getTracks().forEach(track => this.#pc.addTrack(track, stream));
+        console.log("init done!");
     }
 
     addIceCandidate(candidate) {
@@ -88,10 +85,6 @@ class Peer {
     }
 
     setRemoteDescription(desc) {
-        if (!this.#negotiationDone) {
-            this.#remoteSdpQueue.push(desc);
-            return;
-        }
         return this.#pc.setRemoteDescription(desc);
     }
 

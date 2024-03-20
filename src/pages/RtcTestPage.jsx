@@ -23,27 +23,25 @@ const RtcTestPage = () => {
             if (rtcSignaler.lastJsonMessage == null) return;
             const { desc, candidate, uuid: target } = rtcSignaler.lastJsonMessage;
             if (target == uuid) return;
+            console.log("rtc signaler : " + JSON.stringify(rtcSignaler.lastJsonMessage));
             try {
                 if (desc) {
-                    console.log("exchange sdp");
                     if (desc.type === "offer") {
-                        console.log(`recieved offer => ${JSON.stringify(desc)}`);
                         await pc.current?.setRemoteDescription(desc);
                         const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
                         stream.getTracks().forEach((track) =>
                             pc.current?.addTrack(track, stream));
                         await pc.current?.setLocalDescription(await pc.current?.createAnswer());
                         rtcSignaler.sendJsonMessage({ desc: pc.current.localDescription, uuid });
-                        console.log(`create & send answer => ${JSON.stringify({ desc: pc.current.localDescription, uuid })}`);
                     } else if (desc.type === "answer") {
                         await pc.current?.setRemoteDescription(desc);
-                        console.log(`received answer => ${JSON.stringify(desc)}`);
+                        console.log("3. receive answer");
                     } else {
                         console.log("Unsupported SDP type.");
                     }
                 } else if (candidate) {
-                    console.log("add ice candidate => " + JSON.stringify(candidate));
                     await pc.current?.addIceCandidate(candidate);
+                    console.log("1. ice");
                 }
             } catch (err) {
                 console.error(err);
@@ -59,7 +57,6 @@ const RtcTestPage = () => {
             });
 
             rtc.onicecandidate = ({ candidate }) => {
-                console.log(`on ice candidate => ${JSON.stringify(candidate)}`);
                 rtcSignaler.sendJsonMessage({ candidate, uuid });
             };
 
@@ -68,16 +65,17 @@ const RtcTestPage = () => {
                     await pc.current?.setLocalDescription(await pc.current.createOffer());
                     // Send the offer to the other peer.
                     rtcSignaler.sendJsonMessage({ desc: pc.current.localDescription, uuid });
-                    console.log(`create and send offer => ${JSON.stringify({ desc: pc.current.localDescription, uuid })}`);
+                    console.log("2. offer ");
                 } catch (err) {
                     console.error(err);
                 }
             };
 
             rtc.ontrack = (ev) => {
-                console.log("on track called stream => " + JSON.stringify(ev.streams[0]));
+                // console.log("on track called stream => " + JSON.stringify(ev.streams[0]));
                 // if (remoteVideoRef.current.srcObject) return
                 remoteVideoRef.current.srcObject = ev.streams[0];
+                console.log("4. receive track");
             };
             pc.current = rtc;
 
@@ -87,6 +85,7 @@ const RtcTestPage = () => {
             });
             stream.getTracks().forEach(t => pc.current.addTrack(t, stream));
             localVideoRef.current.srcObject = stream;
+            console.log("0. add track");
 
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
