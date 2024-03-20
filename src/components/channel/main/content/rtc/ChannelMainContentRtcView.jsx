@@ -25,12 +25,13 @@ const ChannelMainContentRtcView = () => {
     * @type {React.MutableRefObject<HTMLVideoElement>}
     */
     const myVideoRef = useRef(null);
-    const remoteVideosRef = useRef({});
     const { currentChannel, currentTopic } = useContext(ChannelContext);
     const [signal, setSignal] = useState(null);
     const { sendJsonMessage, lastJsonMessage } = useWebSocket(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`, { shouldReconnect: () => true });
     const [uuid] = useState(crypto.randomUUID());
-    const [participants, setParticipants] = useState({});
+    const [participants, setParticipants] = useState([]);
+    const rtcRef = useRef({});
+    const [streams, setStreams] = useState({});
 
     useEffect(() => {
         navigator.mediaDevices
@@ -47,44 +48,57 @@ const ChannelMainContentRtcView = () => {
 
     useEffect(() => {
         function createNewPeerConnection(remoteUuid) {
-            const rtc = new RTCPeerConnection(rtcConfig);
-            rtc.onicecandidate = ({ candidate }) => {
+
+            rtcRef.current[remoteUuid] = new RTCPeerConnection(rtcConfig);
+            rtcRef.current[remoteUuid].onicecandidate = function ({ candidate }) {
                 console.log("on ice candidate");
                 setSignal({ candidate, uuid });
             };
-            rtc.onnegotiationneeded = async () => {
+            rtcRef.current[remoteUuid].onnegotiationneeded = async function () {
                 console.log("on negotiation needed");
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-                stream.getTracks().forEach(t => rtc.addTrack(t, stream));
-                const offer = await rtc.createOffer();
-                await rtc.setLocalDescription(offer);
-                setSignal({ desc: offer, uuid });
+                const offer = await rtcRef.current[remoteUuid].createOffer();
+                await rtcRef.current[remoteUuid].setLocalDescription(offer);
+                setSignal({ desc: rtcRef.current[remoteUuid].localDescription, uuid });
             };
-            rtc.ontrack = (e) => {
+            rtcRef.current[remoteUuid].ontrack = async function (e) {
                 console.log("on track");
-                remoteVideosRef.current[remoteUuid].srcObject = e.streams[0];
+                console.log("uuid => " + remoteUuid);
+                streams[remoteUuid] = e.streams[0];
+                setStreams(streams);
             };
-
-            console.log("create new peer connection called");
-            console.log(" created result => " + JSON.stringify({ uuid: remoteUuid, pc: rtc }));
-            return { uuid: remoteUuid, pc: rtc };
+            (async () => {
+                console.log("adding tracks..");
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                stream.getTracks().forEach(t => {
+                    console.log("am i adding?");
+                    rtcRef.current[remoteUuid].addTrack(t, stream);
+                });
+            })();
+            return { uuid: remoteUuid, pc: rtcRef.current[remoteUuid] };
         }
 
         if (!lastJsonMessage) return;
         const { desc, candidate, uuid: remoteUuid } = lastJsonMessage;
         if (remoteUuid === uuid) return;
-        let participant = participants[remoteUuid] ? participants[remoteUuid] : createNewPeerConnection(remoteUuid);
-        let remove = false;
         (async () => {
+            const matching = participants.filter(p => p.uuid == remoteUuid);
+            let participant = matching.length > 0 ? matching[0] : createNewPeerConnection(remoteUuid);
+            let remove = false;
             if (desc) {
                 if (desc.type === "offer") {
                     console.log("[offer]");
+                    if (desc == null) {
+                        console.log("why null 3?");
+                    }
                     await participant.pc.setRemoteDescription(desc);
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
                     stream.getTracks().forEach(track => participant.pc.addTrack(track, stream));
                     const answer = await participant.pc.createAnswer();
                     await participant.pc.setLocalDescription(answer);
-                    setSignal({ desc: answer, uuid });
+                    if (!participant.pc.localDescription) {
+                        console.log("why null2?");
+                    }
+                    setSignal({ desc: participant.pc.localDescription, uuid });
                 }
                 if (desc.type === "answer") {
                     console.log("[answer]");
@@ -96,16 +110,24 @@ const ChannelMainContentRtcView = () => {
                 }
             }
             if (candidate) {
+                console.log("candidate?");
+            }
+            if (candidate && participant.pc.remoteDescription) {
                 console.log("[candidate]");
                 await participant.pc.addIceCandidate(candidate);
             }
-        })();
-        setParticipants(p => {
+
+            setParticipants(p => {
+                if (remove) {
+                    return p.filter(p => p.uuid != remoteUuid);
+                } else {
+                    return [...p, participant];
+                }
+            });
             if (remove) {
-                participant = null;
+                rtcRef.current[remoteUuid] = null;
             }
-            return { ...p, [remoteUuid]: participant };
-        });
+        })();
         /** adding participants into dependency array makes infinite loop ;( */
         // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [lastJsonMessage, uuid]);
@@ -123,8 +145,12 @@ const ChannelMainContentRtcView = () => {
                     </Paper>
                 </Grid >
                 {/* video for participant */}
-                {Object.keys(participants).map(remoteUuid =>
-                    participants[remoteUuid] && (<RtcParticipantCard key={remoteUuid} participant={participants[remoteUuid]} videoRef={remoteVideosRef} />))}
+                {
+                    participants.map(participant => {
+
+                        return <RtcParticipantCard key={participant.remoteUuid} participant={participant} stream={streams[participant.uuid]} />;
+                    })
+                }
             </Grid>
         </ChannelMainContentRtcViewContainer>
     );
