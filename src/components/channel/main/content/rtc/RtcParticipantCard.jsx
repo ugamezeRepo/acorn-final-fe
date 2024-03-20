@@ -16,6 +16,7 @@ const RtcParticipantCard = ({ participant, stream }) => {
     return (
         <Grid item xs={4} sm={4} md={4} >
             <Paper elevation={3} sx={{ height: "240px", display: "flex", justifyContent: "center" }}>
+                <div style={{ position: "absolute" }}>{participant.uuid}</div>
                 <video autoPlay={true} ref={videoRef} style={{ objectFit: "contain", maxWidth: "100%", maxHeight: "100%" }} />
             </Paper>
         </Grid >
@@ -24,7 +25,7 @@ const RtcParticipantCard = ({ participant, stream }) => {
 
 RtcParticipantCard.propTypes = {
     participant: PropTypes.object.isRequired,
-    stream: PropTypes.object.isRequired,
+    stream: PropTypes.object,
 };
 
 export { RtcParticipantCard };

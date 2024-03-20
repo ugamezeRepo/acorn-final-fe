@@ -27,7 +27,13 @@ const ChannelMainContentRtcView = () => {
     const myVideoRef = useRef(null);
     const { currentChannel, currentTopic } = useContext(ChannelContext);
     const [signal, setSignal] = useState(null);
-    const { sendJsonMessage, lastJsonMessage } = useWebSocket(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`, { shouldReconnect: () => true });
+    const [socketUrl] = useState(`${getWsBaseUrl()}/webrtc/channel/${currentChannel.id}/topic/${currentTopic.id}`);
+    const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl, {
+        shouldReconnect: () => true,
+        onClose: () => {
+            console.log("closed");
+        }
+    });
     const [uuid] = useState(crypto.randomUUID());
     const [participants, setParticipants] = useState([]);
     const rtcRef = useRef({});
@@ -120,9 +126,10 @@ const ChannelMainContentRtcView = () => {
             setParticipants(p => {
                 if (remove) {
                     return p.filter(p => p.uuid != remoteUuid);
-                } else {
+                } else if (p.filter(p => p.uuid == remoteUuid).length == 0) {
                     return [...p, participant];
                 }
+                return p;
             });
             if (remove) {
                 rtcRef.current[remoteUuid] = null;
@@ -141,14 +148,15 @@ const ChannelMainContentRtcView = () => {
                 {/* video for me */}
                 <Grid item xs={4} sm={4} md={4} >
                     <Paper elevation={3} sx={{ height: "240px", display: "flex", justifyContent: "center" }}>
+                        <div style={{ position: "absolute" }}>{uuid}</div>
                         <video autoPlay={true} ref={myVideoRef} style={{ objectFit: "contain", maxWidth: "100%", maxHeight: "100%" }} />
                     </Paper>
                 </Grid >
                 {/* video for participant */}
                 {
-                    participants.map(participant => {
+                    participants.map((participant, idx) => {
 
-                        return <RtcParticipantCard key={participant.remoteUuid} participant={participant} stream={streams[participant.uuid]} />;
+                        return <RtcParticipantCard key={idx} participant={participant} stream={streams[participant.uuid]} />;
                     })
                 }
             </Grid>
