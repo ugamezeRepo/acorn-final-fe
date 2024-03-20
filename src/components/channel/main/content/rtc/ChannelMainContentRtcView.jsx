@@ -112,15 +112,12 @@ const ChannelMainContentRtcView = () => {
                     await participant.pc.setRemoteDescription(desc);
                 }
                 if (desc.type === "remove") {
-                    // console.log("[remove] " + remoteUuid);
+                    console.log("[remove] " + remoteUuid);
                     // remove = true;
                 }
             }
             if (candidate) {
-                console.log("candidate?");
-            }
-            if (candidate && participant.pc.remoteDescription) {
-                console.log("[candidate]");
+                console.log("[candidate] : " + JSON.stringify(candidate));
                 await participant.pc.addIceCandidate(candidate);
             }
 
