@@ -58,6 +58,7 @@ const ChannelMainContentRtcView = () => {
             rtcRef.current[remoteUuid] = new RTCPeerConnection(rtcConfig);
             rtcRef.current[remoteUuid].onicecandidate = function ({ candidate }) {
                 console.log("on ice candidate");
+                console.log("candidate => " + JSON.stringify(candidate));
                 setSignal({ candidate, uuid });
             };
             rtcRef.current[remoteUuid].onnegotiationneeded = async function () {
@@ -111,8 +112,8 @@ const ChannelMainContentRtcView = () => {
                     await participant.pc.setRemoteDescription(desc);
                 }
                 if (desc.type === "remove") {
-                    console.log("[remove] " + remoteUuid);
-                    remove = true;
+                    // console.log("[remove] " + remoteUuid);
+                    // remove = true;
                 }
             }
             if (candidate) {
