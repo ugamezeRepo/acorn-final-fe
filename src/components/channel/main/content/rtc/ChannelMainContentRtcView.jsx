@@ -54,22 +54,23 @@ const ChannelMainContentRtcView = () => {
 
     useEffect(() => {
         function createNewPeerConnection(remoteUuid) {
-
             rtcRef.current[remoteUuid] = new RTCPeerConnection(rtcConfig);
             rtcRef.current[remoteUuid].onicecandidate = function ({ candidate }) {
-                console.log("on ice candidate");
-                console.log("candidate => " + JSON.stringify(candidate));
                 setSignal({ candidate, uuid });
             };
+
             rtcRef.current[remoteUuid].onnegotiationneeded = async function () {
                 console.log("on negotiation needed");
                 const offer = await rtcRef.current[remoteUuid].createOffer();
                 await rtcRef.current[remoteUuid].setLocalDescription(offer);
                 setSignal({ desc: rtcRef.current[remoteUuid].localDescription, uuid });
             };
-            rtcRef.current[remoteUuid].ontrack = async function (e) {
+
+
+            rtcRef.current[remoteUuid].ontrack = function (e) {
                 console.log("on track");
                 console.log("uuid => " + remoteUuid);
+                console.log("[streams]" + e.streams[0]);
                 streams[remoteUuid] = e.streams[0];
                 setStreams(streams);
             };
@@ -94,17 +95,11 @@ const ChannelMainContentRtcView = () => {
             if (desc) {
                 if (desc.type === "offer") {
                     console.log("[offer]");
-                    if (desc == null) {
-                        console.log("why null 3?");
-                    }
                     await participant.pc.setRemoteDescription(desc);
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
                     stream.getTracks().forEach(track => participant.pc.addTrack(track, stream));
                     const answer = await participant.pc.createAnswer();
                     await participant.pc.setLocalDescription(answer);
-                    if (!participant.pc.localDescription) {
-                        console.log("why null2?");
-                    }
                     setSignal({ desc: participant.pc.localDescription, uuid });
                 }
                 if (desc.type === "answer") {
