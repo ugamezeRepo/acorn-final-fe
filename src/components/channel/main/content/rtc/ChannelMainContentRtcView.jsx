@@ -56,14 +56,14 @@ const ChannelMainContentRtcView = () => {
             const { desc, candidate, uuid: remoteUuid } = lastJsonRtcSignal;
             if (!remoteUuid || remoteUuid == uuid) return;
 
-            if (!peerRef.current[remoteUuid]) {
+            if (!peerRef.current[remoteUuid] && !(desc && desc.type === "remove")) {
                 peerRef.current[remoteUuid] = new Peer(remoteUuid, (sdp) => {
                     console.log("send signal");
                     setSignal({ ...sdp, uuid });
                 });
                 await peerRef.current[remoteUuid].init();
                 console.log("1. create peer object for " + remoteUuid);
-                setTimeout(() => setUpdatePeer(true), 0);
+                setUpdatePeer(true);
             }
 
             if (candidate) {
@@ -72,7 +72,7 @@ const ChannelMainContentRtcView = () => {
             }
 
             if (desc) {
-                if (desc.type == "offer") {
+                if (desc.type === "offer") {
                     console.log("receive offer");
                     await peerRef.current[remoteUuid].setRemoteDescription(desc);
                     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -80,9 +80,15 @@ const ChannelMainContentRtcView = () => {
                     await peerRef.current[remoteUuid].setLocalDescription(await peerRef.current[remoteUuid].createAnswer());
                     setSignal({ desc: peerRef.current[remoteUuid].getLocalDescription(), uuid });
                 }
-                if (desc.type == "answer") {
+                if (desc.type === "answer") {
                     console.log("4. receive answer");
                     await peerRef.current[remoteUuid].setRemoteDescription(desc);
+                }
+                if (desc.type === "remove") {
+                    console.log("remove candidate with id = " + remoteUuid);
+                    peerRef.current[remoteUuid] = null;
+                    delete peerRef.current[remoteUuid];
+                    setUpdatePeer(true);
                 }
             }
         })();

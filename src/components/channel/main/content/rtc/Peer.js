@@ -45,6 +45,7 @@ class Peer {
             console.log("3. create offer && send to signal server");
         };
 
+
         this.#pc.ontrack = (e) => {
             console.log("5. get track info");
             this.#remoteStreamListenerQueue.forEach(fn => fn(e.streams[0]));
