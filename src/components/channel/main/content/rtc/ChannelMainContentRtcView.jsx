@@ -74,7 +74,7 @@ const ChannelMainContentRtcView = () => {
             if (desc) {
                 if (desc.type === "offer") {
                     console.log("receive offer");
-                    await peerRef.current[remoteUuid].setRemoteDescription(desc);
+                    peerRef.current[remoteUuid].setRemoteDescription(desc);
                     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                     stream.getTracks().forEach(track => peerRef.current[remoteUuid].addTrack(track, stream));
                     await peerRef.current[remoteUuid].setLocalDescription(await peerRef.current[remoteUuid].createAnswer());
@@ -82,7 +82,7 @@ const ChannelMainContentRtcView = () => {
                 }
                 if (desc.type === "answer") {
                     console.log("4. receive answer");
-                    await peerRef.current[remoteUuid].setRemoteDescription(desc);
+                    peerRef.current[remoteUuid].setRemoteDescription(desc);
                 }
                 if (desc.type === "remove") {
                     console.log("remove candidate with id = " + remoteUuid);
