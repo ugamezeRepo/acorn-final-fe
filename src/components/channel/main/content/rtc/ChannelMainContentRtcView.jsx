@@ -45,7 +45,7 @@ const ChannelMainContentRtcView = () => {
         (async () => {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             myVideoRef.current.srcObject = stream;
-            setSignal({ uuid });
+            setSignal({ type: "join", uuid, target: "all" });
         })();
     }, [uuid]);
 
@@ -53,43 +53,49 @@ const ChannelMainContentRtcView = () => {
     useEffect(() => {
         (async () => {
             if (!lastJsonRtcSignal) return;
-            const { desc, candidate, uuid: remoteUuid } = lastJsonRtcSignal;
-            if (!remoteUuid || remoteUuid == uuid) return;
+            const { type, uuid: remoteUuid, payload, target } = lastJsonRtcSignal;
+            if (remoteUuid == uuid) return;
+            if (target != "all" && target != uuid) return;
 
-            if (!peerRef.current[remoteUuid] && !(desc && desc.type === "remove")) {
-                peerRef.current[remoteUuid] = new Peer(remoteUuid, (sdp) => {
-                    console.log("send signal");
-                    setSignal({ ...sdp, uuid });
-                });
+            if (type == "join" && !peerRef.current[remoteUuid]) {
+                console.log("new member joined with id " + remoteUuid);
+                peerRef.current[remoteUuid] = new Peer(remoteUuid, (sdp) => setSignal({ ...sdp, uuid }));
                 await peerRef.current[remoteUuid].init();
-                console.log("1. create peer object for " + remoteUuid);
+                setUpdatePeer(true);
+                setSignal({ type: "exists", uuid, target: remoteUuid });
+            }
+
+            if (type == "exists" && !peerRef.current[remoteUuid]) {
+                console.log("add existing member with id " + remoteUuid);
+                peerRef.current[remoteUuid] = new Peer(remoteUuid, (sdp) => setSignal({ ...sdp, uuid }));
                 setUpdatePeer(true);
             }
 
-            if (candidate) {
-                await peerRef.current[remoteUuid].addIceCandidate(candidate);
-                console.log("2. receive ice candidate info");
-            }
-
-            if (desc) {
-                if (desc.type === "offer") {
-                    console.log("receive offer");
-                    peerRef.current[remoteUuid].setRemoteDescription(desc);
+            if (type == "sdp") {
+                if (payload.type === "offer") {
+                    console.log("receive offer from " + remoteUuid);
+                    await peerRef.current[remoteUuid].setRemoteDescription(payload);
                     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                     stream.getTracks().forEach(track => peerRef.current[remoteUuid].addTrack(track, stream));
                     await peerRef.current[remoteUuid].setLocalDescription(await peerRef.current[remoteUuid].createAnswer());
-                    setSignal({ desc: peerRef.current[remoteUuid].getLocalDescription(), uuid });
+                    setSignal({ type: "sdp", uuid, payload: peerRef.current[remoteUuid].getLocalDescription(), target: remoteUuid });
                 }
-                if (desc.type === "answer") {
-                    console.log("4. receive answer");
-                    peerRef.current[remoteUuid].setRemoteDescription(desc);
+                if (payload.type === "answer") {
+                    console.log("receive answer from " + remoteUuid);
+                    await peerRef.current[remoteUuid].setRemoteDescription(payload);
                 }
-                if (desc.type === "remove") {
-                    console.log("remove candidate with id = " + remoteUuid);
-                    peerRef.current[remoteUuid] = null;
-                    delete peerRef.current[remoteUuid];
-                    setUpdatePeer(true);
-                }
+            }
+
+            if (type == "ice") {
+                console.log("receive ice candidate info from " + remoteUuid);
+                await peerRef.current[remoteUuid].addIceCandidate(payload);
+            }
+
+            if (type == "exit") {
+                console.log("remove candidate with id = " + remoteUuid);
+                peerRef.current[remoteUuid] = null;
+                delete peerRef.current[remoteUuid];
+                setUpdatePeer(true);
             }
         })();
     }, [uuid, lastJsonRtcSignal]);

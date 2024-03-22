@@ -20,44 +20,37 @@ class Peer {
     /**
      * @type {MediaStream}
      */
-    #remoteStream;
 
-    #localSdpQueue;
-    #remoteSdpQueue;
     #remoteStreamListenerQueue;
-
+    #receivedRemote = false;
     constructor(uuid, setSignal) {
         this.#uuid = uuid;
         this.#pc = new RTCPeerConnection(rtcConfig);
-        // this.#stream = stream;
-        this.#remoteSdpQueue = [];
         this.#remoteStreamListenerQueue = [];
-
-        // console.log("stream => " + stream);
         this.#pc.onicecandidate = ({ candidate }) => {
-            console.log("send ice candidate information");
-            setSignal({ candidate });
+            console.log("on ice candidate");
+            setSignal({ type: "ice", payload: candidate, target: this.#uuid });
         };
-
         this.#pc.onnegotiationneeded = async () => {
-            await this.#pc.setLocalDescription(await this.#pc.createOffer());
-            setSignal({ desc: this.#pc.localDescription });
-            console.log("3. create offer && send to signal server");
+            console.log("on negotiation needed");
+
+            if (!this.#pc.remoteDescription) {
+                console.log("send offer from " + uuid);
+                await this.#pc.setLocalDescription(await this.#pc.createOffer());
+                setSignal({ type: "sdp", payload: this.#pc.localDescription, target: this.#uuid });
+            }
         };
-
-
         this.#pc.ontrack = (e) => {
-            console.log("5. get track info");
+            console.log("on track");
             this.#remoteStreamListenerQueue.forEach(fn => fn(e.streams[0]));
         };
-
-        console.log("0. add track");
+        console.log("peer created with uuid = " + this.#uuid);
     }
 
     async init() {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
         stream.getTracks().forEach(track => this.#pc.addTrack(track, stream));
-        console.log("init done!");
+        console.log("peer initialized with uuid = " + this.#uuid);
     }
 
     addIceCandidate(candidate) {
@@ -86,7 +79,10 @@ class Peer {
     }
 
     setRemoteDescription(desc) {
-        return this.#pc.setRemoteDescription(desc);
+        if (!this.#receivedRemote) {
+            this.#receivedRemote = true;
+            return this.#pc.setRemoteDescription(desc);
+        }
     }
 
     setLocalDescription(desc) {
