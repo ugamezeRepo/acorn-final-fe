@@ -41,11 +41,6 @@ const SetTopic = ({ handleClose }) => {
         handleClose();
     };
 
-
-    // useEffect(() => {
-    //     ChangeTopicName();
-    // }, [currentTopic]);
-
     return (
         <>
             <CreateChannelContainer>
