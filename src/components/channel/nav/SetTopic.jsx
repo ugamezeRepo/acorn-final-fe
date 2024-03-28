@@ -4,7 +4,7 @@ import { Close } from "@mui/icons-material";
 import { Button, IconButton, TextField } from "@mui/material";
 import { axiosClient } from "@utils/axiosClient";
 import { PropTypes } from "prop-types";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateChannelContainer = styled.div`
