@@ -25,7 +25,7 @@ const CreateTopic = ({ handleClose }) => {
         console.log("is Rtc Channel : " + checkRtc);
         const { data } = await axiosClient.post(`/channel/${currentChannel?.id}/topic`, {
             title: title,
-            isRtcChannel: true,
+            isRtcChannel: checkRtc,
         });
         setTopics(topics => [...topics, data]);
         handleClose();
